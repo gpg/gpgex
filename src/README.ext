@@ -1,0 +1,61 @@
+Shell Extensions
+================
+
+The following extensions are available:
+
+IPersistFile group:
+
+Icon
+Data
+Drop
+
+IShellExtInit group:
+
+Shortcut	IContextMenu
+Drag-and-drop
+Property sheet
+
+
+IShellExtInit
+=============
+
+http://msdn2.microsoft.com/en-us/library/aa969351.aspx
+
+Has a single method beyond IUnknown which is called first after
+creating a new instance of a shortcut, drag and drop or property sheet
+extension.
+
+  STDMETHODIMP Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj, 
+			   HKEY hRegKey) 
+
+The argument pIDFolder is a pointer to an ITEMIDLIST structure which
+identifies a folder.  The pDataObj argument is a pointer to an
+IDataObject which specifies the objects acted upon.  hRegKey is the
+registry key for the file object or folder type.
+
+
+Shortcut menu
+-------------
+
+In this case, pIDFolder is NULL for file objects, and the respective
+folder for folder background shortcut menus.  pDataObj refers to the
+selected files.  hRegKey refers to the file object with focus.
+
+
+Drag and drop
+-------------
+
+In this case, pIDFolder specifies the target folder.  pDataObj are the
+items being dropped.  hRegKey refers to the target folder.
+
+
+Property sheet
+--------------
+
+In this case, pIDFolder is NULL.
+
+
+IContextMenu
+============
+
+http://msdn2.microsoft.com/en-us/library/aa969384.aspx
