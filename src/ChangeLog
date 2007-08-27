@@ -1,3 +1,33 @@
+2007-08-28  Marcus Brinkmann  <marcus@g10code.de>
+
+	* Makefile.am (gpgex_LDADD): Add -lole32.
+	* gpgex.def: Rename functions to not carry the @NR thingie.
+	* main.h: Many TRACE macros added.
+	(DEBUG_INIT, DEBUG_CONTEXT_MENU, STRINGIFY, GUID_FMT, GUID_ARG):
+	New macros.
+	(_gpgex_debug): New prototype.
+	* main.cc: Include <stdarg.h>, <stdio.h> and <shlobj.h>.  Add
+	debugging traces.	
+	(debug_lock, debug_flags, debug_file): New statics.
+	(get_debug_file, debug_init, debug_deinit): New static functions.
+	(_gpgex_debug): New function.
+	(DllMain): Call debug_init.
+	(DllRegisterServer, DllUnregisterServer): Call SHChangeNotify.
+	* gpgex.h: Include <vector> and <string>.  Use std::vector and
+	std::string namespaces.
+	(class gpgex_t): New member filenames, and new method reset.
+	* gpgex.cc: Include <vector>, <string>, <stdexcept> and use
+	std::vector and std::string namespaces.  Add debugging traces.
+	(gpgex_t::reset): New function.
+	(gpgex_t::Initialize): Implement dummy function.
+	(gpgex_t::QueryContextMenu): Implement dummy function.
+	(gpgex_t::GetCommandString): Implement dummy function.
+	(gpgex_t::InvokeCommand): Implement dummy function.
+	* gpgex-factory.cc: Add debugging traces.
+	* gpgex-class.cc (gpgex_class::init): Implement registration of
+	shell extension.
+	(gpgex_class::deinit): Implement corresponding unregistration.
+
 2007-08-23  Marcus Brinkmann  <marcus@g10code.de>
 
 	* Initial commit.

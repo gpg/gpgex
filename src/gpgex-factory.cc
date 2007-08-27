@@ -35,8 +35,12 @@
 STDMETHODIMP
 gpgex_factory_t::QueryInterface (REFIID riid, void **ppv)
 {
+#define _TRACE_BEG12(a,b,c,d,e,f) TRACE_BEG12 (a,b,c,d,e,f)
+  _TRACE_BEG12 (DEBUG_INIT, "gpgex_factory_t::QueryInterface", this,
+		"riid=" GUID_FMT ", ppv=%p", GUID_ARG (riid), ppv);
+
   if (ppv == NULL)
-    return E_INVALIDARG;
+    return TRACE_RES (E_INVALIDARG);
 
   /* Be nice to broken software.  */
   *ppv = NULL;
@@ -48,20 +52,22 @@ gpgex_factory_t::QueryInterface (REFIID riid, void **ppv)
   else if (riid == IID_IClassFactory)
     *ppv = static_cast<IClassFactory *> (this);
   else
-    return E_NOINTERFACE;
+    return TRACE_RES (E_NOINTERFACE);
 
   /* We have to acquire a reference to the returned object.  We lost
      the type information, but we know that all object classes inherit
      from IUnknown, which is good enough.  */
   reinterpret_cast<IUnknown *>(*ppv)->AddRef ();
 
-  return S_OK;
+  return TRACE_RES (S_OK);
 }
 
 
 STDMETHODIMP_(ULONG)
 gpgex_factory_t::AddRef (void)
 {
+  (void) TRACE (DEBUG_INIT, "gpgex_factory_t::AddRef", this);
+
   /* This factory is a singleton and therefore no reference counting
      is needed.  */
   return 1;
@@ -71,6 +77,8 @@ gpgex_factory_t::AddRef (void)
 STDMETHODIMP_(ULONG)
 gpgex_factory_t::Release (void)
 {
+  (void) TRACE (DEBUG_INIT, "gpgex_factory_t::Release", this);
+
   /* This factory is a singleton and therefore no reference counting
      is needed.  */
   return 1;
@@ -85,28 +93,36 @@ gpgex_factory_t::CreateInstance (LPUNKNOWN punkOuter, REFIID riid,
 {
   HRESULT result;
 
+#define _TRACE_BEG13(a,b,c,d,e,f,g) TRACE_BEG13 (a,b,c,d,e,f,g)
+  _TRACE_BEG13 (DEBUG_INIT, "gpgex_factory_t::CreateInstance", this,
+		"punkOuter=%lu, riid=" GUID_FMT ", ppv=%p",
+		punkOuter, GUID_ARG (riid), ppv);
+
   /* Be nice to broken software.  */
   *ppv = NULL;
 
   /* Aggregation is not supported.  */
   if (punkOuter)
-    return CLASS_E_NOAGGREGATION;
+    return TRACE_RES (CLASS_E_NOAGGREGATION);
 
   gpgex_t *gpgex = new gpgex_t;
   if (!gpgex)
-    return E_OUTOFMEMORY;
+    return TRACE_RES (E_OUTOFMEMORY);
 
   result = gpgex->QueryInterface (riid, ppv);
   if (FAILED (result))
     delete gpgex;
 
-  return result;
+  return TRACE_RES (result);
 }
 
 
 STDMETHODIMP
 gpgex_factory_t::LockServer (BOOL fLock)
 {
+  (void) TRACE1 (DEBUG_INIT, "gpgex_factory_t::LockServer", this,
+		 "fLock=%s", fLock ? "true" : "false");
+
   /* Locking the singleton gpgex factory object acquires a reference
      for the server component.  */
   if (fLock)

@@ -29,8 +29,8 @@ gpgex_SOURCES = \
 
 #gpgex_LDADD = $(srcdir)/gpgex.def		\
 #	-L . -lshell32 -lgdi32 -lcomdlg32	\
-#        -lole32 -loleaut32 -lws2_32 -ladvapi32
-gpgex_LDADD = $(srcdir)/gpgex.def -L . -lshell32 -lws2_32 -luuid
+#         -loleaut32 -lws2_32 -ladvapi32
+gpgex_LDADD = $(srcdir)/gpgex.def -L . -lshell32 -lws2_32 -lole32 -luuid
 
 resource.o: versioninfo.rc
 

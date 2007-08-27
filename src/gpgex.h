@@ -21,6 +21,12 @@
 #ifndef GPGEX_H
 #define GPGEX_H
 
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
+
 #include <windows.h>
 #include <shlobj.h>
 
@@ -74,6 +80,9 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
   /* Per-object reference count.  */
   LONG refcount;
 
+  /* Support for IShellExtInit.  */
+  vector<string> filenames;
+  
   /* Support for the context menu.  */
   
  public:
@@ -89,6 +98,9 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
     {
       gpgex_server::release ();
     }
+
+  /* Reset the instance between operations.  */
+  void reset (void);
 
  public:
   /* IUnknown methods.  */

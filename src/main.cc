@@ -21,7 +21,10 @@
 #include <config.h>
 #endif
 
+#include <stdarg.h>
+#include <stdio.h>
 #include <windows.h>
+#include <shlobj.h>
 
 #include "registry.h"
 #include "gpgex-class.h"
@@ -104,22 +107,120 @@ i18n_init (void)
   textdomain (PACKAGE_GT);
 }
 
+
+static CRITICAL_SECTION debug_lock;
 
+/* No flags on means no debugging.  */
+static unsigned int debug_flags = 0;
+
+static FILE *debug_file;
+
+
+/* Get the filename of the debug file, if any.  */
+static char *
+get_debug_file (void)
+{
+  return read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
+				   "GpgEX Debug File");
+}
+
+
+static void
+debug_init (void)
+{
+  char *filename;
+
+  /* FIXME: Sanity check due to DllMain not running.  */
+  if (debug_file)
+    return;
+
+  InitializeCriticalSection (&debug_lock);  
+
+  filename = get_debug_file ();
+  if (!filename)
+    return;
+
+  debug_file = fopen (filename, "a");
+  if (!debug_file)
+    return;
+
+  /* FIXME: Make this configurable eventually.  */
+  debug_flags = DEBUG_INIT | DEBUG_CONTEXT_MENU;
+}
+
+
+static void
+debug_deinit (void)
+{
+  if (debug_file)
+    fclose (debug_file);
+}
+
+
+/* Log the formatted string FORMAT at debug level LEVEL or higher.  */
+void
+_gpgex_debug (unsigned int flags, const char *format, ...)
+{
+  va_list arg_ptr;
+  int saved_errno;
+
+  saved_errno = errno;
+
+#if 1
+  /* FIXME: WTF.  */
+  debug_init ();
+#endif
+
+  if (! (debug_flags & flags))
+    return;
+      
+  va_start (arg_ptr, format);
+  EnterCriticalSection (&debug_lock);
+  vfprintf (debug_file, format, arg_ptr);
+  va_end (arg_ptr);
+  if (format && *format && format[strlen (format) - 1] != '\n')
+    putc ('\n', debug_file);
+  LeaveCriticalSection (&debug_lock);
+  fflush (debug_file);
+
+#if 1
+  /* FIXME */
+  fclose (debug_file);
+  debug_file = NULL;
+#endif
+
+  errno = saved_errno;
+}
+
+
 /* Entry point called by DLL loader.  */
 int WINAPI
 DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 {
+  /* FIXME: It seems this is never called!!!  */
+#if 0
+  TRACE2 (DEBUG_INIT, "DllMain", hinst,
+	  "reason=%i, reserved=%p", reason, reserved);
+#endif
+
   if (reason == DLL_PROCESS_ATTACH)
     {
       gpgex_server::instance = hinst;
 
-      /* FIXME: Initialize subsystems.  */
-
       /* Early initializations of our subsystems. */
       i18n_init ();
+
+      debug_init ();
+
+      (void) TRACE0 (DEBUG_INIT, "DllMain", hinst,
+		     "reason=DLL_PROCESS_ATTACH");
     }
   else if (reason == DLL_PROCESS_DETACH)
     {
+      (void) TRACE0 (DEBUG_INIT, "DllMain", hinst,
+		     "reason=DLL_PROCESS_DETACH");
+
+      debug_deinit ();
     }
   
   return TRUE;
@@ -133,6 +234,7 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 STDAPI
 DllCanUnloadNow (void)
 {
+  (void) TRACE (DEBUG_INIT, "DllCanUnloadNow", gpgex_server::refcount);
   return (gpgex_server::refcount == 0 ? S_OK : S_FALSE);
 }
 
@@ -143,7 +245,14 @@ DllCanUnloadNow (void)
 STDAPI
 DllRegisterServer (void)
 {
+  /* FIXME: This is wrong!!!  The module path will point to
+     regsvr32.exe.  */
+  gpgex_server::instance = GetModuleHandle (NULL);
+
   gpgex_class::init ();
+
+  /* Notify the shell about the change.  */
+  SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
   return S_OK;
 }
@@ -154,6 +263,9 @@ STDAPI
 DllUnregisterServer (void)
 {
   gpgex_class::deinit ();
+
+  /* Notify the shell about the change.  */
+  SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
   return S_OK;
 }
@@ -166,12 +278,20 @@ DllUnregisterServer (void)
 STDAPI
 DllGetClassObject (REFCLSID rclsid, REFIID riid, LPVOID *ppv)
 {
+  /* We have to evaluate the arguments first.  */
+#define _TRACE_BEG22(a,b,c,d,e,f) TRACE_BEG22(a,b,c,d,e,f)
+  _TRACE_BEG22 (DEBUG_INIT, "DllGetClassObject", ppv,
+		"rclsid=" GUID_FMT ", riid=" GUID_FMT,
+		GUID_ARG (rclsid), GUID_ARG (riid));
+
   if (rclsid == CLSID_gpgex)
-    return gpgex_factory.QueryInterface (riid, ppv);
+    {
+      HRESULT err = gpgex_factory.QueryInterface (riid, ppv);
+      return TRACE_RES (err);
+    }
 
   /* Be nice to broken software.  */
   *ppv = NULL;
-  return CLASS_E_CLASSNOTAVAILABLE;
 
-  return 0;
+  return TRACE_RES (CLASS_E_CLASSNOTAVAILABLE);
 }

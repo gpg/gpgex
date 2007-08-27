@@ -50,9 +50,9 @@ gpgex_class::init (void)
 
   /* FIXME: Error handling?  */
 
+  /* Set a key for our CLSID.  */
   strcpy (key, "CLSID\\{" CLSID_GPGEX_STR "}");
   RegCreateKey (HKEY_CLASSES_ROOT, key, &key_handle);
-
   /* The default value is a human readable name for the class.  */
   strcpy (value, "GpgEX");
   RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
@@ -61,13 +61,37 @@ gpgex_class::init (void)
   /* The InprocServer32 key holds the path to the server component.  */
   strcpy (key, "CLSID\\{" CLSID_GPGEX_STR "}\\InprocServer32");
   RegCreateKey (HKEY_CLASSES_ROOT, key, &key_handle);
-
+  /* FIXME: We get regsvr32.exe here instead gpgex.dll.  */
+#if 0
   result = GetModuleFileName (gpgex_server::instance, value, MAX_PATH);
+#endif
+  strcpy (value, "C:\\gpgex.dll");
+  RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
+  /* We also need a threading model.  */
+  strcpy (key, "ThreadingModel");
+  strcpy (value, "Apartment");
+  RegSetValueEx (key_handle, key, 0, REG_SZ,
+		 (BYTE *) value, strlen (value) + 1);
+  RegCloseKey (key_handle);
+
+  strcpy (key, "*\\ShellEx\\ContextMenuHandlers\\GpgEX");
+  RegCreateKey (HKEY_CLASSES_ROOT, key, &key_handle);
+  /* The default value is the CLSID for the class.  */
+  strcpy (value, "{" CLSID_GPGEX_STR "}");
   RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
   RegCloseKey (key_handle);
 
-  /* FIXME: Now add the required registry keys for the context menu
-     triggers.  */
+#if 0
+  /* We also have to approve the shell extension for Windows NT.  */
+  strcpy (key, "Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
+  RegCreateKey (HKEY_LOCAL_MACHINE, key, &key_handle);
+  /* The key is the CLSID, the  value can be anything.  */
+  strcpy (key, "{" CLSID_GPGEX_STR "}");
+  strcpy (value, "GpgEX");
+  RegSetValueEx (key_handle, key, 0, REG_SZ,
+		 (BYTE *) value, strlen (value) + 1);
+  RegCloseKey (key_handle);
+#endif
 }
 
 
@@ -77,8 +101,14 @@ gpgex_class::deinit (void)
 {
   /* FIXME: Error handling?  */
 
-  /* FIXME: Unregister the required registry keys for the context menu
-     triggers.  */
+#if 0
+  RegDeleteValue (HKEY_LOCAL_MACHINE,
+		  "Software\\Microsoft\\Windows\\CurrentVersion"
+		  "\\Shell Extensions\\Approved", "{" CLSID_GPGEX_STR "}");
+#endif
+
+  RegDeleteKey (HKEY_CLASSES_ROOT,
+		"*\\ShellEx\\ContextMenuHandlers\\GpgEX");
 
   /* Delete registry keys in reverse order.  */
   RegDeleteKey (HKEY_CLASSES_ROOT,

@@ -4,4 +4,25 @@ GPG Explorer Extensions
 This package contains GpgEX, the GNU Privacy Guard extensions for the
 Windows Explorer shell.
 
-FIXME: Add more info.
+Debugging
+=========
+
+A debug file path can be specified with the registry value "GpgEX
+Debug File" in the HKLM\Software\GNU\GnuPG key.  To this file logging
+information is appended.  Also see:
+
+http://msdn2.microsoft.com/en-us/library/aa969286.aspx
+
+
+BUGS
+====
+
+* DllRegisterServer does not correctly figure out the DLL path name
+  (it catches regsvr32.exe instead).  Thus the DLL path is hard coded
+  to "C:\\gpgex.dll" for now.  You can change it in the registry by
+  locating
+  "HKCR\CLSID\{CCD955E4-5C16-4A33-AFDA-A8947A94946B}\InprocServer32"
+  and changing the default value of that key.
+
+* DllMain is not invoked for some reason, so i18n is not initialized
+  and debugging output is done inefficiently.

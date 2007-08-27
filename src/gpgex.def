@@ -2,8 +2,8 @@ LIBRARY      "gpgex"
 DESCRIPTION  'GpgEX - GPG Shell Extensions'
 
 EXPORTS
-    DllMain@12			@1	PRIVATE
-    DllCanUnloadNow@0		@2	PRIVATE
-    DllGetClassObject@12	@3	PRIVATE
-    DllRegisterServer@0		@4	PRIVATE
-    DllUnregisterServer@0	@5	PRIVATE
+    DllMain = DllMain@12			@1	PRIVATE
+    DllRegisterServer = DllRegisterServer@0	@2	PRIVATE
+    DllUnregisterServer = DllUnregisterServer@0	@3	PRIVATE
+    DllCanUnloadNow = DllCanUnloadNow@0		@4	PRIVATE
+    DllGetClassObject = DllGetClassObject@12	@5	PRIVATE
