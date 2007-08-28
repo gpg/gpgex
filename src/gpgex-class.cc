@@ -61,11 +61,7 @@ gpgex_class::init (void)
   /* The InprocServer32 key holds the path to the server component.  */
   strcpy (key, "CLSID\\{" CLSID_GPGEX_STR "}\\InprocServer32");
   RegCreateKey (HKEY_CLASSES_ROOT, key, &key_handle);
-  /* FIXME: We get regsvr32.exe here instead gpgex.dll.  */
-#if 0
   result = GetModuleFileName (gpgex_server::instance, value, MAX_PATH);
-#endif
-  strcpy (value, "C:\\gpgex.dll");
   RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
   /* We also need a threading model.  */
   strcpy (key, "ThreadingModel");

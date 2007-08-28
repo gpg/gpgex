@@ -231,10 +231,6 @@ DllCanUnloadNow (void)
 STDAPI
 DllRegisterServer (void)
 {
-  /* FIXME: This is wrong!!!  The module path will point to
-     regsvr32.exe.  */
-  gpgex_server::instance = GetModuleHandle (NULL);
-
   gpgex_class::init ();
 
   /* Notify the shell about the change.  */

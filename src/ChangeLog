@@ -1,5 +1,9 @@
 2007-08-28  Marcus Brinkmann  <marcus@g10code.de>
 
+	* main.cc (DllRegisterServer): Do not trash gpgex_server::instance.
+	* gpgex-class.cc (gpgex_class::init): Now that DllMain loads, we
+	can access the DLL file name.
+
 	* main.cc (DllMain): Change return type to "STADPI" to get an
 	extern "C" declaration.
 	(_gpgex_debug): Remove lazy initialization cruft.  DllMain is
