@@ -130,7 +130,7 @@ debug_init (void)
 {
   char *filename;
 
-  /* FIXME: Sanity check due to DllMain not running.  */
+  /* Sanity check.  */
   if (debug_file)
     return;
 
@@ -153,7 +153,10 @@ static void
 debug_deinit (void)
 {
   if (debug_file)
-    fclose (debug_file);
+    {
+      fclose (debug_file);
+      debug_file = NULL;
+    }
 }
 
 
@@ -165,11 +168,6 @@ _gpgex_debug (unsigned int flags, const char *format, ...)
   int saved_errno;
 
   saved_errno = errno;
-
-#if 1
-  /* FIXME: WTF.  */
-  debug_init ();
-#endif
 
   if (! (debug_flags & flags))
     return;
@@ -183,26 +181,14 @@ _gpgex_debug (unsigned int flags, const char *format, ...)
   LeaveCriticalSection (&debug_lock);
   fflush (debug_file);
 
-#if 1
-  /* FIXME */
-  fclose (debug_file);
-  debug_file = NULL;
-#endif
-
   errno = saved_errno;
 }
 
 
 /* Entry point called by DLL loader.  */
-int WINAPI
+STDAPI
 DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 {
-  /* FIXME: It seems this is never called!!!  */
-#if 0
-  TRACE2 (DEBUG_INIT, "DllMain", hinst,
-	  "reason=%i, reserved=%p", reason, reserved);
-#endif
-
   if (reason == DLL_PROCESS_ATTACH)
     {
       gpgex_server::instance = hinst;

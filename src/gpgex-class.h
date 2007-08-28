@@ -19,7 +19,7 @@
    02110-1301, USA.  */
 
 #ifndef GPGEX_CLASS_H
-#define GPGEX_CLASS_H
+#define GPGEX_CLASS_H	1
 
 #include <windows.h>
 
