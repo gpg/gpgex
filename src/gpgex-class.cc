@@ -77,6 +77,13 @@ gpgex_class::init (void)
   RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
   RegCloseKey (key_handle);
 
+  strcpy (key, "Directory\\ShellEx\\ContextMenuHandlers\\GpgEX");
+  RegCreateKey (HKEY_CLASSES_ROOT, key, &key_handle);
+  /* The default value is the CLSID for the class.  */
+  strcpy (value, "{" CLSID_GPGEX_STR "}");
+  RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
+  RegCloseKey (key_handle);
+
 #if 0
   /* We also have to approve the shell extension for Windows NT.  */
   strcpy (key, "Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
@@ -103,6 +110,8 @@ gpgex_class::deinit (void)
 		  "\\Shell Extensions\\Approved", "{" CLSID_GPGEX_STR "}");
 #endif
 
+  RegDeleteKey (HKEY_CLASSES_ROOT,
+		"Directory\\ShellEx\\ContextMenuHandlers\\GpgEX");
   RegDeleteKey (HKEY_CLASSES_ROOT,
 		"*\\ShellEx\\ContextMenuHandlers\\GpgEX");
 

@@ -1,3 +1,9 @@
+2007-08-30  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gpgex-class.cc (gpgex_class::init): Also register the shell
+	extension for directories.
+	(gpgex_class::deinit): Unregister shell extension for directories.
+
 2007-08-28  Marcus Brinkmann  <marcus@g10code.de>
 
 	* main.cc (DllRegisterServer): Do not trash gpgex_server::instance.
