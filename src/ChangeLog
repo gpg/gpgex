@@ -1,5 +1,15 @@
 2007-08-30  Marcus Brinkmann  <marcus@g10code.de>
 
+	* gpgex.h (ID_CMD_HELP, ID_CMD_VERIFY_DECRYPT)
+	(ID_CMD_SIGN_ENCRYPT, ID_CMD_IMPORT, ID_CMD_MAX)
+	(ID_CMD_STR_HELP, ID_CMD_STR_VERIFY_DECRYPT)
+	(ID_CMD_STR_SIGN_ENCRYPT, ID_CMD_STR_IMPORT): New macros.
+	(class gpgex_t): New member ALL_FILES_GPG.
+	* gpgex.cc (gpgex_t::reset): Initialize THIS->all_files_gpg.
+	(gpgex_t::Initialize): Check ending of added files.
+	(gpgex_t::QueryContextMenu): Create a more involved dummy menu.
+	(gpgex_t::InvokeCommand): Show different commands being invoked.
+
 	* gpgex-class.cc (gpgex_class::init): Also register the shell
 	extension for directories.
 	(gpgex_class::deinit): Unregister shell extension for directories.

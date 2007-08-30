@@ -41,6 +41,7 @@ void
 gpgex_t::reset (void)
 {
   this->filenames.clear ();
+  this->all_files_gpg = TRUE;
 }
 
 
@@ -161,6 +162,23 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 		      if (len == 0)
 			throw std::invalid_argument ("zero-length filename");
 
+		      /* Take a look at the ending.  */
+		      char *ending = strrchr (filename, '.');
+		      if (ending)
+			{
+			  BOOL gpg = false;
+
+			  ending++;
+			  if (! strcasecmp (ending, "gpg")
+			      || ! strcasecmp (ending, "pgp")
+			      || ! strcasecmp (ending, "asc")
+			      || ! strcasecmp (ending, "sig"))
+			    gpg = true;
+			      
+			  if (gpg == false)
+			    this->all_files_gpg = FALSE;
+			}
+
 		      this->filenames.push_back (filename);
 		    }
 		}
@@ -206,28 +224,90 @@ STDMETHODIMP
 gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
 			   UINT idCmdLast, UINT uFlags)
 {
-  UINT next_cmd = idCmdFirst;
+  BOOL res;
 
   TRACE_BEG5 (DEBUG_CONTEXT_MENU, "gpgex_t::QueryContextMenu", this,
 	      "hMenu=%p, indexMenu=%u, idCmdFirst=%u, idCmdLast=%u, uFlags=%x",
 	      hMenu, indexMenu, idCmdFirst, idCmdLast, uFlags);
 
-  /* If the flags include CMF_DEFAULTONLY then nothing should be done.  */
-  if (! (uFlags & CMF_DEFAULTONLY))
-    {
-      BOOL res;
+  /* FIXME: Do something if idCmdLast - idCmdFirst + 1 is not big
+     enough.  */
 
-      res = InsertMenu (hMenu, indexMenu, MF_BYPOSITION,
-			next_cmd++, _("GpgEX Test Item"));
+  /* If the flags include CMF_DEFAULTONLY then nothing should be done.  */
+  if (uFlags & CMF_DEFAULTONLY)
+    return TRACE_RES (MAKE_HRESULT (SEVERITY_SUCCESS, FACILITY_NULL, 0));
+
+  /* Windows puts a separator after our entries, but not before.  */
+  /* FIXME: Check error.  */
+  res = InsertMenu (hMenu, indexMenu++, MF_SEPARATOR | MF_BYPOSITION, 0, NULL);
+  if (! res)
+    return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
+  
+  /* First we add the file-specific menus.  */
+  if (this->all_files_gpg)
+    {
+      res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING,
+			idCmdFirst + ID_CMD_VERIFY_DECRYPT,
+			ID_CMD_STR_VERIFY_DECRYPT);
       if (! res)
 	return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
     }
+  else
+    {
+      /* FIXME: Check error.  */
+      res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING,
+			idCmdFirst + ID_CMD_SIGN_ENCRYPT,
+			ID_CMD_STR_SIGN_ENCRYPT);
+      if (! res)
+	return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
+    }
+
+  /* Now generate and add the generic command popup menu.  */
+  HMENU popup;
+  UINT idx = 0;
+
+  /* FIXME: Check error.  */
+  popup = CreatePopupMenu ();
+  if (popup == NULL)
+    return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
+
+  res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING | MF_POPUP,
+		    (UINT) popup, _("More GpgEX options"));
+  if (!res)
+    {
+      DWORD last_error = GetLastError ();
+      DestroyMenu (popup);
+      return TRACE_RES (HRESULT_FROM_WIN32 (last_error));
+    }
+
+  res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		    idCmdFirst + ID_CMD_VERIFY_DECRYPT,
+		    ID_CMD_STR_VERIFY_DECRYPT);
+  // idx - 1!!!
+  // res = SetMenuItemBitmaps (hPopup, idx - 1, MF_BYPOSITION,
+  //                    MenuVerifyDecryptBitmap, MenuVerifyDecryptBitmap);
+
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_SIGN_ENCRYPT,
+		      ID_CMD_STR_SIGN_ENCRYPT);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_IMPORT, ID_CMD_STR_IMPORT);
+  if (res)
+    res = InsertMenu (hMenu, idx++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_HELP, ID_CMD_STR_HELP);
+
+  if (! res)
+    return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
   /* We should return a HRESULT that indicates success and the offset
      to the next free command ID after the last one we used, relative
      to idCmdFirst.  In other words: max_used - idCmdFirst + 1.  */
   return TRACE_RES (MAKE_HRESULT (SEVERITY_SUCCESS, FACILITY_NULL,
-				  next_cmd - idCmdFirst));
+				  ID_CMD_MAX + 1));
 }
 
 
@@ -264,6 +344,8 @@ gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
 STDMETHODIMP
 gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
 {
+  string cmd;
+
   TRACE_BEG1 (DEBUG_CONTEXT_MENU, "gpgex_t::GetCommandString", this,
 	      "lpcmi=%p", lpcmi);
 
@@ -276,22 +358,33 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
      QueryContextMenu, ie zero based).  */
   switch (LOWORD (lpcmi->lpVerb))
     {
-    case 0:
-      {
-	string msg;
-	unsigned int i;
-
-	msg = "The selected files were:\n\n";
-	for (i = 0; i < this->filenames.size (); i++)
-	  msg = msg + this->filenames[i] + '\n';
- 
-	MessageBox (lpcmi->hwnd, msg.c_str (), "GpgEX", MB_ICONINFORMATION);
-      }
+    case ID_CMD_HELP:
+      cmd = "HELP";
       break;
- 
+    case ID_CMD_VERIFY_DECRYPT:
+      cmd = "VERIFY_DECRYPT";
+      break;
+    case ID_CMD_SIGN_ENCRYPT:
+      cmd = "SIGN_ENCRYPT";
+      break;
+    case ID_CMD_IMPORT:
+      cmd = "IMPORT";
+      break;
     default:
       return TRACE_RES (E_INVALIDARG);
+      break;
     }
+
+  /* FIXME: Need to send commands to Kleopatra.  */
+
+  string msg;
+  unsigned int i;
+  
+  msg = "Invoked " + cmd + "on files:\n\n";
+  for (i = 0; i < this->filenames.size (); i++)
+    msg = msg + this->filenames[i] + '\n';
+  
+  MessageBox (lpcmi->hwnd, msg.c_str (), "GpgEX", MB_ICONINFORMATION);
 
   return TRACE_RES (S_OK);
 }
