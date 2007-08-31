@@ -1,3 +1,7 @@
+2007-08-31  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gpgex.cc (gpgex_t::QueryContextMenu): Fix menu separators.
+
 2007-08-30  Marcus Brinkmann  <marcus@g10code.de>
 
 	* gpgex.h (ID_CMD_HELP, ID_CMD_VERIFY_DECRYPT)

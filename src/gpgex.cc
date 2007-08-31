@@ -237,9 +237,7 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
   if (uFlags & CMF_DEFAULTONLY)
     return TRACE_RES (MAKE_HRESULT (SEVERITY_SUCCESS, FACILITY_NULL, 0));
 
-  /* Windows puts a separator after our entries, but not before.  */
-  /* FIXME: Check error.  */
-  res = InsertMenu (hMenu, indexMenu++, MF_SEPARATOR | MF_BYPOSITION, 0, NULL);
+  res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
   
@@ -280,6 +278,10 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
       return TRACE_RES (HRESULT_FROM_WIN32 (last_error));
     }
 
+  res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+  if (! res)
+    return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
+
   res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		    idCmdFirst + ID_CMD_VERIFY_DECRYPT,
 		    ID_CMD_STR_VERIFY_DECRYPT);
@@ -295,11 +297,10 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_IMPORT, ID_CMD_STR_IMPORT);
   if (res)
-    res = InsertMenu (hMenu, idx++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_HELP, ID_CMD_STR_HELP);
-
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
