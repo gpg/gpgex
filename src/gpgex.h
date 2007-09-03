@@ -30,6 +30,8 @@ using std::string;
 #include <windows.h>
 #include <shlobj.h>
 
+#include "bitmaps.h"
+
 /* For context menus.  */
 #define ID_CMD_HELP		0
 #define ID_CMD_VERIFY_DECRYPT	1
@@ -100,19 +102,33 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
   BOOL all_files_gpg;
 
   /* Support for the context menu.  */
-  
+  HBITMAP key_bitmap;
+
  public:
   /* Constructors and destructors.  For these, we update the global
      component reference counter.  */
-  gpgex_t ()
+  gpgex_t (void)
     : refcount (0)
     {
+      TRACE_BEG (DEBUG_INIT, "gpgex_t::gpgex_t", this);
+
       gpgex_server::add_ref ();
+
+      this->key_bitmap = gpgex_bitmaps.load_bitmap ("Key");
+
+      (void) TRACE_SUC ();
     }
 
-  ~gpgex_t ()
+  ~gpgex_t (void)
     {
+      TRACE_BEG (DEBUG_INIT, "gpgex_t::~gpgex_t", this);
+
+      if (this->key_bitmap != NULL)
+	DeleteObject (this->key_bitmap);
+
       gpgex_server::release ();
+
+      (void) TRACE_SUC ();
     }
 
   /* Reset the instance between operations.  */

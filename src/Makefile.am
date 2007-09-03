@@ -18,21 +18,22 @@ EXEEXT = .dll
 AM_CFLAGS = $(GPGME_CFLAGS) -shared
 AM_CXXFLAGS = $(GPGME_CFLAGS) -shared
 
-gpgex_SOURCES = \
+nodist_gpgex_SOURCES = versioninfo.rc
+gpgex_SOURCES = 				\
 	gpgex.def				\
+	icons.rc 				\
 	registry.h registry.c			\
 	w32-gettext.c w32-gettext.h		\
 	gpgex-class.h gpgex-class.cc		\
 	gpgex-factory.h gpgex-factory.cc	\
+	bitmaps.h bitmaps.cc			\
 	gpgex.h gpgex.cc			\
 	main.h main.cc
 
 #gpgex_LDADD = $(srcdir)/gpgex.def		\
-#	-L . -lshell32 -lgdi32 -lcomdlg32	\
-#         -loleaut32 -lws2_32 -ladvapi32
-gpgex_LDADD = $(srcdir)/gpgex.def -L . -lshell32 -lws2_32 -lole32 -luuid
-
-resource.o: versioninfo.rc
+#	-L . -lshell32  -lcomdlg32 -loleaut32 -ladvapi32
+gpgex_LDADD = $(srcdir)/gpgex.def -L . \
+	-lshell32 -lgdi32 -lws2_32 -lole32 -luuid
 
 .rc.o:
 	$(WINDRES) -I $(srcdir) -I . `test -f '$<' || echo '$(srcdir)/'`$< $@

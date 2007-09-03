@@ -1,3 +1,18 @@
+2007-09-03  Marcus Brinkmann  <marcus@g10code.de>
+
+	* bitmaps.h, bitmaps.cc, icons.rc, icon-key-12.bmp,
+	icon-key-16.bmp: New files.
+	* Makefile.am (gpgex_SOURCES): Add icons.rc, bitmaps.h and
+	bitmaps.cc.
+	(noinst_gpgex_SOURCES): Add versioninfo.rc.
+	(gpgex_LDADD): Add -lgdi32.
+	(resource.o): Remove target.
+	* gpgex.h: Include bitmaps.h.
+	(class gpgex_t): New member key_bitmap.
+	(gpgex_t::gpgex_t, gpgex_t::~gpgex_t): Initialize and deinitialize
+	it.
+	* gpgex.cc (gpgex_t::QueryContextMenu): Add dummy bitmap for menu.
+
 2007-08-31  Marcus Brinkmann  <marcus@g10code.de>
 
 	* gpgex.cc (gpgex_t::QueryContextMenu): Fix menu separators.

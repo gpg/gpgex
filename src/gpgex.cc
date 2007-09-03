@@ -278,16 +278,21 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
       return TRACE_RES (HRESULT_FROM_WIN32 (last_error));
     }
 
-  res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+  if (this->key_bitmap)
+    {
+      // indexMenu - 1!!!
+      res = SetMenuItemBitmaps (hMenu, indexMenu - 1, MF_BYPOSITION,
+				this->key_bitmap, this->key_bitmap);
+    }
+  if (res)
+    res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR,
+		      0, NULL);
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
   res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		    idCmdFirst + ID_CMD_VERIFY_DECRYPT,
 		    ID_CMD_STR_VERIFY_DECRYPT);
-  // idx - 1!!!
-  // res = SetMenuItemBitmaps (hPopup, idx - 1, MF_BYPOSITION,
-  //                    MenuVerifyDecryptBitmap, MenuVerifyDecryptBitmap);
 
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
