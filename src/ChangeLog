@@ -1,3 +1,21 @@
+2007-09-04  Marcus Brinkmann  <marcus@g10code.de>
+
+	* Makefile.am (AM_CFLAGS, AM_CXXFLAGS): Remove $(GPGME_CFLAGS),
+	add $(LIBASSUAN_CFLAGS) and $(GPG_ERROR_CFLAGS).
+	(gpgex_SOURCES): Add client.h and client.cc.
+	(libgpg-error.a, libassuan.a, clean-local): New targets.
+	(gpgex_LDADD): Add ./libassuan.a and ./libgpg-error.a.
+	* client.h, client.cc: New files.
+	* gpgex.cc: Include client.h.
+	(gpgex_t::InvokeCommand): Use client class to implement bunch of
+	functionality.
+	* main.h: Include <gpg-error.h>.
+	(DEBUG_ASSUAN, REGKEY, TRACE_GPGERR): New macros.
+	* main.cc: Include <gpg-error.h> and <assuan.h>.
+	(REGKEY): Deleted.
+	(debug_init): Free filename and add DEBUG_ASSUAN to debug flags.
+	(DllMain): Set assuan log stream and prefix, and the error source.
+
 2007-09-03  Marcus Brinkmann  <marcus@g10code.de>
 
 	* bitmaps.h, bitmaps.cc, icons.rc, icon-key-12.bmp,

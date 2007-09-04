@@ -32,6 +32,7 @@ using std::string;
 #include <windows.h>
 
 #include "main.h"
+#include "client.h"
 
 #include "gpgex.h"
 
@@ -350,9 +351,7 @@ gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
 STDMETHODIMP
 gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
 {
-  string cmd;
-
-  TRACE_BEG1 (DEBUG_CONTEXT_MENU, "gpgex_t::GetCommandString", this,
+  TRACE_BEG1 (DEBUG_CONTEXT_MENU, "gpgex_t::InvokeCommand", this,
 	      "lpcmi=%p", lpcmi);
 
   /* If lpVerb really points to a string, ignore this function call
@@ -360,37 +359,37 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
   if (HIWORD (lpcmi->lpVerb) != 0)
     return TRACE_RES (E_INVALIDARG);
  
+  client_t client (lpcmi->hwnd);
+
   /* Get the command index, which is the offset to IDCMDFIRST of
      QueryContextMenu, ie zero based).  */
   switch (LOWORD (lpcmi->lpVerb))
     {
     case ID_CMD_HELP:
-      cmd = "HELP";
+      {
+	string msg;
+	unsigned int i;
+	
+	msg = "Invoked Help on files:\n\n";
+	for (i = 0; i < this->filenames.size (); i++)
+	  msg = msg + this->filenames[i] + '\n';
+	
+	MessageBox (lpcmi->hwnd, msg.c_str (), "GpgEX", MB_ICONINFORMATION);
+      }
       break;
     case ID_CMD_VERIFY_DECRYPT:
-      cmd = "VERIFY_DECRYPT";
+      client.decrypt_verify (this->filenames);
       break;
     case ID_CMD_SIGN_ENCRYPT:
-      cmd = "SIGN_ENCRYPT";
+      client.encrypt_sign (this->filenames);
       break;
     case ID_CMD_IMPORT:
-      cmd = "IMPORT";
+      client.import (this->filenames);
       break;
     default:
       return TRACE_RES (E_INVALIDARG);
       break;
     }
-
-  /* FIXME: Need to send commands to Kleopatra.  */
-
-  string msg;
-  unsigned int i;
-  
-  msg = "Invoked " + cmd + "on files:\n\n";
-  for (i = 0; i < this->filenames.size (); i++)
-    msg = msg + this->filenames[i] + '\n';
-  
-  MessageBox (lpcmi->hwnd, msg.c_str (), "GpgEX", MB_ICONINFORMATION);
 
   return TRACE_RES (S_OK);
 }

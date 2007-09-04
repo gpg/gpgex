@@ -26,6 +26,9 @@
 #include <windows.h>
 #include <shlobj.h>
 
+#include <gpg-error.h>
+#include <assuan.h>
+
 #include "registry.h"
 #include "gpgex-class.h"
 #include "gpgex-factory.h"
@@ -42,10 +45,6 @@ HINSTANCE gpgex_server::instance;
 LONG gpgex_server::refcount;
 
 
-/* Registry key for this software.  */
-#define REGKEY "Software\\GNU\\GnuPG"
-
-
 static char *
 get_locale_dir (void)
 {
@@ -141,11 +140,12 @@ debug_init (void)
     return;
 
   debug_file = fopen (filename, "a");
+  free (filename);
   if (!debug_file)
     return;
 
   /* FIXME: Make this configurable eventually.  */
-  debug_flags = DEBUG_INIT | DEBUG_CONTEXT_MENU;
+  debug_flags = DEBUG_INIT | DEBUG_CONTEXT_MENU | DEBUG_ASSUAN;
 }
 
 
@@ -197,6 +197,13 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
       i18n_init ();
 
       debug_init ();
+
+      if (debug_flags & DEBUG_ASSUAN)
+	{
+	  assuan_set_assuan_log_stream (debug_file);
+	  assuan_set_assuan_log_prefix ("gpgex:assuan");
+	}
+      assuan_set_assuan_err_source (GPG_ERR_SOURCE_DEFAULT);
 
       (void) TRACE0 (DEBUG_INIT, "DllMain", hinst,
 		     "reason=DLL_PROCESS_ATTACH");

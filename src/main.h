@@ -23,10 +23,16 @@
 
 #include <windows.h>
 
+#include <gpg-error.h>
+
 #include "w32-gettext.h"
 
 #define _(a) gettext (a)
 #define N_(a) gettext_noop (a)
+
+
+/* Registry key for this software.  */
+#define REGKEY "Software\\GNU\\GnuPG"
 
 
 /* We use a class just for namespace cleanliness.  */
@@ -63,6 +69,7 @@ class gpgex_server
 
 #define DEBUG_INIT		1
 #define DEBUG_CONTEXT_MENU	2
+#define DEBUG_ASSUAN		4
 
 #define STRINGIFY(v) #v
 
@@ -162,6 +169,13 @@ void _gpgex_debug (unsigned int flags, const char *format, ...);
   (_gpgex_debug (lvl, "%s (%s=0x%x): call: " fmt "\n",			\
 		 name, STRINGIFY (tag), (void *) tag, arg1, arg2, arg3,	\
 		 arg4, arg5, arg6), 0)
+
+#define TRACE_GPGERR(err)						\
+  err == 0 ? (TRACE_SUC ()) :						\
+    (_gpgex_debug (_gpgex_trace_level, "%s (%s=0x%x): error: %s <%s>\n", \
+		   _gpgex_trace_func, _gpgex_trace_tagname,		\
+		   _gpgex_trace_tag, gpg_strerror (err),		\
+		   gpg_strsource (err)), (err))
 
 #define TRACE_RES(err)							\
   err == S_OK ? (TRACE_SUC ()) :					\

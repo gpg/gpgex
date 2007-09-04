@@ -29,12 +29,20 @@ PACKAGE=$PACKAGE_NAME
 PACKAGE_GT=${PACKAGE_NAME}
 VERSION=$PACKAGE_VERSION
 
+NEED_GPG_ERROR_VERSION=1.4
+
+NEED_LIBASSUAN_API=1
+NEED_LIBASSUAN_VERSION=0.9.3
+
 AC_CONFIG_SRCDIR(src/gpgex.def)
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 
 AC_GNU_SOURCE
+
+have_gpg_error=no
+have_libassuan=no
 
 AC_SUBST(PACKAGE)
 AC_SUBST(PACKAGE_GT)
@@ -169,12 +177,52 @@ fi
 AC_SUBST(W32LIBS)
 
 
+#
+# libgpg-error is a library with error codes shared between GnuPG
+# related projects.
+#
+AM_PATH_GPG_ERROR("$NEED_GPG_ERROR_VERSION",
+                  have_gpg_error=yes,have_gpg_error=no)
+AC_DEFINE(GPG_ERR_SOURCE_DEFAULT, GPG_ERR_SOURCE_USER_1,
+          [The default error source for GpgEX.])
+
+#
+# libassuan is used for IPC
+#
+AM_PATH_LIBASSUAN("$NEED_LIBASSUAN_API:$NEED_LIBASSUAN_VERSION",
+                  have_libassuan=yes,have_libassuan=no)
+
+
+AH_BOTTOM([
+/* We don't want the old assuan codes anymore. */
+#define _ASSUAN_ONLY_GPG_ERRORS 1
+])
 
 #
 # Print errors here so that they are visible all
 # together and the user can acquire them all together.
 #
 die=no
+if test "$have_gpg_error" = "no"; then
+   die=yes
+   AC_MSG_NOTICE([[
+***  
+*** You need libgpg-error to build this program.
+**  This library is for example available at
+***   ftp://ftp.gnupg.org/pub/gcrypt/libgpg-error
+*** (at least version $NEED_GPG_ERROR_VERSION is required.)
+***]])
+fi
+if test "$have_libassuan" = "no"; then
+   die=yes
+   AC_MSG_NOTICE([[
+***
+*** You need libassuan to build this program.
+*** This library is for example available at
+***   ftp://ftp.gnupg.org/pub/gcrypt/libassuan/
+*** (at least version $NEED_LIBASSUAN_VERSION is required).
+***]])
+fi
 if test "$die" = "yes"; then
     AC_MSG_ERROR([[
 ***

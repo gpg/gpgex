@@ -15,8 +15,8 @@ bin_PROGRAMS = gpgex
 EXTRA_DIST = versioninfo.rc.in
 EXEEXT = .dll
 
-AM_CFLAGS = $(GPGME_CFLAGS) -shared
-AM_CXXFLAGS = $(GPGME_CFLAGS) -shared
+AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
+AM_CXXFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 
 nodist_gpgex_SOURCES = versioninfo.rc
 gpgex_SOURCES = 				\
@@ -28,12 +28,24 @@ gpgex_SOURCES = 				\
 	gpgex-factory.h gpgex-factory.cc	\
 	bitmaps.h bitmaps.cc			\
 	gpgex.h gpgex.cc			\
+	client.h client.cc			\
 	main.h main.cc
 
 #gpgex_LDADD = $(srcdir)/gpgex.def		\
 #	-L . -lshell32  -lcomdlg32 -loleaut32 -ladvapi32
+
+libgpg-error.a:
+	ln -s $(shell $(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a
+
+libassuan.a:
+	ln -s $(shell $(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a
+
+clean-local:
+	rm -f libgpg-error.a libassuan.a
+
 gpgex_LDADD = $(srcdir)/gpgex.def -L . \
-	-lshell32 -lgdi32 -lws2_32 -lole32 -luuid
+	-lshell32 -lgdi32 -lws2_32 -lole32 -luuid \
+	./libassuan.a ./libgpg-error.a
 
 .rc.o:
 	$(WINDRES) -I $(srcdir) -I . `test -f '$<' || echo '$(srcdir)/'`$< $@
