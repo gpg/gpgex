@@ -44,8 +44,8 @@ clean-local:
 	rm -f libgpg-error.a libassuan.a
 
 gpgex_LDADD = $(srcdir)/gpgex.def -L . \
-	-lshell32 -lgdi32 -lws2_32 -lole32 -luuid \
-	./libassuan.a ./libgpg-error.a
+	-lshell32 -lgdi32 -lole32 -luuid \
+	./libassuan.a ./libgpg-error.a -lws2_32
 
 .rc.o:
 	$(WINDRES) -I $(srcdir) -I . `test -f '$<' || echo '$(srcdir)/'`$< $@
