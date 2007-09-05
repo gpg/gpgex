@@ -18,6 +18,11 @@ EXEEXT = .dll
 AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 AM_CXXFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 
+ICON_NAMES = key
+ICON_SIZES = 12 16
+ICONS = $(addprefix icon-, \
+	$(foreach size,$(ICON_SIZES),$(addsuffix -$(size).bmp, $(ICON_NAMES))))
+
 nodist_gpgex_SOURCES = versioninfo.rc
 gpgex_SOURCES = 				\
 	gpgex.def				\
@@ -29,7 +34,8 @@ gpgex_SOURCES = 				\
 	bitmaps.h bitmaps.cc			\
 	gpgex.h gpgex.cc			\
 	client.h client.cc			\
-	main.h main.cc
+	main.h main.cc				\
+	$(ICONS)
 
 #gpgex_LDADD = $(srcdir)/gpgex.def		\
 #	-L . -lshell32  -lcomdlg32 -loleaut32 -ladvapi32
