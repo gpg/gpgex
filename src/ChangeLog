@@ -1,5 +1,8 @@
 2007-09-05  Marcus Brinkmann  <marcus@g10code.de>
 
+	* gpgex.h (class gpgex_t): Make destructor virtual to silence
+	compiler warning.
+
 	* Makefile.am (ICON_NAMES, ICON_SIZES, ICONS): New variables.
 	(gpgex_SOURCES): Add $(ICONS).
 
