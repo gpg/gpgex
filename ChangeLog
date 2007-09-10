@@ -1,3 +1,10 @@
+2007-09-11  Marcus Brinkmann  <marcus@g10code.de>
+
+	* po/de.po: New file.
+	* po/LINGUAS: Add de.
+	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): Add
+	--with-libassuan-prefix and --with-gpg-error-prefix.
+
 2007-09-04  Marcus Brinkmann  <marcus@g10code.de>
 
 	* m4/libassuan.m4, m4/gpg-error.m4: New files.

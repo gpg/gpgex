@@ -1,0 +1,41 @@
+# German translations for gpgex package.
+# Copyright (C) 2007 g10 Code GmbH
+# This file is distributed under the same license as the gpgex package.
+# Marcus Brinkmann <marcus@g10code.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gpgex 0.0.0-svn10\n"
+"Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
+"POT-Creation-Date: 2007-09-10 22:59+0200\n"
+"PO-Revision-Date: 2007-09-10 23:05+0200\n"
+"Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/client.cc:136
+msgid "Can not access Kleopatra, see log file for details"
+msgstr "Kann nicht auf Kleopatra zugreifen, siehe Protokolldatei fuer Details"
+
+#: src/gpgex.h:42
+msgid "Help on GpgEX"
+msgstr "Hilfe zu GpgEX"
+
+#: src/gpgex.h:43
+msgid "Decrypt and verify"
+msgstr "Entschlüsseln und verifizieren"
+
+#: src/gpgex.h:44
+msgid "Sign and encrypt"
+msgstr "Verschlüsseln und signieren"
+
+#: src/gpgex.h:45
+msgid "Zertifikate importieren"
+msgstr ""
+
+#: src/gpgex.cc:274
+msgid "Mehr GpgEX Optionen"
+msgstr ""
