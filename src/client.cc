@@ -87,8 +87,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
 
   try
     {
-      /* Set the input files.  FIXME: Might need to set the output files
-	 as well.  */
+      /* Set the input files.  We don't specify the output files.  */
       for (unsigned int i = 0; i < filenames.size (); i++)
 	{
 	  msg = "INPUT FILE=\"" + filenames[i] + "\" --continued";
@@ -103,14 +102,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
       
       /* Set the --nohup option, so that the operation continues and
 	 completes in the background.  */
-      msg = "OPTION --nohup";
-      (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
-      rc = assuan_transact (ctx, msg.c_str (),
-			    NULL, NULL, NULL, NULL, NULL, NULL);
-      if (rc)
-	goto leave;
-      
-      msg = cmd;
+      msg = ((string) cmd) + " --nohup";
       (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
       rc = assuan_transact (ctx, msg.c_str (),
 			    NULL, NULL, NULL, NULL, NULL, NULL);

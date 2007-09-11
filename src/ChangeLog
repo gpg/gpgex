@@ -1,5 +1,8 @@
 2007-09-11  Marcus Brinkmann  <marcus@g10code.de>
 
+	* client.cc (client_t::call_assuan): Send --nohup as argument to
+	command.
+
 	* client.h (class client_t): New members decrypt, verify, encrypt,
 	and sign.
 	* client.cc: Add implementations for these.
