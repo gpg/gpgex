@@ -41,10 +41,10 @@ gpgex_SOURCES = 				\
 #	-L . -lshell32  -lcomdlg32 -loleaut32 -ladvapi32
 
 libgpg-error.a:
-	ln -s $(shell $(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a
+	ln -sf $(shell $(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a
 
 libassuan.a:
-	ln -s $(shell $(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a
+	ln -sf $(shell $(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a
 
 clean-local:
 	rm -f libgpg-error.a libassuan.a

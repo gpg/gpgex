@@ -40,6 +40,9 @@ HRESULT w32_shgetfolderpath (HWND a, int b, HANDLE c, DWORD d, LPSTR e);
 char *read_w32_registry_string (const char *root, const char *dir,
 				const char *name);
 
+/* Retrieve the default home directory.  */
+char *default_homedir (void);
+
 #ifdef __cplusplus
 #if 0
 {

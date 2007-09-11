@@ -44,16 +44,15 @@ default_socket_name (void)
 {
   static string name;
 
-  if (name.size() == 0)
+  if (name.size () == 0)
     {
       char *dir = NULL;
       
       /* FIXME: Wrong directory.  */
-      dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
-				      "Install Directory");
+      dir = default_homedir ();
       if (dir)
 	{
-	  try { name = ((string) dir) + "\\S.kleopatra"; } catch (...) {}
+	  try { name = ((string) dir) + "\\S.uiserver"; } catch (...) {}
 	  free ((void *) dir);
 	}
     }
