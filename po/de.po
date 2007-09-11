@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gpgex 0.0.0-svn10\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
 "POT-Creation-Date: 2007-09-10 22:59+0200\n"
-"PO-Revision-Date: 2007-09-10 23:05+0200\n"
+"PO-Revision-Date: 2007-09-11 14:56+0200\n"
 "Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -33,9 +33,9 @@ msgid "Sign and encrypt"
 msgstr "Verschlüsseln und signieren"
 
 #: src/gpgex.h:45
-msgid "Zertifikate importieren"
-msgstr ""
+msgid "Import keys"
+msgstr "Zertifikate importieren"
 
 #: src/gpgex.cc:274
-msgid "Mehr GpgEX Optionen"
-msgstr ""
+msgid "More GpgEX options"
+msgstr "Mehr GpgEX Optionen"
