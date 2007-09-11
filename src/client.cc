@@ -148,10 +148,39 @@ client_t::decrypt_verify (vector<string> &filenames)
 
 
 void
+client_t::verify (vector<string> &filenames)
+{
+  this->call_assuan ("VERIFY", filenames);
+}
+
+
+void
+client_t::decrypt (vector<string> &filenames)
+{
+  this->call_assuan ("DECRYPT", filenames);
+}
+
+
+void
 client_t::encrypt_sign (vector<string> &filenames)
 {
   this->call_assuan ("ENCRPYT_SIGN", filenames);
 }
+
+
+void
+client_t::encrypt (vector<string> &filenames)
+{
+  this->call_assuan ("ENCRPYT", filenames);
+}
+
+
+void
+client_t::sign (vector<string> &filenames)
+{
+  this->call_assuan ("SIGN", filenames);
+}
+
 
 void
 client_t::import (vector<string> &filenames)

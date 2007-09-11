@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpgex 0.0.0-svn10\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2007-09-10 22:59+0200\n"
-"PO-Revision-Date: 2007-09-11 14:56+0200\n"
+"POT-Creation-Date: 2007-09-11 16:17+0200\n"
+"PO-Revision-Date: 2007-09-11 16:20+0200\n"
 "Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -16,26 +16,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/client.cc:136
+#: src/client.cc:135
 msgid "Can not access Kleopatra, see log file for details"
-msgstr "Kann nicht auf Kleopatra zugreifen, siehe Protokolldatei fuer Details"
+msgstr "Kann nicht auf Kleopatra zugreifen, siehe Protokolldatei für Details"
 
-#: src/gpgex.h:42
+#: src/gpgex.cc:51
 msgid "Help on GpgEX"
 msgstr "Hilfe zu GpgEX"
 
-#: src/gpgex.h:43
+#: src/gpgex.cc:52
 msgid "Decrypt and verify"
-msgstr "EntschlÃ¼sseln und verifizieren"
+msgstr "Entschlüsseln und verifizieren"
 
-#: src/gpgex.h:44
-msgid "Sign and encrypt"
-msgstr "VerschlÃ¼sseln und signieren"
+#: src/gpgex.cc:53
+msgid "Decrypt"
+msgstr "Entschlüsseln"
 
-#: src/gpgex.h:45
+#: src/gpgex.cc:54
+msgid "Verify"
+msgstr "Verifizieren"
+
+#: src/gpgex.cc:55
+msgid "Encrypt and sign"
+msgstr "Verschlüsseln und verifizieren"
+
+#: src/gpgex.cc:56
+msgid "Encrypt"
+msgstr "Verschlüsseln"
+
+#: src/gpgex.cc:57
+msgid "Sign"
+msgstr "Signieren"
+
+#: src/gpgex.cc:58
 msgid "Import keys"
 msgstr "Zertifikate importieren"
 
-#: src/gpgex.cc:274
+#: src/gpgex.cc:295
 msgid "More GpgEX options"
 msgstr "Mehr GpgEX Optionen"

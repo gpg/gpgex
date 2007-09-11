@@ -1,4 +1,3 @@
 src/main.cc
 src/client.cc
-src/gpgex.h
 src/gpgex.cc

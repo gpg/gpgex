@@ -1,5 +1,13 @@
 2007-09-11  Marcus Brinkmann  <marcus@g10code.de>
 
+	* client.h (class client_t): New members decrypt, verify, encrypt,
+	and sign.
+	* client.cc: Add implementations for these.
+	* gpgex.h: Move all ID_CMD_* macros to ...
+	* gpgex.cc: ... here.  Add new macros for new commands.
+	(gpgex_t::InvokeCommand, gpgex_t::QueryContextMenu): Implement new
+	commands.
+
 	* Makefile.am (libgpg-error.a, libassuan.a): Use -f flag with ln.
 	* registry.h (default_dir): New prototype.
 	* registry.c (default_dir, standard_homedir): New functions.

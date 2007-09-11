@@ -32,19 +32,6 @@ using std::string;
 
 #include "bitmaps.h"
 
-/* For context menus.  */
-#define ID_CMD_HELP		0
-#define ID_CMD_VERIFY_DECRYPT	1
-#define ID_CMD_SIGN_ENCRYPT	2
-#define ID_CMD_IMPORT		3
-#define ID_CMD_MAX		3
-
-#define ID_CMD_STR_HELP			_("Help on GpgEX")
-#define ID_CMD_STR_VERIFY_DECRYPT	_("Decrypt and verify")
-#define ID_CMD_STR_SIGN_ENCRYPT		_("Sign and encrypt")
-#define ID_CMD_STR_IMPORT		_("Import keys")
-
-
 /* Our shell extension interface.  We use multiple inheritance to
    achieve polymorphy.  
 

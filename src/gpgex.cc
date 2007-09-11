@@ -37,6 +37,27 @@ using std::string;
 #include "gpgex.h"
 
 
+/* For context menus.  */
+#define ID_CMD_HELP		0
+#define ID_CMD_DECRYPT_VERIFY	1
+#define ID_CMD_DECRYPT		2
+#define ID_CMD_VERIFY		3
+#define ID_CMD_ENCRYPT_SIGN	4
+#define ID_CMD_ENCRYPT		5
+#define ID_CMD_SIGN		6
+#define ID_CMD_IMPORT		7
+#define ID_CMD_MAX		7
+
+#define ID_CMD_STR_HELP			_("Help on GpgEX")
+#define ID_CMD_STR_DECRYPT_VERIFY	_("Decrypt and verify")
+#define ID_CMD_STR_DECRYPT		_("Decrypt")
+#define ID_CMD_STR_VERIFY		_("Verify")
+#define ID_CMD_STR_ENCRYPT_SIGN		_("Encrypt and sign")
+#define ID_CMD_STR_ENCRYPT		_("Encrypt")
+#define ID_CMD_STR_SIGN			_("Sign")
+#define ID_CMD_STR_IMPORT		_("Import keys")
+
+
 /* Reset the instance between operations.  */
 void
 gpgex_t::reset (void)
@@ -246,8 +267,8 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
   if (this->all_files_gpg)
     {
       res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING,
-			idCmdFirst + ID_CMD_VERIFY_DECRYPT,
-			ID_CMD_STR_VERIFY_DECRYPT);
+			idCmdFirst + ID_CMD_DECRYPT_VERIFY,
+			ID_CMD_STR_DECRYPT_VERIFY);
       if (! res)
 	return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
     }
@@ -255,8 +276,8 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
     {
       /* FIXME: Check error.  */
       res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING,
-			idCmdFirst + ID_CMD_SIGN_ENCRYPT,
-			ID_CMD_STR_SIGN_ENCRYPT);
+			idCmdFirst + ID_CMD_ENCRYPT_SIGN,
+			ID_CMD_STR_ENCRYPT_SIGN);
       if (! res)
 	return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
     }
@@ -292,13 +313,28 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
   res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
-		    idCmdFirst + ID_CMD_VERIFY_DECRYPT,
-		    ID_CMD_STR_VERIFY_DECRYPT);
-
+		    idCmdFirst + ID_CMD_DECRYPT_VERIFY,
+		    ID_CMD_STR_DECRYPT_VERIFY);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
-		      idCmdFirst + ID_CMD_SIGN_ENCRYPT,
-		      ID_CMD_STR_SIGN_ENCRYPT);
+		      idCmdFirst + ID_CMD_DECRYPT,
+		      ID_CMD_STR_DECRYPT);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_VERIFY,
+		      ID_CMD_STR_VERIFY);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_ENCRYPT_SIGN,
+		      ID_CMD_STR_ENCRYPT_SIGN);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_ENCRYPT,
+		      ID_CMD_STR_ENCRYPT);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_SIGN,
+		      ID_CMD_STR_SIGN);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_IMPORT, ID_CMD_STR_IMPORT);
@@ -377,11 +413,23 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
 	MessageBox (lpcmi->hwnd, msg.c_str (), "GpgEX", MB_ICONINFORMATION);
       }
       break;
-    case ID_CMD_VERIFY_DECRYPT:
+    case ID_CMD_DECRYPT_VERIFY:
       client.decrypt_verify (this->filenames);
       break;
-    case ID_CMD_SIGN_ENCRYPT:
+    case ID_CMD_DECRYPT:
+      client.decrypt (this->filenames);
+      break;
+    case ID_CMD_VERIFY:
+      client.verify (this->filenames);
+      break;
+    case ID_CMD_ENCRYPT_SIGN:
       client.encrypt_sign (this->filenames);
+      break;
+    case ID_CMD_ENCRYPT:
+      client.encrypt (this->filenames);
+      break;
+    case ID_CMD_SIGN:
+      client.sign (this->filenames);
       break;
     case ID_CMD_IMPORT:
       client.import (this->filenames);
