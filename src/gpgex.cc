@@ -31,6 +31,9 @@ using std::string;
 
 #include <windows.h>
 
+/* For the start_help() function.  */
+#include <exdisp.h>
+
 #include "main.h"
 #include "client.h"
 
@@ -46,7 +49,8 @@ using std::string;
 #define ID_CMD_ENCRYPT		5
 #define ID_CMD_SIGN		6
 #define ID_CMD_IMPORT		7
-#define ID_CMD_MAX		7
+#define ID_CMD_POPUP		8
+#define ID_CMD_MAX		8
 
 #define ID_CMD_STR_HELP			_("Help on GpgEX")
 #define ID_CMD_STR_DECRYPT_VERIFY	_("Decrypt and verify")
@@ -291,8 +295,13 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
   if (popup == NULL)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
-  res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING | MF_POPUP,
-		    (UINT) popup, _("More GpgEX options"));
+  MENUITEMINFO mii = { sizeof (MENUITEMINFO) };
+  mii.fMask = MIIM_SUBMENU | MIIM_STRING | MIIM_ID;
+  mii.wID = idCmdFirst + ID_CMD_POPUP;
+  mii.hSubMenu = popup;
+  mii.dwTypeData = (CHAR *) _("More GpgEX options");
+
+  res = InsertMenuItem (hMenu, indexMenu++, TRUE, &mii);
   if (!res)
     {
       DWORD last_error = GetLastError ();
@@ -364,23 +373,134 @@ STDMETHODIMP
 gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
 			   LPSTR pszName, UINT uMaxNameLen)
 {
+  const char *txt;
+
   TRACE_BEG5 (DEBUG_CONTEXT_MENU, "gpgex_t::GetCommandString", this,
 	      "idCommand=%u, uFlags=%x, lpReserved=%lu, pszName=%p, "
 	      "uMaxNameLen=%u",
 	      idCommand, uFlags, lpReserved, pszName, uMaxNameLen);
 
-  if (idCommand != 0)
-    return TRACE_RES (E_INVALIDARG);
-
   if (! (uFlags & GCS_HELPTEXT))
     return TRACE_RES (E_INVALIDARG);
 
+  if (idCommand > ID_CMD_MAX)
+    return TRACE_RES (E_INVALIDARG);
+
+  switch (idCommand)
+    {
+    case ID_CMD_HELP:
+      txt = "Invoke the GpgEX documentation.";
+      break;
+
+    case ID_CMD_DECRYPT_VERIFY:
+      txt = "Decrypt and verify the marked files.";
+    break;
+
+    case ID_CMD_DECRYPT:
+      txt = "Decrypt the marked files.";
+      break;
+
+    case ID_CMD_VERIFY:
+      txt = "Verify the marked files.";
+      break;
+
+    case ID_CMD_ENCRYPT_SIGN:
+      txt = "Encrypt and sign the marked files.";
+      break;
+
+    case ID_CMD_ENCRYPT:
+      txt = "Encrypt the marked files.";
+      break;
+
+    case ID_CMD_SIGN:
+      txt = "Sign the marked files.";
+      break;
+
+    case ID_CMD_IMPORT:
+      txt = "Import the marked files.";
+      break;
+
+    case ID_CMD_POPUP:
+      txt = "Show more GpgEX options.";
+      break;
+
+    default:
+      return TRACE_RES (E_INVALIDARG);
+    }
+
   if (uFlags & GCS_UNICODE)
-    lstrcpynW ((LPWSTR) pszName, L"GpgEX help string (unicode)", uMaxNameLen);
+    {
+      /* FIXME: Convert to unicode.  */
+      lstrcpynW ((LPWSTR) pszName, L"(Unicode help not available yet)",
+		 uMaxNameLen);
+    }
   else
-    lstrcpynA (pszName, "GpgEX help string (ASCII)", uMaxNameLen);
+    lstrcpynA (pszName, txt, uMaxNameLen);
 
   return TRACE_RES (S_OK);
+}
+
+
+/* FIXME: Might be exported in a helper utility.  Also, it might be
+   that we use KDE's help browser?  */
+static void
+start_help (HWND hwnd)
+{
+  HRESULT res;
+  CLSID clsid;
+  LPUNKNOWN browser = NULL;
+  IWebBrowser2 *web = NULL;
+
+  CLSIDFromProgID (OLESTR ("InternetExplorer.Application"), &clsid);
+  res = CoCreateInstance (clsid, NULL, CLSCTX_SERVER, IID_IUnknown, (void **) &browser);
+  if (! SUCCEEDED (res))
+    {
+      MessageBox (hwnd, "Can not open browser", "GpgEX", MB_ICONINFORMATION);
+      return;
+    }
+
+  browser->QueryInterface (IID_IWebBrowser2, (void **) &web);
+  browser->Release ();
+
+  /* FIXME: Pick a good configuration.  */
+  // Only for IE7?
+  // web->put_Resizable (VARIANT_TRUE);
+  web->put_ToolBar (FALSE);
+  web->put_AddressBar (VARIANT_FALSE);
+  web->put_MenuBar (VARIANT_FALSE);
+  web->put_StatusBar (VARIANT_FALSE);
+  // width, height
+  web->put_Visible (VARIANT_TRUE);
+
+  /* FIXME: Replace by real URL.  */
+  BSTR url = SysAllocString ((const OLECHAR *) L"http://www.gpg4win.org/");
+  VARIANT vars[4];
+  memset (vars, 0, sizeof (vars));
+  res = web->Navigate (url, vars, vars + 1, vars + 2, vars + 3);
+  SysFreeString (url);
+  if (!SUCCEEDED (res))
+    {
+      web->Release ();
+      return;
+    }
+
+#if 0
+  VARIANT_BOOL busy;
+  do
+    {
+      web->get_Busy (&busy);
+      Sleep (500);
+    }
+  while (busy == VARIANT_TRUE);
+
+
+  HWND hwnd = NULL;
+  web->get_HWND (&hwnd);
+#endif
+
+  Sleep (5000);
+  web->Release ();
+
 }
 
 
@@ -402,38 +522,37 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
   switch (LOWORD (lpcmi->lpVerb))
     {
     case ID_CMD_HELP:
-      {
-	string msg;
-	unsigned int i;
-	
-	msg = "Invoked Help on files:\n\n";
-	for (i = 0; i < this->filenames.size (); i++)
-	  msg = msg + this->filenames[i] + '\n';
-	
-	MessageBox (lpcmi->hwnd, msg.c_str (), "GpgEX", MB_ICONINFORMATION);
-      }
+      start_help (lpcmi->hwnd);
       break;
+
     case ID_CMD_DECRYPT_VERIFY:
       client.decrypt_verify (this->filenames);
       break;
+
     case ID_CMD_DECRYPT:
       client.decrypt (this->filenames);
       break;
+
     case ID_CMD_VERIFY:
       client.verify (this->filenames);
       break;
+
     case ID_CMD_ENCRYPT_SIGN:
       client.encrypt_sign (this->filenames);
       break;
+
     case ID_CMD_ENCRYPT:
       client.encrypt (this->filenames);
       break;
+
     case ID_CMD_SIGN:
       client.sign (this->filenames);
       break;
+
     case ID_CMD_IMPORT:
       client.import (this->filenames);
       break;
+
     default:
       return TRACE_RES (E_INVALIDARG);
       break;

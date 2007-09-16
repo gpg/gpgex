@@ -1,3 +1,13 @@
+2007-09-16  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gpgex.cc (gpgex_t::QueryContextMenu): Implement popup menu
+	correctly, such that the explorer can clean up correctly (in the
+	file dialog).
+	(gpgex_t::GetCommandString): Implement help texts.
+	(start_help): New function.
+	(gpgex_t::InvokeCommand): Call start_help.
+	* Makefile.am (gpgex_LDADD): Add -loleaut32.
+
 2007-09-11  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (client_t::call_assuan): Send --nohup as argument to

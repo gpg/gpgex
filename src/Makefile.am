@@ -37,9 +37,6 @@ gpgex_SOURCES = 				\
 	main.h main.cc				\
 	$(ICONS)
 
-#gpgex_LDADD = $(srcdir)/gpgex.def		\
-#	-L . -lshell32  -lcomdlg32 -loleaut32 -ladvapi32
-
 libgpg-error.a:
 	ln -sf $(shell $(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a
 
@@ -49,9 +46,13 @@ libassuan.a:
 clean-local:
 	rm -f libgpg-error.a libassuan.a
 
+#gpgex_LDADD = $(srcdir)/gpgex.def		\
+#	-L . -lshell32  -lcomdlg32 -ladvapi32
+
+# We need -loleaut32 for start_help() in gpgex.cc.
 gpgex_LDADD = $(srcdir)/gpgex.def -L . \
 	-lshell32 -lgdi32 -lole32 -luuid \
-	./libassuan.a ./libgpg-error.a -lws2_32
+	./libassuan.a ./libgpg-error.a -lws2_32 -loleaut32
 
 .rc.o:
 	$(WINDRES) -I $(srcdir) -I . `test -f '$<' || echo '$(srcdir)/'`$< $@
