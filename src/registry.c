@@ -250,7 +250,7 @@ default_homedir (void)
 
               tmp = read_w32_registry_string (NULL, "Software\\GNU\\GnuPG",
                                               "HomeDir");
-              if (tmp && *tmp)
+              if (tmp && !*tmp)
                 {
                   free (tmp);
                   tmp = NULL;
