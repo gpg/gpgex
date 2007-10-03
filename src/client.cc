@@ -61,6 +61,73 @@ default_socket_name (void)
 }
 
 
+#define tohex_lower(n) ((n) < 10 ? ((n) + '0') : (((n) - 10) + 'a'))
+
+/* Percent-escape the string STR by replacing colons with '%3a'.  If
+   EXTRA is not NULL all characters in it are also escaped. */
+static char *
+percent_escape (const char *str, const char *extra)
+{
+  int i, j;
+  char *ptr;
+
+  if (!str)
+    return NULL;
+
+  for (i=j=0; str[i]; i++)
+    if (str[i] == ':' || str[i] == '%' || (extra && strchr (extra, str[i])))
+      j++;
+  ptr = (char *) malloc (i + 2 * j + 1);
+  i = 0;
+  while (*str)
+    {
+#if 0
+      /* FIXME: Work around a bug in Kleo.  */
+      if (*str == ':')
+	{
+	  ptr[i++] = '%';
+	  ptr[i++] = '3';
+	  ptr[i++] = 'a';
+	}
+      else
+#endif
+    if (*str == '%')
+	{
+	  ptr[i++] = '%';
+	  ptr[i++] = '2';
+	  ptr[i++] = '5';
+	}
+      else if (extra && strchr (extra, *str))
+        {
+	  ptr[i++] = '%';
+          ptr[i++] = tohex_lower ((*str >> 4) & 15);
+          ptr[i++] = tohex_lower (*str & 15);
+        }
+      else
+	ptr[i++] = *str;
+      str++;
+    }
+  ptr[i] = '\0';
+
+  return ptr;
+}
+
+
+static string
+escape (string str)
+{
+  char *arg_esc = percent_escape (str.c_str (), "+= ");
+
+  if (arg_esc == NULL)
+    throw std::bad_alloc ();
+
+  string res = arg_esc;
+  free (arg_esc);
+
+  return res;
+}
+
+
 bool
 client_t::call_assuan (const char *cmd, vector<string> &filenames)
 {
@@ -90,7 +157,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
       /* Set the input files.  We don't specify the output files.  */
       for (unsigned int i = 0; i < filenames.size (); i++)
 	{
-	  msg = "INPUT FILE=\"" + filenames[i] + "\" --continued";
+	  msg = "INPUT FILE=" + escape (filenames[i]);
 	  
 	  (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
 	  
