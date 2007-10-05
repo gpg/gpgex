@@ -49,8 +49,10 @@ using std::string;
 #define ID_CMD_ENCRYPT		5
 #define ID_CMD_SIGN		6
 #define ID_CMD_IMPORT		7
-#define ID_CMD_POPUP		8
-#define ID_CMD_MAX		8
+#define ID_CMD_CREATE_CHECKSUMS 8
+#define ID_CMD_VERIFY_CHECKSUMS 9
+#define ID_CMD_POPUP		10
+#define ID_CMD_MAX		10
 
 #define ID_CMD_STR_HELP			_("Help on GpgEX")
 #define ID_CMD_STR_DECRYPT_VERIFY	_("Decrypt and verify")
@@ -60,6 +62,8 @@ using std::string;
 #define ID_CMD_STR_ENCRYPT		_("Encrypt")
 #define ID_CMD_STR_SIGN			_("Sign")
 #define ID_CMD_STR_IMPORT		_("Import keys")
+#define ID_CMD_STR_CREATE_CHECKSUMS	_("Create checksums")
+#define ID_CMD_STR_VERIFY_CHECKSUMS	_("Verify checksums")
 
 
 /* Reset the instance between operations.  */
@@ -322,20 +326,16 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
   res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
-		    idCmdFirst + ID_CMD_DECRYPT_VERIFY,
-		    ID_CMD_STR_DECRYPT_VERIFY);
-  if (res)
-    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
-		      idCmdFirst + ID_CMD_DECRYPT,
-		      ID_CMD_STR_DECRYPT);
+		    idCmdFirst + ID_CMD_DECRYPT,
+		    ID_CMD_STR_DECRYPT);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_VERIFY,
 		      ID_CMD_STR_VERIFY);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
-		      idCmdFirst + ID_CMD_ENCRYPT_SIGN,
-		      ID_CMD_STR_ENCRYPT_SIGN);
+		      idCmdFirst + ID_CMD_DECRYPT_VERIFY,
+		      ID_CMD_STR_DECRYPT_VERIFY);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_ENCRYPT,
@@ -346,7 +346,17 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
 		      ID_CMD_STR_SIGN);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_ENCRYPT_SIGN,
+		      ID_CMD_STR_ENCRYPT_SIGN);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_IMPORT, ID_CMD_STR_IMPORT);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_CREATE_CHECKSUMS, ID_CMD_STR_CREATE_CHECKSUMS);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_VERIFY_CHECKSUMS, ID_CMD_STR_VERIFY_CHECKSUMS);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
   if (res)
@@ -389,39 +399,47 @@ gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
   switch (idCommand)
     {
     case ID_CMD_HELP:
-      txt = "Invoke the GpgEX documentation.";
+      txt = _("Invoke the GpgEX documentation.");
       break;
 
     case ID_CMD_DECRYPT_VERIFY:
-      txt = "Decrypt and verify the marked files.";
+      txt = _("Decrypt and verify the marked files.");
     break;
 
     case ID_CMD_DECRYPT:
-      txt = "Decrypt the marked files.";
+      txt = _("Decrypt the marked files.");
       break;
 
     case ID_CMD_VERIFY:
-      txt = "Verify the marked files.";
+      txt = _("Verify the marked files.");
       break;
 
     case ID_CMD_ENCRYPT_SIGN:
-      txt = "Encrypt and sign the marked files.";
+      txt = _("Encrypt and sign the marked files.");
       break;
 
     case ID_CMD_ENCRYPT:
-      txt = "Encrypt the marked files.";
+      txt = _("Encrypt the marked files.");
       break;
 
     case ID_CMD_SIGN:
-      txt = "Sign the marked files.";
+      txt = _("Sign the marked files.");
       break;
 
     case ID_CMD_IMPORT:
-      txt = "Import the marked files.";
+      txt = _("Import the marked files.");
+      break;
+
+    case ID_CMD_CREATE_CHECKSUMS:
+      txt = _("Create checksums.");
+      break;
+
+    case ID_CMD_VERIFY_CHECKSUMS:
+      txt = _("Verify checksums.");
       break;
 
     case ID_CMD_POPUP:
-      txt = "Show more GpgEX options.";
+      txt = _("Show more GpgEX options.");
       break;
 
     default:
@@ -484,23 +502,8 @@ start_help (HWND hwnd)
       return;
     }
 
-#if 0
-  VARIANT_BOOL busy;
-  do
-    {
-      web->get_Busy (&busy);
-      Sleep (500);
-    }
-  while (busy == VARIANT_TRUE);
-
-
-  HWND hwnd = NULL;
-  web->get_HWND (&hwnd);
-#endif
-
   Sleep (5000);
   web->Release ();
-
 }
 
 
@@ -551,6 +554,14 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
 
     case ID_CMD_IMPORT:
       client.import (this->filenames);
+      break;
+
+    case ID_CMD_CREATE_CHECKSUMS:
+      client.create_checksums (this->filenames);
+      break;
+
+    case ID_CMD_VERIFY_CHECKSUMS:
+      client.verify_checksums (this->filenames);
       break;
 
     default:

@@ -49,6 +49,8 @@ class client_t
   void encrypt (vector<string> &filenames);
   void sign (vector<string> &filenames);
   void import (vector<string> &filenames);
+  void create_checksums (vector<string> &filenames);
+  void verify_checksums (vector<string> &filenames);
 };
 
 #endif	/* ! CLIENT_H */

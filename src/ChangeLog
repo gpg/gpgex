@@ -1,3 +1,14 @@
+2007-10-05  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.h (class client_t): Two new member functions
+	create_checksums and verify_checksums.
+	* client.cc (client_t::create_checksums, client_t::verify_checksums): New functions.
+	(client_t::encrypt_sign, client_t::encrypt): Fix spelling.
+	* gpgex.cc (ID_CMD_CREATE_CHECKSUMS, ID_CMD_VERIFY_CHECKSUMS,
+	ID_CMD_STR_CREATE_CHECKSUMS, ID_CMD_STR_VERIFY_CHECKSUMS): New macros.
+	(gpgex_t::QueryContextMenu): Add create and verify checksums menu entries.
+	(gpgex_t::GetCommandString): Support these here as well.  Translate all strings.
+
 2007-10-03  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (percent_escape, escape): New functions.

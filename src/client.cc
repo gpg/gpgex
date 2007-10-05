@@ -223,14 +223,14 @@ client_t::decrypt (vector<string> &filenames)
 void
 client_t::encrypt_sign (vector<string> &filenames)
 {
-  this->call_assuan ("ENCRPYT_SIGN", filenames);
+  this->call_assuan ("ENCRYPT_SIGN", filenames);
 }
 
 
 void
 client_t::encrypt (vector<string> &filenames)
 {
-  this->call_assuan ("ENCRPYT", filenames);
+  this->call_assuan ("ENCRYPT", filenames);
 }
 
 
@@ -245,4 +245,18 @@ void
 client_t::import (vector<string> &filenames)
 {
   this->call_assuan ("IMPORT", filenames);
+}
+
+
+void
+client_t::create_checksums (vector<string> &filenames)
+{
+  this->call_assuan ("CREATE_CHECKSUMS", filenames);
+}
+
+
+void
+client_t::verify_checksums (vector<string> &filenames)
+{
+  this->call_assuan ("VERIFY_CHECKSUMS", filenames);
 }
