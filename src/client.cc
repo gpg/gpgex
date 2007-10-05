@@ -81,7 +81,6 @@ percent_escape (const char *str, const char *extra)
   i = 0;
   while (*str)
     {
-#if 0
       /* FIXME: Work around a bug in Kleo.  */
       if (*str == ':')
 	{
@@ -90,7 +89,6 @@ percent_escape (const char *str, const char *extra)
 	  ptr[i++] = 'a';
 	}
       else
-#endif
     if (*str == '%')
 	{
 	  ptr[i++] = '%';

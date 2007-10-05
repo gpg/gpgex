@@ -502,7 +502,8 @@ start_help (HWND hwnd)
       return;
     }
 
-  Sleep (5000);
+  /* Do more stuff.  */
+
   web->Release ();
 }
 
