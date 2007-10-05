@@ -207,6 +207,12 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 
       (void) TRACE0 (DEBUG_INIT, "DllMain", hinst,
 		     "reason=DLL_PROCESS_ATTACH");
+
+      {
+	WSADATA wsadat;
+	
+	WSAStartup (0x202, &wsadat);
+      }
     }
   else if (reason == DLL_PROCESS_DETACH)
     {
