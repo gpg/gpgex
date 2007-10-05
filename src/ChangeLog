@@ -1,5 +1,7 @@
 2007-10-05  Marcus Brinkmann  <marcus@g10code.de>
 
+	* main.cc (DllMain): Call WSACleanup.
+
 	* main.cc (DllMain): Initialize winsock.
 
 	* client.cc (percent_escape): Also escape ':' again.

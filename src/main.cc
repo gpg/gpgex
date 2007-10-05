@@ -216,6 +216,8 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
     }
   else if (reason == DLL_PROCESS_DETACH)
     {
+      WSACleanup ();
+
       (void) TRACE0 (DEBUG_INIT, "DllMain", hinst,
 		     "reason=DLL_PROCESS_DETACH");
 
