@@ -1,5 +1,7 @@
 2007-10-08  Marcus Brinkmann  <marcus@g10code.de>
 
+	* doc/gpgex.texi (Certificate management): New section
+
 	* po/de.po: Convert to UTF-8.
 
 	* autogen.sh: Add --add-missing to automake invocation.

@@ -123,6 +123,7 @@ Assuan manual for details.
 * Specifying input files::   Specifying the input files to operate on.
 * Encrypt and sign files::   Encrypting and signing files.
 * Decrypt and verify files:: Decrypting and verifying files.
+* Certificate management::   Managing certificates.
 * Checksum files::           Create and verify checksums for files.
 * Miscellaneous commands::   Support functions.
 @end menu
@@ -211,6 +212,29 @@ what should happen if @code{--nohup} is not present.  Because
 @code{--nohup} is present, the server always returns @code{OK}
 promptly, and completes the operation asynchronously.
 @end deffn
+
+
+@node Certificate management
+@section Managing certificates.
+
+First, the input files need to be specified by one or more
+@code{INPUT} commands.  Afterwards, the actual operation is requested:
+
+@deffn Command IMPORT --nohup
+Request that the certificates contained in the files specified by
+@code{INPUT} are imported into the local certificate databases.
+
+For directories, the server may offer multiple options to the user
+(for example ignore or process recursively).
+
+The option @code{--nohup} is mandatory.  It is currently unspecified
+what should happen if @code{--nohup} is not present.  Because
+@code{--nohup} is present, the server always returns @code{OK}
+promptly, and completes the operation asynchronously.
+@end deffn
+
+FIXME: It may be nice to support an @code{EXPORT} command as well,
+which is enabled by the context menu of the background of a directory.
 
 
 @node Checksum files
