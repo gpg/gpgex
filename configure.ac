@@ -233,6 +233,7 @@ fi
 
 
 AC_CONFIG_FILES([ Makefile
+doc/Makefile
 src/Makefile
 src/versioninfo.rc        
 po/Makefile.in

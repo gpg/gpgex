@@ -22,7 +22,7 @@ DISTCHECK_CONFIGURE_FLAGS = --host=i586-mingw32msvc --build=i686-pc-linux-gnu \
 EXTRA_DIST = autogen.sh
 
 
-SUBDIRS = src po m4
+SUBDIRS = doc src po m4
 
 dist-hook:
 	echo "$(VERSION)" > $(distdir)/VERSION

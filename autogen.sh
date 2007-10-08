@@ -150,7 +150,7 @@ $ACLOCAL -I m4 $ACLOCAL_FLAGS
 echo "Running autoheader..."
 $AUTOHEADER
 echo "Running automake --gnu ..."
-$AUTOMAKE --gnu;
+$AUTOMAKE --gnu --add-missing;
 echo "Running autoconf..."
 $AUTOCONF
 
