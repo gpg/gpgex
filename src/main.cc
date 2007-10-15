@@ -160,7 +160,15 @@ debug_deinit (void)
 }
 
 
+#ifdef __cplusplus
+extern "C" {
+#if 0
+}
+#endif
+#endif
+
 /* Log the formatted string FORMAT at debug level LEVEL or higher.  */
+extern 
 void
 _gpgex_debug (unsigned int flags, const char *format, ...)
 {
@@ -183,6 +191,13 @@ _gpgex_debug (unsigned int flags, const char *format, ...)
 
   errno = saved_errno;
 }
+
+#ifdef __cplusplus
+#if 0
+{
+#endif
+}
+#endif
 
 
 /* Entry point called by DLL loader.  */

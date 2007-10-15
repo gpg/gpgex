@@ -33,12 +33,53 @@ using std::string;
 
 #include <assuan.h>
 
-#include "registry.h"
 #include "main.h"
+#include "registry.h"
+#include "exechelp.h"
 
 #include "client.h"
 
 
+static const char *
+default_uiserver_name (void)
+{
+  static string name;
+
+  if (name.size () == 0)
+    {
+      char *dir = NULL;
+
+      dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
+				      "Install Directory");
+      if (dir)
+	{
+	  char *uiserver = NULL;
+	  int uiserver_malloced = 1;
+	  
+	  uiserver = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
+					       "UI Server");
+	  if (!uiserver)
+	    {
+	      uiserver = "bin\\kleopatra.exe";
+	      uiserver_malloced = 0;
+	    }
+
+	  /* FIXME: Very dirty work-around to make kleopatra find its
+	     DLLs.  */
+	  if (strcmp (uiserver, "bin\\kleopatra.exe"))
+	    chdir (dir);
+
+	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
+
+	  if (uiserver_malloced)
+	    free (uiserver);
+	  free ((void *) dir);
+	}
+    }
+
+  return name.c_str ();
+}
+
 static const char *
 default_socket_name (void)
 {
@@ -48,7 +89,6 @@ default_socket_name (void)
     {
       char *dir = NULL;
       
-      /* FIXME: Wrong directory.  */
       dir = default_homedir ();
       if (dir)
 	{
@@ -126,27 +166,63 @@ escape (string str)
 }
 
 
-bool
-client_t::call_assuan (const char *cmd, vector<string> &filenames)
+static int
+uiserver_connect (assuan_context_t *ctx)
 {
-  int rc = 0;
-  assuan_context_t ctx = NULL;
-  const char *socket_name;
-  string msg;
-  
-  TRACE_BEG2 (DEBUG_ASSUAN, "client_t::call_assuan", this,
-	      "%s on %u files", cmd, filenames.size ());
+  int rc;
+  const char *socket_name = NULL;
+
+  TRACE_BEG (DEBUG_ASSUAN, "client_t::uiserver_connect", ctx);
 
   socket_name = default_socket_name ();
   if (! socket_name || ! *socket_name)
     {
       (void) TRACE_LOG ("invalid socket name");
-      rc = gpg_error (GPG_ERR_INV_ARG);
-      goto leave;
+      return TRACE_GPGERR (gpg_error (GPG_ERR_INV_ARG));
     }
 
   (void) TRACE_LOG1 ("socket name: %s", socket_name);
-  rc = assuan_socket_connect (&ctx, socket_name, -1);
+  rc = assuan_socket_connect (ctx, socket_name, -1);
+  if (rc)
+    {
+      const char *argv[3];
+      int count;
+
+      (void) TRACE_LOG ("UI server not running, starting it");
+
+      argv[0] = "--uiserver-socket";
+      argv[1] = socket_name;
+      argv[2] = NULL;
+
+      rc = gpgex_spawn_detached (default_uiserver_name (), argv);
+      if (rc)
+	return TRACE_GPGERR (rc);
+
+      /* Give it a bit of time to start up and try a couple of
+	 times.  */
+      for (count = 0; count < 10; count++)
+	{
+	  Sleep (1000);
+	  rc = assuan_socket_connect (ctx, socket_name, -1);
+	  if (!rc)
+	    break;
+	}
+    }
+  return TRACE_GPGERR (rc);
+}
+
+
+bool
+client_t::call_assuan (const char *cmd, vector<string> &filenames)
+{
+  int rc = 0;
+  assuan_context_t ctx = NULL;
+  string msg;
+  
+  TRACE_BEG2 (DEBUG_ASSUAN, "client_t::call_assuan", this,
+	      "%s on %u files", cmd, filenames.size ());
+
+  rc = uiserver_connect (&ctx);
   if (rc)
     goto leave;
 

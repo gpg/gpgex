@@ -1,3 +1,16 @@
+2007-10-15  Marcus Brinkmann  <marcus@g10code.de>
+
+	(client_t::call_assuan): Call uiserver_connect.
+	* registry.c: Include assert.h.  Check return value of malloc.
+	* exechelp.h, exechelp.c: New files.
+	* Makefile.am (gpgex_SOURCES): Add exechelp.h and exechelp.c.
+	* main.h (REGKEY): Move to ...
+	* registry.h (REGKEY): ... here.
+	* main.cc (_gpgme_debug): Put into extern C.
+	* main.h: Move debug stuff into ...
+	* debug.h: ... this new file.
+	* client.cc (default_uiserver_name, uiserver_connect): New functions.
+
 2007-10-05  Marcus Brinkmann  <marcus@g10code.de>
 
 	* main.cc (DllMain): Call WSACleanup.

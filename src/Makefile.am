@@ -28,13 +28,14 @@ gpgex_SOURCES = 				\
 	gpgex.def				\
 	icons.rc 				\
 	registry.h registry.c			\
+	exechelp.h exechelp.c			\
 	w32-gettext.c w32-gettext.h		\
 	gpgex-class.h gpgex-class.cc		\
 	gpgex-factory.h gpgex-factory.cc	\
 	bitmaps.h bitmaps.cc			\
 	gpgex.h gpgex.cc			\
 	client.h client.cc			\
-	main.h main.cc				\
+	main.h debug.h main.cc				\
 	$(ICONS)
 
 libgpg-error.a:

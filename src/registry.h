@@ -43,6 +43,9 @@ char *read_w32_registry_string (const char *root, const char *dir,
 /* Retrieve the default home directory.  */
 char *default_homedir (void);
 
+/* Registry key for this software.  */
+#define REGKEY "Software\\GNU\\GnuPG"
+
 #ifdef __cplusplus
 #if 0
 {
