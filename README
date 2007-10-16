@@ -4,6 +4,38 @@ GPG Explorer Extensions
 This package contains GpgEX, the GNU Privacy Guard extensions for the
 Windows Explorer shell.
 
+
+Registry Settings
+=================
+
+The following registry entries are read by GpgEX and affect its
+operation:
+
+HKLM\Software\GNU\GnuPG:Install Directory
+  The installation directory of Gpg4Win.  This is used to compose the
+  path to the UI server executable.  Also known as INSTDIR below.  Set
+  by the installer at installation time.
+
+HKCU\Software\GNU\GnuPG:UI Server
+HKLM\Software\GNU\GnuPG:UI Server
+  The path to the executable binary of the UI server, relative to
+  INSTDIR.  Absolute paths are currently not supported.
+
+HKCU\Software\GNU\GnuPG:HomeDir
+HKLM\Software\GNU\GnuPG:HomeDir
+  The GnuPG home directory.  Defaults to APPDATA\gnupg.
+
+HKLM\Software\GNU\GnuPG:GpgEX Debug File
+  See below.
+
+The following registry entries are set by GpgEX at installation time
+to register it as a shell extension:
+
+HKCR\CLSID\CCD955E4-5C16-4A33-AFDA-A8947A94946B
+HKCR\*\ShellEx\ContextMenuHandlers\GpgEX
+HKCR\Directory\ShellEx\ContextMenuHandlers\GpgEX
+
+
 Debugging
 =========
 

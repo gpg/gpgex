@@ -1,5 +1,7 @@
 2007-10-16  Marcus Brinkmann  <marcus@g10code.de>
 
+	* client.cc (default_uiserver_name): Fall back to HKLM for UI Server.
+
 	* client.cc (default_uiserver_name): Get UI Server from HKCU.
 
 2007-10-15  Marcus Brinkmann  <marcus@g10code.de>

@@ -56,8 +56,7 @@ default_uiserver_name (void)
 	  char *uiserver = NULL;
 	  int uiserver_malloced = 1;
 	  
-	  uiserver = read_w32_registry_string ("HKEY_CURRENT_USER", REGKEY,
-					       "UI Server");
+	  uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
 	  if (!uiserver)
 	    {
 	      uiserver = "bin\\kleopatra.exe";
