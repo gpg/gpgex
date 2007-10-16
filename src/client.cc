@@ -65,7 +65,7 @@ default_uiserver_name (void)
 
 	  /* FIXME: Very dirty work-around to make kleopatra find its
 	     DLLs.  */
-	  if (strcmp (uiserver, "bin\\kleopatra.exe"))
+	  if (!strcmp (uiserver, "bin\\kleopatra.exe"))
 	    chdir (dir);
 
 	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
