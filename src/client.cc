@@ -41,45 +41,6 @@ using std::string;
 
 
 static const char *
-default_uiserver_name (void)
-{
-  static string name;
-
-  if (name.size () == 0)
-    {
-      char *dir = NULL;
-
-      dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
-				      "Install Directory");
-      if (dir)
-	{
-	  char *uiserver = NULL;
-	  int uiserver_malloced = 1;
-	  
-	  uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
-	  if (!uiserver)
-	    {
-	      uiserver = "bin\\kleopatra.exe";
-	      uiserver_malloced = 0;
-	    }
-
-	  /* FIXME: Very dirty work-around to make kleopatra find its
-	     DLLs.  */
-	  if (!strcmp (uiserver, "bin\\kleopatra.exe"))
-	    chdir (dir);
-
-	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
-
-	  if (uiserver_malloced)
-	    free (uiserver);
-	  free ((void *) dir);
-	}
-    }
-
-  return name.c_str ();
-}
-
-static const char *
 default_socket_name (void)
 {
   static string name;
@@ -92,6 +53,128 @@ default_socket_name (void)
       if (dir)
 	{
 	  try { name = ((string) dir) + "\\S.uiserver"; } catch (...) {}
+	  free ((void *) dir);
+	}
+    }
+
+  return name.c_str ();
+}
+
+
+/* Substitute all substrings "$s" in BUFFER by the value of the
+   default socket and replace all "$$" by "$".  Free BUFFER if
+   necessary and return a newly malloced buffer.  */
+static char *
+replace_dollar_s (char *str)
+{
+  int n;
+  char *src;
+  char *dst;
+  const char *socket_name = default_socket_name ();
+  int socket_name_len = strlen (socket_name);
+  char *new_str;
+
+  n = 0;
+  src = str;
+
+  while (*src)
+    {
+      if (*src == '$')
+	{
+	  src++;
+	  if (*src == '\0')
+	    break;
+	  else if (*src == 's')
+	    /* Socket name and surrounding quotes.  */
+	    n += socket_name_len + 2;
+	  else
+	    n++;
+	}
+      else
+	n++;
+      src++;
+    }
+  /* Terminating zero.  */
+  n++;
+
+  new_str = (char *) malloc (n);
+  if (!new_str)
+    return NULL;
+
+  src = str;
+  dst = new_str;
+  while (*src)
+    {
+      if (*src == '$')
+	{
+	  src++;
+	  if (*src == '\0')
+	    break;
+	  else if (*src == 's')
+	    {
+	      /* Socket name and surrounding quotes.  */
+	      *(dst++) = '"';
+	      memcpy (dst, socket_name, socket_name_len);
+	      dst += socket_name_len;
+	      *(dst++) = '"';
+	    }
+	  else
+	    /* Pass through the next character.  */
+	    *(dst++) = *src;
+	}
+      else
+	*(dst++) = *src;
+      src++;
+    }
+  /* Terminating zero.  */
+  *dst = '\0';
+  
+  return new_str;
+}
+
+
+static const char *
+default_uiserver_cmdline (void)
+{
+  static string name;
+
+  if (name.size () == 0)
+    {
+      char *dir = NULL;
+
+      dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
+				      "Install Directory");
+      if (dir)
+	{
+	  char *uiserver = NULL;
+	  char *old_uiserver = NULL;
+	  int uiserver_malloced = 1;
+	  
+	  uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
+	  if (!uiserver)
+	    {
+	      uiserver = "bin\\kleopatra.exe --uiserver-socket $s";
+	      uiserver_malloced = 0;
+	    }
+
+	  old_uiserver = uiserver;
+	  uiserver = replace_dollar_s (old_uiserver);
+	  if (uiserver_malloced)
+	    free (old_uiserver);
+	  if (!uiserver)
+	    {
+	      free ((void *) dir);
+	      return NULL;
+	    }
+
+	  /* FIXME: Very dirty work-around to make kleopatra find
+	     its DLLs.  */
+	  if (!strncmp (uiserver, "bin\\kleopatra.exe", 17))
+	    chdir (dir);
+	  
+	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
+	  
+	  free (uiserver);
 	  free ((void *) dir);
 	}
     }
@@ -184,16 +267,11 @@ uiserver_connect (assuan_context_t *ctx)
   rc = assuan_socket_connect (ctx, socket_name, -1);
   if (rc)
     {
-      const char *argv[3];
       int count;
 
       (void) TRACE_LOG ("UI server not running, starting it");
 
-      argv[0] = "--uiserver-socket";
-      argv[1] = socket_name;
-      argv[2] = NULL;
-
-      rc = gpgex_spawn_detached (default_uiserver_name (), argv);
+      rc = gpgex_spawn_detached (default_uiserver_cmdline ());
       if (rc)
 	return TRACE_GPGERR (rc);
 

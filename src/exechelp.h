@@ -30,12 +30,9 @@ extern "C" {
 #endif
 #endif
 
-/* Fork and exec the PGMNAME with /dev/null as stdin, stdout and
-   stderr.  The arguments for the process are expected in the NULL
-   terminated array ARGV.  The program name itself should not be
-   included there.  Returns 0 on success or an error code.  */
-gpg_error_t gpgex_spawn_detached (const char *pgmname,
-				  const char *const argv[]);
+/* Fork and exec CMDLINE with /dev/null as stdin, stdout and stderr.
+   Returns 0 on success or an error code.  */
+gpg_error_t gpgex_spawn_detached (const char *cmdline);
 #ifdef __cplusplus
 #if 0
 {

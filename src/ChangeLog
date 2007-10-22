@@ -1,3 +1,12 @@
+2007-10-22  Marcus Brinkmann  <marcus@g10code.de>
+
+	* exechelp.h (gpgex_spawn_detached): Change signature to just a
+	command line.
+	* exechelp.c: Rewritten.
+	* client.cc (replace_dollar_s): New function.
+	(default_uiserver_cmdline): Use it.
+	(uiserver_connect): Change caller of gpgex_spawn_detached.
+
 2007-10-17  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (default_uiserver_name): Fix check for dirty hack.
