@@ -308,7 +308,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
       /* Set the input files.  We don't specify the output files.  */
       for (unsigned int i = 0; i < filenames.size (); i++)
 	{
-	  msg = "INPUT FILE=" + escape (filenames[i]);
+	  msg = "FILE=" + escape (filenames[i]);
 	  
 	  (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
 	  

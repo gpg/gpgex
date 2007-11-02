@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpgex 0.0.0-svn10\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2007-10-05 02:37+0200\n"
+"POT-Creation-Date: 2007-11-02 11:48+0100\n"
 "PO-Revision-Date: 2007-10-08 18:34+0200\n"
 "Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
 "Language-Team: German\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/client.cc:194
+#: src/client.cc:345
 msgid "Can not access Kleopatra, see log file for details"
 msgstr "Kann nicht auf Kleopatra zugreifen, siehe Protokolldatei für Details"
 

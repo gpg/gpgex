@@ -39,6 +39,11 @@ GETTEXT=${GETTEXT_PREFIX}${GETTEXT:-gettext}${GETTEXT_SUFFIX}
 MSGMERGE=${GETTEXT_PREFIX}${MSGMERGE:-msgmerge}${GETTEXT_SUFFIX}
 
 DIE=no
+FORCE=
+if test x"$1" = x"--force"; then
+  FORCE=" --force"
+  shift
+fi
 
 # ***** W32 build script *******
 # Used to cross-compile for Windows.
@@ -86,7 +91,7 @@ if test "$1" = "--build-w32"; then
     ./configure --enable-maintainer-mode --prefix=${w32root}  \
              --host=i586-mingw32msvc --build=${build} \
              --with-gpg-error-prefix=${w32root} \
-	     --with-gpgme-prefix=${w32root} 
+	     --with-libassuan-prefix=${w32root} 
     rc=$?
 
     exit $rc
@@ -150,8 +155,8 @@ $ACLOCAL -I m4 $ACLOCAL_FLAGS
 echo "Running autoheader..."
 $AUTOHEADER
 echo "Running automake --gnu ..."
-$AUTOMAKE --gnu --add-missing;
-echo "Running autoconf..."
-$AUTOCONF
+$AUTOMAKE --gnu --add-missing
+echo "Running autoconf${FORCE} ..."
+$AUTOCONF${FORCE}
 
 echo "You may now run \"./configure --enable-maintainer-mode && make\"."

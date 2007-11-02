@@ -1,3 +1,12 @@
+2007-11-02  Werner Koch  <wk@g10code.com>
+
+	* w32-gettext.c (SUBLANG_BENGALI_BANGLADESH): Fix to 2 as per MSDN.
+	(SUBLANG_PUNJABI_PAKISTAN): Remove as it is not in MSDN.
+	(SUBLANG_ROMANIAN_MOLDOVA): Remove as it is not in MSDN.
+	(SUBLANG_ROMANIAN_ROMANIA): Change to value 1 as per MSDN.
+
+	* client.cc (call_assuan): Now use "FILE" instead of "INPUT FILE".
+
 2007-10-22  Marcus Brinkmann  <marcus@g10code.de>
 
 	* exechelp.h (gpgex_spawn_detached): Change signature to just a
