@@ -133,9 +133,9 @@ Assuan manual for details.
 @section Specifying the input files to operate on.
 
 All commands operate on a number of input files or directories,
-specified by one or more @code{INPUT} commands:
+specified by one or more @code{FILE} commands:
 
-@deffn Command FILE=@var{name} [--continued]
+@deffn Command FILE @var{name} [--continued]
 Add the file or directory @var{name} to the list of pathnames to be
 processed by the server.  The parameter @var{name} must be an absolute
 path name (including the drive letter) and is percent espaced (in
@@ -154,7 +154,7 @@ First, the input files need to be specified by one or more
 @deffn Command ENCRYPT_FILES --nohup
 @deffnx Command SIGN_FILES --nohup
 @deffnx Command ENCRYPT_SIGN_FILES --nohup
-Request that the files specified by @code{INPUT} are encrypted and/or
+Request that the files specified by @code{FILE} are encrypted and/or
 signed.  The command selects the default action.  The UI server may
 allow the user to change this default afterwards interactively, and
 even abort the operation or complete it only on some of the selected
@@ -184,12 +184,12 @@ promptly, and completes the operation asynchronously.
 @section Decrypting and verifying files.
 
 First, the input files need to be specified by one or more
-@code{INPUT} commands.  Afterwards, the actual operation is requested:
+@code{FILE} commands.  Afterwards, the actual operation is requested:
 
 @deffn Command DECRYPT_FILES --nohup
 @deffnx Command VERIFY_FILES --nohup
 @deffnx Command DECRYPT_VERIFY_FILES --nohup
-Request that the files specified by @code{INPUT} are decrypted and/or
+Request that the files specified by @code{FILE} are decrypted and/or
 verified.  The command selects the default action.  The UI server may
 allow the user to change this default afterwards interactively, and
 even abort the operation or complete it only on some of the selected
@@ -220,7 +220,7 @@ promptly, and completes the operation asynchronously.
 First, the input files need to be specified by one or more
 @code{FILE} commands.  Afterwards, the actual operation is requested:
 
-@deffn Command IMPORT --nohup
+@deffn Command IMPORT_FILES --nohup
 Request that the certificates contained in the files specified by
 @code{FILE} are imported into the local certificate databases.
 
@@ -260,7 +260,7 @@ promptly, and completes the operation asynchronously.
 
 @deffn Command CHECKSUM_VERIFY_FILES --nohup
 Request that checksums are created for the files specifed by
-@code{INPUT} and verified against previously created and stored
+@code{FILE} and verified against previously created and stored
 checksums.  The choice of checksum algorithm and the source storage
 and format for previously created checksums depend on the preferences
 of the user and the functionality provided by the UI server.  For
@@ -269,9 +269,9 @@ example ignore or process recursively).
 
 If the source storage of previously created checksums is available to
 the user through the Windows shell, this command may also accept such
-checksum files as INPUT arguments.  In this case, the UI server should
-instead verify the checksum of the referenced files as if they were
-given as INPUT files.
+checksum files as @code{FILE} arguments.  In this case, the UI server
+should instead verify the checksum of the referenced files as if they
+were given as INPUT files.
 
 The option @code{--nohup} is mandatory.  It is currently unspecified
 what should happen if @code{--nohup} is not present.  Because

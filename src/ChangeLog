@@ -1,5 +1,9 @@
 2007-11-08  Marcus Brinkmann  <marcus@g10code.de>
 
+	* gpgex.cc: Include registry.h.
+	(start_help): Launch gpgex help from install directory.
+	* client.cc (client_t::call_assuan): Fix bug in last change.
+
 	* client.cc (client_t::call_assuan): Fix FILE command and rename
 	all commands to the protocol version.
 	(client_t::call_assuan): Report the actual error and remove log

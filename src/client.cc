@@ -343,7 +343,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
     {
       char buf[256];
       snprintf (buf, sizeof (buf), _("Can not access Kleopatra:\r\n%s"),
-		gpg_strerror (buf));
+		gpg_strerror (rc));
       MessageBox (this->window, buf, "GpgEX", MB_ICONINFORMATION);
     }
 

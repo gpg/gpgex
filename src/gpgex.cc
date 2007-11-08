@@ -36,6 +36,7 @@ using std::string;
 
 #include "main.h"
 #include "client.h"
+#include "registry.h"
 
 #include "gpgex.h"
 
@@ -490,12 +491,28 @@ start_help (HWND hwnd)
   // width, height
   web->put_Visible (VARIANT_TRUE);
 
-  /* FIXME: Replace by real URL.  */
-  BSTR url = SysAllocString ((const OLECHAR *) L"http://www.gpg4win.org/");
+#define URLSIZE 512
+  wchar_t url[URLSIZE];
+  {
+    char *dir = NULL;
+
+    dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
+				    "Install Directory");
+    if (!dir)
+      _snwprintf (url, URLSIZE, L"%S", "http://www.gpg4win.org/");
+    else
+      /* FIXME: Select on language.  */
+      _snwprintf (url,
+		  URLSIZE, L"file:///%S\\share\\doc\\gpgex\\gpgex-en.html",
+		  dir);
+    url[URLSIZE - 1] = '\0';
+  }
+  
+  BSTR burl = SysAllocString ((const OLECHAR *) url);
   VARIANT vars[4];
   memset (vars, 0, sizeof (vars));
-  res = web->Navigate (url, vars, vars + 1, vars + 2, vars + 3);
-  SysFreeString (url);
+  res = web->Navigate (burl, vars, vars + 1, vars + 2, vars + 3);
+  SysFreeString (burl);
   if (!SUCCEEDED (res))
     {
       web->Release ();

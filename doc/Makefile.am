@@ -16,4 +16,4 @@ DISTCLEANFILES = gpgex.cps
 info_TEXINFOS = gpgex.texi
 gpgex_TEXINFOS = gpl.texi 
 
-
+dist_doc_DATA = gpgex-en.html gpgex-de.html
