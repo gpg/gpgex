@@ -1,3 +1,10 @@
+2007-11-08  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.cc (client_t::call_assuan): Fix FILE command and rename
+	all commands to the protocol version.
+	(client_t::call_assuan): Report the actual error and remove log
+	file reference.
+
 2007-11-02  Werner Koch  <wk@g10code.com>
 
 	* w32-gettext.c (SUBLANG_BENGALI_BANGLADESH): Fix to 2 as per MSDN.

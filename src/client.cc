@@ -308,7 +308,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
       /* Set the input files.  We don't specify the output files.  */
       for (unsigned int i = 0; i < filenames.size (); i++)
 	{
-	  msg = "FILE=" + escape (filenames[i]);
+	  msg = "FILE " + escape (filenames[i]);
 	  
 	  (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
 	  
@@ -341,9 +341,10 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
     assuan_disconnect (ctx);
   if (rc)
     {
-      MessageBox (this->window,
-		  _("Can not access Kleopatra, see log file for details"),
-		  "GpgEX", MB_ICONINFORMATION);
+      char buf[256];
+      snprintf (buf, sizeof (buf), _("Can not access Kleopatra:\r\n%s"),
+		gpg_strerror (buf));
+      MessageBox (this->window, buf, "GpgEX", MB_ICONINFORMATION);
     }
 
   return rc ? false : true;
@@ -353,61 +354,61 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
 void
 client_t::decrypt_verify (vector<string> &filenames)
 {
-  this->call_assuan ("DECRYPT_VERIFY", filenames);
+  this->call_assuan ("DECRYPT_VERIFY_FILES", filenames);
 }
 
 
 void
 client_t::verify (vector<string> &filenames)
 {
-  this->call_assuan ("VERIFY", filenames);
+  this->call_assuan ("VERIFY_FILES", filenames);
 }
 
 
 void
 client_t::decrypt (vector<string> &filenames)
 {
-  this->call_assuan ("DECRYPT", filenames);
+  this->call_assuan ("DECRYPT_FILES", filenames);
 }
 
 
 void
 client_t::encrypt_sign (vector<string> &filenames)
 {
-  this->call_assuan ("ENCRYPT_SIGN", filenames);
+  this->call_assuan ("ENCRYPT_SIGN_FILES", filenames);
 }
 
 
 void
 client_t::encrypt (vector<string> &filenames)
 {
-  this->call_assuan ("ENCRYPT", filenames);
+  this->call_assuan ("ENCRYPT_FILES", filenames);
 }
 
 
 void
 client_t::sign (vector<string> &filenames)
 {
-  this->call_assuan ("SIGN", filenames);
+  this->call_assuan ("SIGN_FILES", filenames);
 }
 
 
 void
 client_t::import (vector<string> &filenames)
 {
-  this->call_assuan ("IMPORT", filenames);
+  this->call_assuan ("IMPORT_FILES", filenames);
 }
 
 
 void
 client_t::create_checksums (vector<string> &filenames)
 {
-  this->call_assuan ("CREATE_CHECKSUMS", filenames);
+  this->call_assuan ("CHECKSUM_CREATE_FILES", filenames);
 }
 
 
 void
 client_t::verify_checksums (vector<string> &filenames)
 {
-  this->call_assuan ("VERIFY_CHECKSUMS", filenames);
+  this->call_assuan ("CHECKSUM_VERIFY_FILES", filenames);
 }
