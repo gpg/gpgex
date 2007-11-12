@@ -1,5 +1,7 @@
 2007-11-12  Marcus Brinkmann  <marcus@g10code.de>
 
+	* gpgex.cc (get_lang_name): Fix last change.
+
 	* gpgex.cc (get_lang_name): Get preferred language.
 	(start_help): Invoke language specific help.
 

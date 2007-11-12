@@ -186,6 +186,9 @@ AM_PATH_GPG_ERROR("$NEED_GPG_ERROR_VERSION",
 AC_DEFINE(GPG_ERR_SOURCE_DEFAULT, GPG_ERR_SOURCE_USER_1,
           [The default error source for GpgEX.])
 
+# We need the declaration for the function GetUserDefaultUILanguage.
+AC_DEFINE(WINVER, 0x500, [Version of Windows API])
+
 #
 # libassuan is used for IPC
 #

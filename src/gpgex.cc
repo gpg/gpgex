@@ -465,7 +465,7 @@ get_lang_name (void)
 {
   LANGID lang;
 
-  lang = GetUserDefaultUILanguage (void);
+  lang = GetUserDefaultUILanguage ();
   switch (PRIMARYLANGID (lang))
     {
     case LANG_GERMAN:
