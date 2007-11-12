@@ -460,6 +460,23 @@ gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
 }
 
 
+static char *
+get_lang_name (void)
+{
+  LANGID lang;
+
+  lang = GetUserDefaultUILanguage (void);
+  switch (PRIMARYLANGID (lang))
+    {
+    case LANG_GERMAN:
+      return "de";
+
+    case LANG_ENGLISH:
+    default:
+      return "en";
+    }
+}
+
 /* FIXME: Might be exported in a helper utility.  Also, it might be
    that we use KDE's help browser?  */
 static void
@@ -501,10 +518,9 @@ start_help (HWND hwnd)
     if (!dir)
       _snwprintf (url, URLSIZE, L"%S", "http://www.gpg4win.org/");
     else
-      /* FIXME: Select on language.  */
       _snwprintf (url,
-		  URLSIZE, L"file:///%S\\share\\doc\\gpgex\\gpgex-en.html",
-		  dir);
+		  URLSIZE, L"file:///%S\\share\\doc\\gpgex\\gpgex-%S.html",
+		  dir, get_lang_name ());
     url[URLSIZE - 1] = '\0';
   }
   
