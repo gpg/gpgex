@@ -518,9 +518,15 @@ start_help (HWND hwnd)
     if (!dir)
       _snwprintf (url, URLSIZE, L"%S", "http://www.gpg4win.org/");
     else
-      _snwprintf (url,
-		  URLSIZE, L"file:///%S\\share\\doc\\gpgex\\gpgex-%S.html",
-		  dir, get_lang_name ());
+      {
+	int sep = 0;
+	int len = strlen (dir) - 1;
+	if (len >= 0 && (dir[len] == '\\' || dir[len] == '/'))
+	  sep = 1;
+	_snwprintf (url,
+		    URLSIZE, L"file:///%S%Sshare\\doc\\gpgex\\gpgex-%S.html",
+		    dir, get_lang_name (), sep ? "" : "\\");
+      }
     url[URLSIZE - 1] = '\0';
   }
   

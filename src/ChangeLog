@@ -1,3 +1,7 @@
+2007-11-16  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gpgex.cc (start_help): Fix URL for Windows Exploder.
+
 2007-11-12  Marcus Brinkmann  <marcus@g10code.de>
 
 	* gpgex.cc (get_lang_name): Fix last change.
