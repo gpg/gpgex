@@ -1,3 +1,8 @@
+2007-11-26  Marcus Brinkmann  <marcus@g10code.de>
+
+	* doc/gpgex-de.html, doc/gpgex-en.html: Add FIXME entries for
+	missing hyperlinks.
+
 2007-11-12  Marcus Brinkmann  <marcus@g10code.de>
 
 	* configure.ac (WINVER): New symbol.
