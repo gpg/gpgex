@@ -525,7 +525,7 @@ start_help (HWND hwnd)
 	  sep = 1;
 	_snwprintf (url,
 		    URLSIZE, L"file:///%S%Sshare\\doc\\gpgex\\gpgex-%S.html",
-		    dir, get_lang_name (), sep ? "" : "\\");
+		    dir, sep ? "" : "\\", get_lang_name ());
       }
     url[URLSIZE - 1] = '\0';
   }
