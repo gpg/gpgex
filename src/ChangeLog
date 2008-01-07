@@ -1,3 +1,9 @@
+2008-01-07  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.cc (default_uiserver_cmdline): Invoke GUI server with
+	--daemon.
+	(replace_dollar_s): Remove obsolete function.
+
 2007-11-30  Marcus Brinkmann  <marcus@g10code.de>
 
 	* gpgex.cc (start_help): Fix URL string format.
