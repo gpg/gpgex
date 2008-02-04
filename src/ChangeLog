@@ -1,3 +1,10 @@
+2008-02-04  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.cc (send_one_option, getinfo_pid_cb, send_options): New
+	functions.
+	(uiserver_connect): Take new argument HWND.  Call send_options.
+	(client_t::call_assuan): Pass window handle to uiserver_connect.
+
 2008-01-07  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (default_uiserver_cmdline): Invoke GUI server with

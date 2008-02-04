@@ -1,5 +1,5 @@
 /* client.cc - gpgex assuan client implementation
-   Copyright (C) 2007 g10 Code GmbH
+   Copyright (C) 2007, 2008 g10 Code GmbH
    
    This file is part of GpgEX.
  
@@ -168,11 +168,78 @@ escape (string str)
 }
 
 
+/* Send options to the UI server and return the server's PID.  */
+static gpg_error_t
+send_one_option (assuan_context_t ctx, const char *name, const char *value)
+{
+  gpg_error_t err;
+  char buffer[1024];
+
+  if (! value || ! *value)
+    err = 0;  /* Avoid sending empty strings.  */
+  else 
+    {
+      snprintf (buffer, sizeof (buffer), "OPTION %s=%s", name, value);
+      err = assuan_transact (ctx, buffer, NULL, NULL, NULL, NULL, NULL, NULL);
+    }
+
+  return err;
+}
+
+
 static int
-uiserver_connect (assuan_context_t *ctx)
+getinfo_pid_cb (void *opaque, const void *buffer, size_t length)
+{
+  pid_t *pid = (pid_t *) opaque;
+
+  *pid = (pid_t) strtoul ((char *) buffer, NULL, 10);
+
+  return 0;
+}
+
+
+static gpg_error_t
+send_options (assuan_context_t ctx, HWND hwnd, pid_t *r_pid)
+{
+  gpg_error_t rc = 0;
+  char numbuf[50];
+
+  TRACE_BEG (DEBUG_ASSUAN, "client_t::send_options", ctx);
+
+  *r_pid = (pid_t) (-1);
+  rc = assuan_transact (ctx, "GETINFO pid", getinfo_pid_cb, r_pid,
+			NULL, NULL, NULL, NULL);
+  if (! rc && *r_pid == (pid_t) (-1))
+    {
+      (void) TRACE_LOG ("server did not return a PID");
+      rc = gpg_error (GPG_ERR_ASSUAN_SERVER_FAULT);
+    }
+
+  if (! rc && *r_pid != (pid_t) (-1)
+      && ! AllowSetForegroundWindow (*r_pid))
+    {
+      (void) TRACE_LOG ("AllowSetForegroundWindow (%u) failed");
+      TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
+
+      /* Ignore the error, though.  */
+    }
+
+  if (! rc && hwnd)
+    {
+      snprintf (numbuf, sizeof (numbuf), "%lx", (unsigned long) hwnd);
+      rc = send_one_option (ctx, "window-id", numbuf);
+    }
+
+  return TRACE_GPGERR (rc);
+}
+
+
+static int
+uiserver_connect (assuan_context_t *ctx, HWND hwnd)
 {
   int rc;
   const char *socket_name = NULL;
+  pid_t pid;
 
   TRACE_BEG (DEBUG_ASSUAN, "client_t::uiserver_connect", ctx);
 
@@ -205,6 +272,14 @@ uiserver_connect (assuan_context_t *ctx)
 	    break;
 	}
     }
+
+  if (! rc)
+    {
+      rc = send_options (*ctx, hwnd, &pid);
+      assuan_disconnect (*ctx);
+      *ctx = NULL;
+    }
+
   return TRACE_GPGERR (rc);
 }
 
@@ -219,7 +294,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
   TRACE_BEG2 (DEBUG_ASSUAN, "client_t::call_assuan", this,
 	      "%s on %u files", cmd, filenames.size ());
 
-  rc = uiserver_connect (&ctx);
+  rc = uiserver_connect (&ctx, this->window);
   if (rc)
     goto leave;
 
