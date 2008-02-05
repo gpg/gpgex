@@ -1,3 +1,11 @@
+2008-02-05  Marcus Brinkmann  <marcus@g10code.de>
+
+	* debug.h: Include <stdio.h>.
+	(debug_file, debug_flags): New prototypes.
+	* main.cc (debug_file, debug_flags): Make not static.
+	* client.cc (uiserver_connect): Fix last change.  Set debug log
+	stream.
+
 2008-02-04  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (send_one_option, getinfo_pid_cb, send_options): New

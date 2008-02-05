@@ -275,9 +275,15 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
 
   if (! rc)
     {
+      if (debug_flags & DEBUG_ASSUAN)
+	assuan_set_log_stream (*ctx, debug_file);
+
       rc = send_options (*ctx, hwnd, &pid);
-      assuan_disconnect (*ctx);
-      *ctx = NULL;
+      if (rc)
+	{
+	  assuan_disconnect (*ctx);
+	  *ctx = NULL;
+	}
     }
 
   return TRACE_GPGERR (rc);

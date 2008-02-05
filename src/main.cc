@@ -110,9 +110,10 @@ i18n_init (void)
 static CRITICAL_SECTION debug_lock;
 
 /* No flags on means no debugging.  */
-static unsigned int debug_flags = 0;
+unsigned int debug_flags = 0;
 
-static FILE *debug_file;
+/* Debug log file.  */
+FILE *debug_file;
 
 
 /* Get the filename of the debug file, if any.  */

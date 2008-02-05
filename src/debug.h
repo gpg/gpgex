@@ -23,6 +23,8 @@
 
 #include <gpg-error.h>
 
+#include <stdio.h>
+
 #ifdef __cplusplus
 extern "C" {
 #if 0
@@ -35,6 +37,13 @@ extern "C" {
 #define DEBUG_CONTEXT_MENU	2
 #define DEBUG_ASSUAN		4
 
+/* No flags on means no debugging.  */
+extern unsigned int debug_flags;
+
+/* Debug log stream.  */
+extern FILE *debug_file;
+
+
 #define STRINGIFY(v) #v
 
 /* Log the formatted string FORMAT in categories FLAGS.  */
