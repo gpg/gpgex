@@ -1,3 +1,8 @@
+2008-02-19  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.cc (default_uiserver_cmdline): Change default uiserver
+	path and remove work-around.
+
 2008-02-05  Marcus Brinkmann  <marcus@g10code.de>
 
 	* debug.h: Include <stdio.h>.

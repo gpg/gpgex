@@ -82,15 +82,10 @@ default_uiserver_cmdline (void)
 	    {
 	      /* The option --use-standard-socket is the default on
 		 windows, so we can omit it here.  */
-	      uiserver = "bin\\kleopatra.exe --daemon";
+	      uiserver = "kleopatra.exe --daemon";
 	      uiserver_malloced = 0;
 	    }
 
-	  /* FIXME: Very dirty work-around to make kleopatra find
-	     its DLLs.  */
-	  if (!strncmp (uiserver, "bin\\kleopatra.exe", 17))
-	    chdir (dir);
-	  
 	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
 	  
 	  if (uiserver_malloced)
