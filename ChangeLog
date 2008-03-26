@@ -1,5 +1,7 @@
 2008-03-26  Marcus Brinkmann  <marcus@g10code.de>
 
+	* configure.ac: Prepare for release of 0.9.0.
+
 	* po/ar.po, po/es.po, po/ru.po: New files.
 	* po/de.po: Fix newline.
 
