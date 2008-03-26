@@ -1,3 +1,8 @@
+2008-03-26  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.cc (default_uiserver_cmdline): Fall back to GPA if
+	Kleopatra is not installed.
+
 2008-02-19  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (default_uiserver_cmdline): Change default uiserver

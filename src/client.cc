@@ -78,16 +78,25 @@ default_uiserver_cmdline (void)
 	  int uiserver_malloced = 1;
 	  
 	  uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
-	  if (!uiserver)
+	  if (! uiserver)
 	    {
+	      string fname;
+
+	      uiserver_malloced = 0;
+	      
+	      try { fname = ((string) dir) + "\\"
+		  + "kleopatra.exe"; } catch (...) {}
+
 	      /* The option --use-standard-socket is the default on
 		 windows, so we can omit it here.  */
-	      uiserver = "kleopatra.exe --daemon";
-	      uiserver_malloced = 0;
+	      if (! access (fname.c_str (), F_OK))
+		uiserver = "kleopatra.exe --daemon";
+	      else
+		uiserver = "gpa.exe --daemon";
 	    }
 
 	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
-	  
+
 	  if (uiserver_malloced)
 	    free (uiserver);
 	  free ((void *) dir);
