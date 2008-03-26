@@ -12,7 +12,7 @@
 ## Process this file with automake to produce Makefile.in
 
 ACLOCAL_AMFLAGS = -I m4
-AUTOMAKE_OPTIONS = dist-bzip2
+AUTOMAKE_OPTIONS = no-dist-gzip dist-bzip2
 # Because we can only build the w32 version e need to help automake here a bit.
 DISTCHECK_CONFIGURE_FLAGS = --host=i586-mingw32msvc --build=i686-pc-linux-gnu \
 			    --with-libassuan-prefix=@prefix@ \
