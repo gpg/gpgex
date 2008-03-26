@@ -1,0 +1,117 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR g10 Code GmbH
+# This file is distributed under the same license as the PACKAGE package.
+# Ahmad Gharbeia <ahmad@gharbeia.org>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gpgex\n"
+"Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
+"POT-Creation-Date: 2008-02-05 01:00+0100\n"
+"PO-Revision-Date: 2008-03-24 23:07+0200\n"
+"Last-Translator: أحمد غربية <ahmad@gharbeia.org>\n"
+"Language-Team: arabeyes.org <info@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n>=3 && n<=10 ? 3 : n>=11 && n<=99 ? 4 : 5;\\n\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: src/client.cc:346
+#, c-format
+msgid ""
+"Can not access Kleopatra:\r\n"
+"%s"
+msgstr ""
+"تعذّر النفاذ إلى كليوباترا:\r\n"
+"%s"
+
+#: src/gpgex.cc:58
+msgid "Help on GpgEX"
+msgstr "‮مساعدة حول ‪GpgEx‬"
+
+#: src/gpgex.cc:59
+msgid "Decrypt and verify"
+msgstr "ظهِّر و تحقق"
+
+#: src/gpgex.cc:60
+msgid "Decrypt"
+msgstr "ظهِّر"
+
+#: src/gpgex.cc:61
+msgid "Verify"
+msgstr "تحقق"
+
+#: src/gpgex.cc:62
+msgid "Encrypt and sign"
+msgstr "عمِّ و وقِّع"
+
+#: src/gpgex.cc:63
+msgid "Encrypt"
+msgstr "عمِّ"
+
+#: src/gpgex.cc:64
+msgid "Sign"
+msgstr "وقِّع"
+
+#: src/gpgex.cc:65
+msgid "Import keys"
+msgstr "استورد المفاتيح"
+
+#: src/gpgex.cc:66
+msgid "Create checksums"
+msgstr "احسب تلبيدات"
+
+#: src/gpgex.cc:67
+msgid "Verify checksums"
+msgstr "افحص التلبيدات"
+
+#: src/gpgex.cc:307
+msgid "More GpgEX options"
+msgstr "‮مزيد من خيارات ‪GpgEx‬"
+
+#: src/gpgex.cc:403
+msgid "Invoke the GpgEX documentation."
+msgstr "‮طالع وثائق ‪GpgEx‬"
+
+#: src/gpgex.cc:407
+msgid "Decrypt and verify the marked files."
+msgstr "ظهِّر و تحقق من الملفات المؤشَّرة."
+
+#: src/gpgex.cc:411
+msgid "Decrypt the marked files."
+msgstr "ظهِّر الملفات المؤشَّرة."
+
+#: src/gpgex.cc:415
+msgid "Verify the marked files."
+msgstr "تحقق من توقيعات الملفات المؤشَّرة."
+
+#: src/gpgex.cc:419
+msgid "Encrypt and sign the marked files."
+msgstr "عمِّ و وقِّع الملفات المؤشَّرة."
+
+#: src/gpgex.cc:423
+msgid "Encrypt the marked files."
+msgstr "عمِّ الملفات المؤشَّرة."
+
+#: src/gpgex.cc:427
+msgid "Sign the marked files."
+msgstr "وقِّع الملفات المؤشَّرة."
+
+#: src/gpgex.cc:431
+msgid "Import the marked files."
+msgstr "استورد الملفات المؤشَّرة."
+
+#: src/gpgex.cc:435
+msgid "Create checksums."
+msgstr "احسب تلبيدات."
+
+#: src/gpgex.cc:439
+msgid "Verify checksums."
+msgstr "افحص التلبيدات."
+
+#: src/gpgex.cc:443
+msgid "Show more GpgEX options."
+msgstr "‮أظهر مزيدا من خيارات ‪GpgEx‬."
+

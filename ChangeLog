@@ -1,3 +1,8 @@
+2008-03-26  Marcus Brinkmann  <marcus@g10code.de>
+
+	* po/ar.po, po/es.po, po/ru.po: New files.
+	* po/de.po: Fix newline.
+
 2007-11-26  Marcus Brinkmann  <marcus@g10code.de>
 
 	* doc/gpgex-de.html, doc/gpgex-en.html: Add FIXME entries for

@@ -1,4 +1,4 @@
-BGPG Explorer Extensions
+GPG Explorer Extensions
 =======================
 
 This package contains GpgEX, the GNU Privacy Guard extensions for the
@@ -53,3 +53,6 @@ in a separate process by creating a DWORD "DesktopProcess" with value
 1 under:
 
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer
+
+You can also terminate the explorer process and restart it from a
+previously opened console window.
