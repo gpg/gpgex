@@ -1,3 +1,8 @@
+2008-09-01  Marcus Brinkmann  <marcus@g10code.com>
+
+	* gpgex.cc (Initialize): Also pay attention to endings pem, p7m
+	and p7s.
+
 2008-03-26  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.cc (default_uiserver_cmdline): Fall back to GPA if
