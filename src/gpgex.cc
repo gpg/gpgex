@@ -203,7 +203,11 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 			  if (! strcasecmp (ending, "gpg")
 			      || ! strcasecmp (ending, "pgp")
 			      || ! strcasecmp (ending, "asc")
-			      || ! strcasecmp (ending, "sig"))
+			      || ! strcasecmp (ending, "sig")
+			      || ! strcasecmp (ending, "pem")
+			      || ! strcasecmp (ending, "p7m")
+			      || ! strcasecmp (ending, "p7s")
+                              )
 			    gpg = true;
 			      
 			  if (gpg == false)

@@ -111,7 +111,7 @@ Bla bla
 @node Assuan Protocol
 @chapter Description of the UI Server Protocol
 
-All cryptographic operations are done by this server and the server is
+All cryptographic operations are done by a server and the server is
 responsible for all dialogs.  If a a server is not available,
 @acronym{GpgEX} does not work.
 

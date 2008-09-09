@@ -1,5 +1,11 @@
+Noteworthy changes for version 0.9.1 (2008-09-09)
+-------------------------------------------------
+
+* Take care of CMS file suffixes.
+
+
 Noteworthy changes for version 0.9.0 (2008-03-26)
-------------------------------------------------
+-------------------------------------------------
 
 * Initial release.
 
