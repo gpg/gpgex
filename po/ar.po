@@ -7,18 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpgex\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2008-02-05 01:00+0100\n"
+"POT-Creation-Date: 2008-09-09 11:08+0200\n"
 "PO-Revision-Date: 2008-03-24 23:07+0200\n"
 "Last-Translator: أحمد غربية <ahmad@gharbeia.org>\n"
 "Language-Team: arabeyes.org <info@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n>=3 && n<=10 ? 3 : n>=11 && n<=99 ? 4 : 5;\\n\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n>=3 && "
+"n<=10 ? 3 : n>=11 && n<=99 ? 4 : 5;\\n\n"
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: src/client.cc:346
+#: src/client.cc:350
 #, c-format
 msgid ""
 "Can not access Kleopatra:\r\n"
@@ -67,51 +68,50 @@ msgstr "احسب تلبيدات"
 msgid "Verify checksums"
 msgstr "افحص التلبيدات"
 
-#: src/gpgex.cc:307
+#: src/gpgex.cc:311
 msgid "More GpgEX options"
 msgstr "‮مزيد من خيارات ‪GpgEx‬"
 
-#: src/gpgex.cc:403
+#: src/gpgex.cc:407
 msgid "Invoke the GpgEX documentation."
 msgstr "‮طالع وثائق ‪GpgEx‬"
 
-#: src/gpgex.cc:407
+#: src/gpgex.cc:411
 msgid "Decrypt and verify the marked files."
 msgstr "ظهِّر و تحقق من الملفات المؤشَّرة."
 
-#: src/gpgex.cc:411
+#: src/gpgex.cc:415
 msgid "Decrypt the marked files."
 msgstr "ظهِّر الملفات المؤشَّرة."
 
-#: src/gpgex.cc:415
+#: src/gpgex.cc:419
 msgid "Verify the marked files."
 msgstr "تحقق من توقيعات الملفات المؤشَّرة."
 
-#: src/gpgex.cc:419
+#: src/gpgex.cc:423
 msgid "Encrypt and sign the marked files."
 msgstr "عمِّ و وقِّع الملفات المؤشَّرة."
 
-#: src/gpgex.cc:423
+#: src/gpgex.cc:427
 msgid "Encrypt the marked files."
 msgstr "عمِّ الملفات المؤشَّرة."
 
-#: src/gpgex.cc:427
+#: src/gpgex.cc:431
 msgid "Sign the marked files."
 msgstr "وقِّع الملفات المؤشَّرة."
 
-#: src/gpgex.cc:431
+#: src/gpgex.cc:435
 msgid "Import the marked files."
 msgstr "استورد الملفات المؤشَّرة."
 
-#: src/gpgex.cc:435
+#: src/gpgex.cc:439
 msgid "Create checksums."
 msgstr "احسب تلبيدات."
 
-#: src/gpgex.cc:439
+#: src/gpgex.cc:443
 msgid "Verify checksums."
 msgstr "افحص التلبيدات."
 
-#: src/gpgex.cc:443
+#: src/gpgex.cc:447
 msgid "Show more GpgEX options."
 msgstr "‮أظهر مزيدا من خيارات ‪GpgEx‬."
-

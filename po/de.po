@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpgex 0.0.0-svn10\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2007-11-08 18:55+0100\n"
-"PO-Revision-Date: 2008-03-26 17:42+0100\n"
+"POT-Creation-Date: 2008-09-09 11:08+0200\n"
+"PO-Revision-Date: 2009-01-22 16:11+0100\n"
 "Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/client.cc:345
+#: src/client.cc:350
 #, c-format
 msgid ""
 "Can not access Kleopatra:\r\n"
@@ -31,7 +31,7 @@ msgstr "Hilfe zu GpgEX"
 
 #: src/gpgex.cc:59
 msgid "Decrypt and verify"
-msgstr "Entschlüsseln und verifizieren"
+msgstr "Entschlüsseln und überprüfen"
 
 #: src/gpgex.cc:60
 msgid "Decrypt"
@@ -39,7 +39,7 @@ msgstr "Entschlüsseln"
 
 #: src/gpgex.cc:61
 msgid "Verify"
-msgstr "Verifizieren"
+msgstr "Überprüfen"
 
 #: src/gpgex.cc:62
 msgid "Encrypt and sign"
@@ -63,52 +63,52 @@ msgstr "Prüfsummen erstellen"
 
 #: src/gpgex.cc:67
 msgid "Verify checksums"
-msgstr "Prüfsummen verifizieren"
+msgstr "Prüfsummen überprüfen"
 
-#: src/gpgex.cc:307
+#: src/gpgex.cc:311
 msgid "More GpgEX options"
 msgstr "Mehr GpgEX Optionen"
 
-#: src/gpgex.cc:403
+#: src/gpgex.cc:407
 msgid "Invoke the GpgEX documentation."
 msgstr "Öffne die Dokumentation zu GpgEX"
 
-#: src/gpgex.cc:407
-msgid "Decrypt and verify the marked files."
-msgstr "Die markierten Dateien entschlüsseln und verifizieren."
-
 #: src/gpgex.cc:411
+msgid "Decrypt and verify the marked files."
+msgstr "Die markierten Dateien entschlüsseln und überprüfen."
+
+#: src/gpgex.cc:415
 msgid "Decrypt the marked files."
 msgstr "Die markierten Dateien entschlüsseln."
 
-#: src/gpgex.cc:415
-msgid "Verify the marked files."
-msgstr "Die markierten Dateien verifizieren."
-
 #: src/gpgex.cc:419
+msgid "Verify the marked files."
+msgstr "Die markierten Dateien überprüfen."
+
+#: src/gpgex.cc:423
 msgid "Encrypt and sign the marked files."
 msgstr "Die markierten Dateien verschlüsseln und signieren."
 
-#: src/gpgex.cc:423
+#: src/gpgex.cc:427
 msgid "Encrypt the marked files."
 msgstr "Die markierten Dateien verschlüsseln."
 
-#: src/gpgex.cc:427
+#: src/gpgex.cc:431
 msgid "Sign the marked files."
 msgstr "Die markierten Dateien signieren."
 
-#: src/gpgex.cc:431
+#: src/gpgex.cc:435
 msgid "Import the marked files."
 msgstr "Die markierten Dateien importieren."
 
-#: src/gpgex.cc:435
+#: src/gpgex.cc:439
 msgid "Create checksums."
 msgstr "Für die markierten Dateien Prüfsummen erstellen."
 
-#: src/gpgex.cc:439
-msgid "Verify checksums."
-msgstr "Die Prüfsummen der markierten Dateien verifizieren."
-
 #: src/gpgex.cc:443
+msgid "Verify checksums."
+msgstr "Die Prüfsummen der markierten Dateien überprüfen."
+
+#: src/gpgex.cc:447
 msgid "Show more GpgEX options."
 msgstr "Mehr GpgEX Optionen."

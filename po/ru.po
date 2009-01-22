@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2008-02-05 01:00+0100\n"
+"POT-Creation-Date: 2008-09-09 11:08+0200\n"
 "PO-Revision-Date: 2008-03-23 21:39+0300\n"
 "Last-Translator: Sergei Smirnov <moscow@hro.org>\n"
 "Language-Team: Sergei Smirnov <moscow@hro.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
-#: src/client.cc:346
+#: src/client.cc:350
 #, c-format
 msgid ""
 "Can not access Kleopatra:\r\n"
@@ -66,51 +66,50 @@ msgstr "Создать контрольные суммы"
 msgid "Verify checksums"
 msgstr "Проверить контрольные суммы"
 
-#: src/gpgex.cc:307
+#: src/gpgex.cc:311
 msgid "More GpgEX options"
 msgstr "Другие параметры GpgEX"
 
-#: src/gpgex.cc:403
+#: src/gpgex.cc:407
 msgid "Invoke the GpgEX documentation."
 msgstr "Открыть документацию GpgEX."
 
-#: src/gpgex.cc:407
+#: src/gpgex.cc:411
 msgid "Decrypt and verify the marked files."
 msgstr "Расшифровать и проверить отмеченные файлы."
 
-#: src/gpgex.cc:411
+#: src/gpgex.cc:415
 msgid "Decrypt the marked files."
 msgstr "Расшифровать отмеченные файлы."
 
-#: src/gpgex.cc:415
+#: src/gpgex.cc:419
 msgid "Verify the marked files."
 msgstr "Проверить отмеченные файлы."
 
-#: src/gpgex.cc:419
+#: src/gpgex.cc:423
 msgid "Encrypt and sign the marked files."
 msgstr "Зашифровать и подписать отмеченные файлы."
 
-#: src/gpgex.cc:423
+#: src/gpgex.cc:427
 msgid "Encrypt the marked files."
 msgstr "Зашифровать отмеченные файлы."
 
-#: src/gpgex.cc:427
+#: src/gpgex.cc:431
 msgid "Sign the marked files."
 msgstr "Подписать отмеченные файлы."
 
-#: src/gpgex.cc:431
+#: src/gpgex.cc:435
 msgid "Import the marked files."
 msgstr "Импортировать отмеченные файлы."
 
-#: src/gpgex.cc:435
+#: src/gpgex.cc:439
 msgid "Create checksums."
 msgstr "Создать контрольные суммы."
 
-#: src/gpgex.cc:439
+#: src/gpgex.cc:443
 msgid "Verify checksums."
 msgstr "Проверить контрольные суммы."
 
-#: src/gpgex.cc:443
+#: src/gpgex.cc:447
 msgid "Show more GpgEX options."
 msgstr "Другие параметры GpgEX."
-
