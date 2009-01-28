@@ -1,5 +1,5 @@
 /* versioninfo.rc.in 
- *    Copyright (C) 2005, 2007 g10 Code GmbH
+ *    Copyright (C) 2005, 2007, 2009 g10 Code GmbH
  * 
  * This file is free software; as a special exception the author gives
  * unlimited permission to copy and/or distribute it, with or without
@@ -39,7 +39,7 @@ BEGIN
             VALUE "FileDescription", "GpgEX - GnuPG shell extensions\0"
             VALUE "FileVersion", "@VERSION@\0"
             VALUE "InternalName", "gpgex\0"
-            VALUE "LegalCopyright", "Copyright © 2007 g10 Code GmbH\0"
+            VALUE "LegalCopyright", "Copyright © 2009 g10 Code GmbH\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "gpgex.dll\0"
             VALUE "PrivateBuild", "\0"
