@@ -78,7 +78,7 @@ HBITMAP gpgex_bitmaps_t::load_bitmap (string name)
   HBITMAP bmap;
   std::ostringstream out;
 
-  out << name << "-" << this->size;
+  out << name << "_" << this->size;
   bmap = LoadBitmap (gpgex_server::instance, out.str().c_str());
   if (bmap == NULL)
     (void) TRACE2 (DEBUG_INIT, "gpgex_bitmaps_t::load_bitmap", this,

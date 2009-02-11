@@ -1,3 +1,8 @@
+2009-02-11  Marcus Brinkmann  <marcus@g10code.de>
+
+	* bitmaps.cc (load_bitmap): Change minus to underscore.
+	* icons.rc: Likewise in identifiers.
+
 2008-09-01  Marcus Brinkmann  <marcus@g10code.com>
 
 	* gpgex.cc (Initialize): Also pay attention to endings pem, p7m
