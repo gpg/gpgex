@@ -42,8 +42,8 @@ msgid "Verify"
 msgstr "Überprüfen"
 
 #: src/gpgex.cc:62
-msgid "Encrypt and sign"
-msgstr "Verschlüsseln und signieren"
+msgid "Sign and encrypt"
+msgstr "Signieren und verschlüsseln"
 
 #: src/gpgex.cc:63
 msgid "Encrypt"
@@ -86,8 +86,8 @@ msgid "Verify the marked files."
 msgstr "Die markierten Dateien überprüfen."
 
 #: src/gpgex.cc:423
-msgid "Encrypt and sign the marked files."
-msgstr "Die markierten Dateien verschlüsseln und signieren."
+msgid "Sign and encrypt the marked files."
+msgstr "Die markierten Dateien signieren und verschlüsseln."
 
 #: src/gpgex.cc:427
 msgid "Encrypt the marked files."

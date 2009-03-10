@@ -1,3 +1,8 @@
+2009-03-10  Marcus Brinkmann  <marcus@g10code.de>
+
+	* client.h, client.cc, gpgex.cc: Change encrypt&sign to
+	sign&encrypt everywhere (except in the protocol, of course).
+
 2009-02-11  Marcus Brinkmann  <marcus@g10code.de>
 
 	* bitmaps.cc (load_bitmap): Change minus to underscore.

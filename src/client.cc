@@ -378,7 +378,7 @@ client_t::decrypt (vector<string> &filenames)
 
 
 void
-client_t::encrypt_sign (vector<string> &filenames)
+client_t::sign_encrypt (vector<string> &filenames)
 {
   this->call_assuan ("ENCRYPT_SIGN_FILES", filenames);
 }

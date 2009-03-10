@@ -45,8 +45,8 @@ msgid "Verify"
 msgstr "تحقق"
 
 #: src/gpgex.cc:62
-msgid "Encrypt and sign"
-msgstr "عمِّ و وقِّع"
+msgid "Sign and encrypt"
+msgstr "وقِّع و عمِّ"
 
 #: src/gpgex.cc:63
 msgid "Encrypt"
@@ -89,8 +89,8 @@ msgid "Verify the marked files."
 msgstr "تحقق من توقيعات الملفات المؤشَّرة."
 
 #: src/gpgex.cc:423
-msgid "Encrypt and sign the marked files."
-msgstr "عمِّ و وقِّع الملفات المؤشَّرة."
+msgid "Sign and encrypt the marked files."
+msgstr "وقِّع و عمِّ الملفات المؤشَّرة."
 
 #: src/gpgex.cc:427
 msgid "Encrypt the marked files."

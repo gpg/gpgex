@@ -1,3 +1,8 @@
+2009-03-10  Marcus Brinkmann  <marcus@g10code.de>
+
+	* po/de.po, po/es.po, po/ru.po, po/ar.po: Change encrypt&sign to
+	sign&encrypt everywhere.
+
 2009-01-28  Werner Koch  <wk@g10code.com>
 
 	Release 0.9.2.

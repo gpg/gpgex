@@ -45,7 +45,7 @@ class client_t
   void decrypt_verify (vector<string> &filenames);
   void decrypt (vector<string> &filenames);
   void verify (vector<string> &filenames);
-  void encrypt_sign (vector<string> &filenames);
+  void sign_encrypt (vector<string> &filenames);
   void encrypt (vector<string> &filenames);
   void sign (vector<string> &filenames);
   void import (vector<string> &filenames);
