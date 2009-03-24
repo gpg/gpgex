@@ -1,3 +1,9 @@
+Noteworthy changes for version 0.9.3 (2009-03-24)
+-------------------------------------------------
+
+* Fixed build problems with newer WINDRES.
+
+
 Noteworthy changes for version 0.9.2 (2009-01-28)
 -------------------------------------------------
 
