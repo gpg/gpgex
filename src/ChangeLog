@@ -1,3 +1,7 @@
+2009-07-17  Marcus Brinkmann  <marcus@g10code.de>
+
+	* gpgex.cc (start_help): Do not cripple the browser window.
+
 2009-03-10  Marcus Brinkmann  <marcus@g10code.de>
 
 	* client.h, client.cc, gpgex.cc: Change encrypt&sign to

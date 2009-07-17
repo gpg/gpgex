@@ -505,10 +505,10 @@ start_help (HWND hwnd)
   /* FIXME: Pick a good configuration.  */
   // Only for IE7?
   // web->put_Resizable (VARIANT_TRUE);
-  web->put_ToolBar (FALSE);
-  web->put_AddressBar (VARIANT_FALSE);
-  web->put_MenuBar (VARIANT_FALSE);
-  web->put_StatusBar (VARIANT_FALSE);
+  // web->put_ToolBar (FALSE);
+  // web->put_AddressBar (VARIANT_FALSE);
+  // web->put_MenuBar (VARIANT_FALSE);
+  // web->put_StatusBar (VARIANT_FALSE);
   // width, height
   web->put_Visible (VARIANT_TRUE);
 
