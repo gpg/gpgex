@@ -1,3 +1,7 @@
+2009-08-04  Marcus Brinkmann  <marcus@g10code.de>
+
+	* doc/gpgex-en.html, doc/gpgex-de.html: Add link to Kleo manual.
+
 2009-07-31  Emanuel Schütze <emanuel@intevation.de>
 
 	* doc/gpgex-de.html, doc/gpgex-en.html: Remove checksum text,
