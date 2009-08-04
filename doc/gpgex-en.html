@@ -32,18 +32,6 @@
       Import certificates in the selected files.  FIXME: Here will be
       a link to the Kleopatra documentation for the import function.
     <p>
-    <h3>Create checksums</h3>
-    <p>
-      Create checksums for the selected files.  FIXME: Here will be a
-      link to the Kleopatra documentation for the create checksum
-      function.
-    </p>
-    <h3>Verify checksums</h3>
-    <p>
-      Verify the checksums for the selected files.  FIXME: Here will
-      be a link to the Kleopatra documentation for the verify checksum
-      function.
-    </p>
     <h3>Help on GpgEX</h3>
     <p>
       Display this help.
@@ -52,15 +40,17 @@
     <p>
       If Kleopatra can not be accessed, a message box with an error
       message will be displayed.  To get more information, you can
-      either check the error log of Kleopatra, or specify a debug file
-      with the registry value <code>GpgEX Debug File</code> in the key
-      <code>HKLM\Software\GNU\GnuPG</code>.  To this file logging
-      information is appended, after a restart if necessary.
+      either check the error log of Kleopatra, or specify a debug
+      file: Select the key <code><acronym title="HKEY_LOCAL_MACHINE">HKLM</acronym>\Software\GNU\GnuPG</code>
+      in the registry editor, create a new string value with the name
+      <code>GpgEX Debug File</code> and the value of the debug filename
+      (e.g. <code>c:\temp\gpgex-debug-file.log</code>).  To this file
+      logging information is appended, after a restart if necessary.
     </p>
-    <h2>References</h2>
+    <h2>Reference</h2>
     <p>
-      Please find more information and new versions at
-      the <a href="http://www.gpg4win.org/">Gpg4win web-site</a>.
+      Please find more information and new software versions at
+      the <a href="http://www.gpg4win.org/">Gpg4win website</a>.
     </p>
   </body>
 </html>

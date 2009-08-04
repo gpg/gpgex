@@ -1,3 +1,8 @@
+2009-07-31  Emanuel Schütze <emanuel@intevation.de>
+
+	* doc/gpgex-de.html, doc/gpgex-en.html: Remove checksum text,
+	improve documentation for debug message.
+
 2009-03-24  Werner Koch  <wk@g10code.com>
 
 	Release 0.9.3.
