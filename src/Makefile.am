@@ -18,7 +18,7 @@ EXEEXT = .dll
 AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 AM_CXXFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 
-ICON_NAMES = key
+ICON_NAMES = key lock
 ICON_SIZES = 12 16
 ICONS = $(addprefix icon-, \
 	$(foreach size,$(ICON_SIZES),$(addsuffix -$(size).bmp, $(ICON_NAMES))))

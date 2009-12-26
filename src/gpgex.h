@@ -101,7 +101,7 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
 
       gpgex_server::add_ref ();
 
-      this->key_bitmap = gpgex_bitmaps.load_bitmap ("Key");
+      this->key_bitmap = gpgex_bitmaps.load_bitmap ("Lock");
 
       (void) TRACE_SUC ();
     }

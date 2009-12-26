@@ -1,3 +1,10 @@
+2009-12-26  Marcus Brinkmann  <marcus@g10code.de>
+
+	* icon-lock-12.bmp, icon-lock-16.bmp: New files.
+	* Makefile.am (ICON_NAMES): Add lock.
+	* icons.rc: Add lock icons.
+	* gpgex.h (class gpgex_t): Use "Lock" icon instead of "Key".
+
 2009-07-17  Marcus Brinkmann  <marcus@g10code.de>
 
 	* gpgex.cc (start_help): Do not cripple the browser window.
