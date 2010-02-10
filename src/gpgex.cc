@@ -213,6 +213,8 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 			  if (gpg == false)
 			    this->all_files_gpg = FALSE;
 			}
+		      else
+			this->all_files_gpg = FALSE;
 
 		      this->filenames.push_back (filename);
 		    }
