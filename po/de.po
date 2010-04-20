@@ -31,7 +31,7 @@ msgstr "Hilfe zu GpgEX"
 
 #: src/gpgex.cc:59
 msgid "Decrypt and verify"
-msgstr "Entschlüsseln und überprüfen"
+msgstr "Entschlüsseln und prüfen"
 
 #: src/gpgex.cc:60
 msgid "Decrypt"
@@ -39,7 +39,7 @@ msgstr "Entschlüsseln"
 
 #: src/gpgex.cc:61
 msgid "Verify"
-msgstr "Überprüfen"
+msgstr "Prüfen"
 
 #: src/gpgex.cc:62
 msgid "Sign and encrypt"
@@ -75,7 +75,7 @@ msgstr "Öffne die Dokumentation zu GpgEX"
 
 #: src/gpgex.cc:411
 msgid "Decrypt and verify the marked files."
-msgstr "Die markierten Dateien entschlüsseln und überprüfen."
+msgstr "Die markierten Dateien entschlüsseln und prüfen."
 
 #: src/gpgex.cc:415
 msgid "Decrypt the marked files."
@@ -83,7 +83,7 @@ msgstr "Die markierten Dateien entschlüsseln."
 
 #: src/gpgex.cc:419
 msgid "Verify the marked files."
-msgstr "Die markierten Dateien überprüfen."
+msgstr "Die markierten Dateien prüfen."
 
 #: src/gpgex.cc:423
 msgid "Sign and encrypt the marked files."

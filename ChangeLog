@@ -1,3 +1,7 @@
+2010-04-20  Emanuel Schütze <emanuel@intevation.de>
+
+	* po/de.po: Use "pruefen" instead "ueberpruefen" for signatures.
+
 2010-01-08  Marcus Brinkmann  <marcus@g10code.de>
 
 	* Release 0.9.5.
