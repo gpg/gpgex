@@ -219,7 +219,7 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 	  assuan_set_assuan_log_stream (debug_file);
 	  assuan_set_assuan_log_prefix ("gpgex:assuan");
 	}
-      assuan_set_assuan_err_source (GPG_ERR_SOURCE_DEFAULT);
+      assuan_set_gpg_err_source (GPG_ERR_SOURCE_DEFAULT);
 
       (void) TRACE0 (DEBUG_INIT, "DllMain", hinst,
 		     "reason=DLL_PROCESS_ATTACH");

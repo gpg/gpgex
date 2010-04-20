@@ -191,7 +191,7 @@ send_one_option (assuan_context_t ctx, const char *name, const char *value)
 }
 
 
-static int
+static gpg_error_t
 getinfo_pid_cb (void *opaque, const void *buffer, size_t length)
 {
   pid_t *pid = (pid_t *) opaque;
@@ -238,10 +238,10 @@ send_options (assuan_context_t ctx, HWND hwnd, pid_t *r_pid)
 }
 
 
-static int
+static gpg_error_t
 uiserver_connect (assuan_context_t *ctx, HWND hwnd)
 {
-  int rc;
+  gpg_error_t rc;
   const char *socket_name = NULL;
   pid_t pid;
 
@@ -255,7 +255,14 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
     }
 
   (void) TRACE_LOG1 ("socket name: %s", socket_name);
-  rc = assuan_socket_connect (ctx, socket_name, -1);
+  rc = assuan_new (ctx);
+  if (rc)
+    {
+      (void) TRACE_LOG ("could not allocate context");
+      return TRACE_GPGERR (rc);
+    }
+
+  rc = assuan_socket_connect (*ctx, socket_name, -1, 0);
   if (rc)
     {
       int count;
@@ -271,7 +278,7 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
       for (count = 0; count < 10; count++)
 	{
 	  Sleep (1000);
-	  rc = assuan_socket_connect (ctx, socket_name, -1);
+	  rc = assuan_socket_connect (*ctx, socket_name, -1, 0);
 	  if (!rc)
 	    break;
 	}
@@ -285,7 +292,7 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
       rc = send_options (*ctx, hwnd, &pid);
       if (rc)
 	{
-	  assuan_disconnect (*ctx);
+	  assuan_release (*ctx);
 	  *ctx = NULL;
 	}
     }
@@ -343,7 +350,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
  leave:
   TRACE_GPGERR (rc);
   if (ctx)
-    assuan_disconnect (ctx);
+    assuan_release (ctx);
   if (rc)
     {
       char buf[256];

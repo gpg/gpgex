@@ -16,7 +16,7 @@ min_automake_version="1.9.4"
 # Remember to change the version number immediately *after* a release.
 # Set my_issvn to "yes" for non-released code.  Remember to run an
 # "svn up" and "autogen.sh" right before creating a distribution.
-m4_define([my_version], [0.9.5])
+m4_define([my_version], [0.9.6])
 m4_define([my_issvn], [no])
 
 m4_define([svn_revision], m4_esyscmd([echo -n $( (svn info 2>/dev/null \
@@ -31,8 +31,8 @@ VERSION=$PACKAGE_VERSION
 
 NEED_GPG_ERROR_VERSION=1.4
 
-NEED_LIBASSUAN_API=1
-NEED_LIBASSUAN_VERSION=0.9.3
+NEED_LIBASSUAN_API=2
+NEED_LIBASSUAN_VERSION=2.0.0
 
 AC_CONFIG_SRCDIR(src/gpgex.def)
 AM_CONFIG_HEADER(config.h)
