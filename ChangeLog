@@ -1,3 +1,7 @@
+2010-04-21  Marcus Brinkmann  <marcus@g10code.de>
+
+	Release 0.9.6.
+
 2010-04-20  Marcus Brinkmann  <marcus@g10code.de>
 
 	* configure.ac: Bump version to 0.9.6.

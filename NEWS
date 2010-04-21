@@ -1,3 +1,13 @@
+Noteworthy changes for version 0.9.6 (2010-04-21)
+-------------------------------------------------
+
+* Update to libassuan 2.0.0.
+
+* Improve German translation.
+
+* Fix default menu item.
+
+
 Noteworthy changes for version 0.9.5 (2010-01-08)
 -------------------------------------------------
 
