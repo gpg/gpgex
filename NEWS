@@ -1,3 +1,11 @@
+Noteworthy changes for version 0.9.7 (2010-07-21)
+-------------------------------------------------
+
+* Fix building with latest libgpg-error.
+
+* Add Portuguese translation.
+
+
 Noteworthy changes for version 0.9.6 (2010-04-21)
 -------------------------------------------------
 

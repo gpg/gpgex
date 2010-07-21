@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX FIXME:VERSION\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2009-03-24 20:00+0100\n"
+"POT-Creation-Date: 2010-07-21 10:07+0200\n"
 "PO-Revision-Date: 2008-03-15 08:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/client.cc:350
+#: src/client.cc:357
 #, c-format
 msgid ""
 "Can not access Kleopatra:\r\n"
@@ -65,50 +65,50 @@ msgstr "Crear sumas de comprobación."
 msgid "Verify checksums"
 msgstr "Verificar sumas de comprobación."
 
-#: src/gpgex.cc:311
+#: src/gpgex.cc:313
 msgid "More GpgEX options"
 msgstr "Más opciones de GpgEX"
 
-#: src/gpgex.cc:407
+#: src/gpgex.cc:409
 msgid "Invoke the GpgEX documentation."
 msgstr "Invocar la documentación de GpgEX."
 
-#: src/gpgex.cc:411
+#: src/gpgex.cc:413
 msgid "Decrypt and verify the marked files."
 msgstr "Descifrar y verificar los archivos marcados."
 
-#: src/gpgex.cc:415
+#: src/gpgex.cc:417
 msgid "Decrypt the marked files."
 msgstr "Descifrar los archivos marcados."
 
-#: src/gpgex.cc:419
+#: src/gpgex.cc:421
 msgid "Verify the marked files."
 msgstr "Verificar los archivos marcados."
 
-#: src/gpgex.cc:423
+#: src/gpgex.cc:425
 msgid "Sign and encrypt the marked files."
 msgstr "Firmar y cifrar firmar los archivos marcados."
 
-#: src/gpgex.cc:427
+#: src/gpgex.cc:429
 msgid "Encrypt the marked files."
 msgstr "Cifrar los archivos marcados."
 
-#: src/gpgex.cc:431
+#: src/gpgex.cc:433
 msgid "Sign the marked files."
 msgstr "Firmar los archivos marcados."
 
-#: src/gpgex.cc:435
+#: src/gpgex.cc:437
 msgid "Import the marked files."
 msgstr "Importar los archivos marcados."
 
-#: src/gpgex.cc:439
+#: src/gpgex.cc:441
 msgid "Create checksums."
 msgstr "Crear sumas de comprobación."
 
-#: src/gpgex.cc:443
+#: src/gpgex.cc:445
 msgid "Verify checksums."
 msgstr "Verificar sumas de comprobación."
 
-#: src/gpgex.cc:447
+#: src/gpgex.cc:449
 msgid "Show more GpgEX options."
 msgstr "Mostrar más opciones de GpgEX."

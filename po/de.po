@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpgex 0.0.0-svn10\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2009-03-24 20:00+0100\n"
+"POT-Creation-Date: 2010-07-21 10:07+0200\n"
 "PO-Revision-Date: 2009-01-22 16:11+0100\n"
 "Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
 "Language-Team: German\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/client.cc:350
+#: src/client.cc:357
 #, c-format
 msgid ""
 "Can not access Kleopatra:\r\n"
@@ -65,50 +65,50 @@ msgstr "Prüfsummen erstellen"
 msgid "Verify checksums"
 msgstr "Prüfsummen überprüfen"
 
-#: src/gpgex.cc:311
+#: src/gpgex.cc:313
 msgid "More GpgEX options"
 msgstr "Mehr GpgEX Optionen"
 
-#: src/gpgex.cc:407
+#: src/gpgex.cc:409
 msgid "Invoke the GpgEX documentation."
 msgstr "Öffne die Dokumentation zu GpgEX"
 
-#: src/gpgex.cc:411
+#: src/gpgex.cc:413
 msgid "Decrypt and verify the marked files."
 msgstr "Die markierten Dateien entschlüsseln und prüfen."
 
-#: src/gpgex.cc:415
+#: src/gpgex.cc:417
 msgid "Decrypt the marked files."
 msgstr "Die markierten Dateien entschlüsseln."
 
-#: src/gpgex.cc:419
+#: src/gpgex.cc:421
 msgid "Verify the marked files."
 msgstr "Die markierten Dateien prüfen."
 
-#: src/gpgex.cc:423
+#: src/gpgex.cc:425
 msgid "Sign and encrypt the marked files."
 msgstr "Die markierten Dateien signieren und verschlüsseln."
 
-#: src/gpgex.cc:427
+#: src/gpgex.cc:429
 msgid "Encrypt the marked files."
 msgstr "Die markierten Dateien verschlüsseln."
 
-#: src/gpgex.cc:431
+#: src/gpgex.cc:433
 msgid "Sign the marked files."
 msgstr "Die markierten Dateien signieren."
 
-#: src/gpgex.cc:435
+#: src/gpgex.cc:437
 msgid "Import the marked files."
 msgstr "Die markierten Dateien importieren."
 
-#: src/gpgex.cc:439
+#: src/gpgex.cc:441
 msgid "Create checksums."
 msgstr "Für die markierten Dateien Prüfsummen erstellen."
 
-#: src/gpgex.cc:443
+#: src/gpgex.cc:445
 msgid "Verify checksums."
 msgstr "Die Prüfsummen der markierten Dateien überprüfen."
 
-#: src/gpgex.cc:447
+#: src/gpgex.cc:449
 msgid "Show more GpgEX options."
 msgstr "Mehr GpgEX Optionen."
