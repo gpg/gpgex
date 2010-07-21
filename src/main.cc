@@ -210,6 +210,8 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
       gpgex_server::instance = hinst;
 
       /* Early initializations of our subsystems. */
+      gpg_err_init ();
+      
       i18n_init ();
 
       debug_init ();
@@ -238,6 +240,10 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 		     "reason=DLL_PROCESS_DETACH");
 
       debug_deinit ();
+      /* We are linking statically to libgpg-error which means there
+         is no DllMain in libgpg-error.  Thus we call the deinit
+         function to cleanly deinitialize libgpg-error.  */
+      gpg_err_deinit (0);
     }
   
   return TRUE;

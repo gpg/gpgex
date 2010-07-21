@@ -1,0 +1,118 @@
+# translation of GPGex.
+# Copyright (C) 2008 g10 Code GmbH
+# This file is distributed under the same license as the FIXME:GPGex package.
+# Diego Escalante Urrelo <diegoe@gnome.org>, 2008.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GpgEX\n"
+"Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
+"POT-Creation-Date: 2009-03-24 20:00+0100\n"
+"PO-Revision-Date: 2010-07-18 18:51-0000\n"
+"Last-Translator: Marco A.G.Pinto <marcoagpinto@mail.telepac.pt>\n"
+"Language-Team: Portuguese <marcoagpinto@mail.telepac.pt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: PORTUGAL\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+
+#: src/client.cc:350
+#, c-format
+msgid ""
+"Can not access Kleopatra:\r\n"
+"%s"
+msgstr ""
+"Não é possível aceder a Kleopatra:\r\n"
+"%s"
+
+#: src/gpgex.cc:58
+msgid "Help on GpgEX"
+msgstr "Ajuda de GpgEX"
+
+#: src/gpgex.cc:59
+msgid "Decrypt and verify"
+msgstr "Desencriptar e verificar"
+
+#: src/gpgex.cc:60
+msgid "Decrypt"
+msgstr "Desencriptar"
+
+#: src/gpgex.cc:61
+msgid "Verify"
+msgstr "Verificar"
+
+#: src/gpgex.cc:62
+msgid "Sign and encrypt"
+msgstr "Assinar e encriptar"
+
+#: src/gpgex.cc:63
+msgid "Encrypt"
+msgstr "Encriptar"
+
+#: src/gpgex.cc:64
+msgid "Sign"
+msgstr "Assinar"
+
+#: src/gpgex.cc:65
+msgid "Import keys"
+msgstr "Importar chaves"
+
+#: src/gpgex.cc:66
+msgid "Create checksums"
+msgstr "Criar checksums"
+
+#: src/gpgex.cc:67
+msgid "Verify checksums"
+msgstr "Verificar checksums"
+
+#: src/gpgex.cc:311
+msgid "More GpgEX options"
+msgstr "Mais opções do GpgEX"
+
+#: src/gpgex.cc:407
+msgid "Invoke the GpgEX documentation."
+msgstr "Invocar a documentação do GpgEX."
+
+#: src/gpgex.cc:411
+msgid "Decrypt and verify the marked files."
+msgstr "Desencriptar e verificar os ficheiros marcados."
+
+#: src/gpgex.cc:415
+msgid "Decrypt the marked files."
+msgstr "Desencriptar os ficheiros marcados."
+
+#: src/gpgex.cc:419
+msgid "Verify the marked files."
+msgstr "Verificar os ficheiros marcados."
+
+#: src/gpgex.cc:423
+msgid "Sign and encrypt the marked files."
+msgstr "Assinar e encriptar os ficheiros marcados."
+
+#: src/gpgex.cc:427
+msgid "Encrypt the marked files."
+msgstr "Encriptar os ficheiros marcados."
+
+#: src/gpgex.cc:431
+msgid "Sign the marked files."
+msgstr "Assinar os ficheiros marcados."
+
+#: src/gpgex.cc:435
+msgid "Import the marked files."
+msgstr "Importar os ficheiros marcados."
+
+#: src/gpgex.cc:439
+msgid "Create checksums."
+msgstr "Criar checksums."
+
+#: src/gpgex.cc:443
+msgid "Verify checksums."
+msgstr "Verificar checksums."
+
+#: src/gpgex.cc:447
+msgid "Show more GpgEX options."
+msgstr "Mostrar mais opções do GpgEX."
+
