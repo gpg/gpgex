@@ -1,0 +1,13 @@
+/Makefile.in
+/aclocal.m4
+/autom4te.cache/
+/config.h.in
+/configure
+/doc/Makefile.in
+/doc/gpgex.info
+/doc/mdate-sh
+/doc/stamp-vti
+/doc/version.texi
+/m4/Makefile.in
+/po/gpgex.pot
+/src/Makefile.in
