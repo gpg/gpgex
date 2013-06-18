@@ -8,15 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX FIXME:VERSION\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"POT-Creation-Date: 2010-07-21 10:07+0200\n"
 "PO-Revision-Date: 2008-03-15 08:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/client.cc:357
 #, c-format
 msgid ""
 "Can not access Kleopatra:\r\n"
@@ -25,90 +24,68 @@ msgstr ""
 "No se pudo acceder a Kleopatra:\r\n"
 "%s"
 
-#: src/gpgex.cc:58
 msgid "Help on GpgEX"
 msgstr "Ayuda de GpgEX"
 
-#: src/gpgex.cc:59
 msgid "Decrypt and verify"
 msgstr "Descifrar y verificar."
 
-#: src/gpgex.cc:60
 msgid "Decrypt"
 msgstr "Descifrar"
 
-#: src/gpgex.cc:61
 msgid "Verify"
 msgstr "Verificar"
 
-#: src/gpgex.cc:62
 msgid "Sign and encrypt"
 msgstr "Firmar y cifrar"
 
-#: src/gpgex.cc:63
 msgid "Encrypt"
 msgstr "Cifrar"
 
-#: src/gpgex.cc:64
 msgid "Sign"
 msgstr "Firmar"
 
-#: src/gpgex.cc:65
 msgid "Import keys"
 msgstr "Importar claves"
 
-#: src/gpgex.cc:66
 msgid "Create checksums"
 msgstr "Crear sumas de comprobación."
 
-#: src/gpgex.cc:67
 msgid "Verify checksums"
 msgstr "Verificar sumas de comprobación."
 
-#: src/gpgex.cc:313
 msgid "More GpgEX options"
 msgstr "Más opciones de GpgEX"
 
-#: src/gpgex.cc:409
 msgid "Invoke the GpgEX documentation."
 msgstr "Invocar la documentación de GpgEX."
 
-#: src/gpgex.cc:413
 msgid "Decrypt and verify the marked files."
 msgstr "Descifrar y verificar los archivos marcados."
 
-#: src/gpgex.cc:417
 msgid "Decrypt the marked files."
 msgstr "Descifrar los archivos marcados."
 
-#: src/gpgex.cc:421
 msgid "Verify the marked files."
 msgstr "Verificar los archivos marcados."
 
-#: src/gpgex.cc:425
 msgid "Sign and encrypt the marked files."
 msgstr "Firmar y cifrar firmar los archivos marcados."
 
-#: src/gpgex.cc:429
 msgid "Encrypt the marked files."
 msgstr "Cifrar los archivos marcados."
 
-#: src/gpgex.cc:433
 msgid "Sign the marked files."
 msgstr "Firmar los archivos marcados."
 
-#: src/gpgex.cc:437
 msgid "Import the marked files."
 msgstr "Importar los archivos marcados."
 
-#: src/gpgex.cc:441
 msgid "Create checksums."
 msgstr "Crear sumas de comprobación."
 
-#: src/gpgex.cc:445
 msgid "Verify checksums."
 msgstr "Verificar sumas de comprobación."
 
-#: src/gpgex.cc:449
 msgid "Show more GpgEX options."
 msgstr "Mostrar más opciones de GpgEX."
