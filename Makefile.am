@@ -1,6 +1,6 @@
 # Makefile.am - main makefile for GpgEX
 # Copyright (C) 2005 g10 Code GmbH
-# 
+#
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
 # modifications, as long as this notice is preserved.
@@ -13,8 +13,8 @@
 
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = no-dist-gzip dist-bzip2
-# Because we can only build the w32 version e need to help automake here a bit.
-DISTCHECK_CONFIGURE_FLAGS = --host=i586-mingw32msvc --build=i686-pc-linux-gnu \
+# Because we can only build the w32 version we need to help automake.
+DISTCHECK_CONFIGURE_FLAGS = --host=@host@ --build=@build@ \
 			    --with-libassuan-prefix=@prefix@ \
 			    --with-gpg-error-prefix=@prefix@ \
                             --prefix=@prefix@
