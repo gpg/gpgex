@@ -67,7 +67,7 @@ AC_SUBST(BUILD_FILEVERSION)
 AH_BOTTOM([
 /* Some global constants. */
 
-/* Force using of NLS for W32 even if no libintl has been found.  This is 
+/* Force using of NLS for W32 even if no libintl has been found.  This is
    okay because we have our own gettext implementation for W32.  */
 #if defined(HAVE_W32_SYSTEM) && !defined(ENABLE_NLS)
 #define ENABLE_NLS 1
@@ -100,11 +100,14 @@ AC_CHECK_TOOL(WINDRES, windres, :)
 
 have_dosish_system=no
 have_w32_system=no
+have_w64_system=no
 case "${host}" in
+    x86_64-*mingw32*)
+        have_dosish_system=yes
+        have_w32_system=yes
+        have_w64_system=yes
+        ;;
     *-mingw32*)
-        # special stuff for Windoze NT
-        AC_DEFINE(HAVE_DRIVE_LETTERS,1,
-                  [defined if we must run on a stupid file system])
         have_dosish_system=yes
         have_w32_system=yes
         ;;
@@ -113,10 +116,15 @@ case "${host}" in
 ***
 *** This software my only be build for W32 systems.  Use
 ***     ./autogen.sh --build-w32
+*** or
+***     ./autogen.sh --build-w64
 *** to prepare it for such a build.
 ***]])
        ;;
 esac
+
+AC_DEFINE(HAVE_DRIVE_LETTERS,1,
+          [defined if we must run on a stupid file system])
 
 if test "$have_dosish_system" = yes; then
    AC_DEFINE(HAVE_DOSISH_SYSTEM,1,
@@ -128,9 +136,13 @@ AM_CONDITIONAL(HAVE_DOSISH_SYSTEM, test "$have_dosish_system" = yes)
 
 if test "$have_w32_system" = yes; then
    AC_DEFINE(HAVE_W32_SYSTEM,1, [Defined if we run on a W32 API based system])
+   if test "$have_w64_system" = yes; then
+      AC_DEFINE(HAVE_W64_SYSTEM,1,
+                [Defined if we run on a 64 bit W32 API based system])
+   fi
 fi
 AM_CONDITIONAL(HAVE_W32_SYSTEM, test "$have_w32_system" = yes)
-
+AM_CONDITIONAL(HAVE_W64_SYSTEM, test "$have_w64_system" = yes)
 
 
 #
@@ -210,10 +222,10 @@ die=no
 if test "$have_gpg_error" = "no"; then
    die=yes
    AC_MSG_NOTICE([[
-***  
+***
 *** You need libgpg-error to build this program.
 **  This library is for example available at
-***   ftp://ftp.gnupg.org/pub/gcrypt/libgpg-error
+***   ftp://ftp.gnupg.org/gcrypt/libgpg-error
 *** (at least version $NEED_GPG_ERROR_VERSION is required.)
 ***]])
 fi
@@ -223,7 +235,7 @@ if test "$have_libassuan" = "no"; then
 ***
 *** You need libassuan to build this program.
 *** This library is for example available at
-***   ftp://ftp.gnupg.org/pub/gcrypt/libassuan/
+***   ftp://ftp.gnupg.org/gcrypt/libassuan/
 *** (at least version $NEED_LIBASSUAN_VERSION is required).
 ***]])
 fi
@@ -239,7 +251,7 @@ fi
 AC_CONFIG_FILES([ Makefile
 doc/Makefile
 src/Makefile
-src/versioninfo.rc        
+src/versioninfo.rc
 po/Makefile.in
 m4/Makefile
 ])

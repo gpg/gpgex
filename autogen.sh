@@ -1,5 +1,5 @@
 #! /bin/sh
-# Run this to generate all the initial makefiles, etc. 
+# Run this to generate all the initial makefiles, etc.
 #
 # Copyright (C) 2003 g10 Code GmbH
 #
@@ -28,16 +28,6 @@ check_version () {
     return 1
 }
 
-# Allow to override the default tool names
-AUTOCONF=${AUTOCONF_PREFIX}${AUTOCONF:-autoconf}${AUTOCONF_SUFFIX}
-AUTOHEADER=${AUTOCONF_PREFIX}${AUTOHEADER:-autoheader}${AUTOCONF_SUFFIX}
-
-AUTOMAKE=${AUTOMAKE_PREFIX}${AUTOMAKE:-automake}${AUTOMAKE_SUFFIX}
-ACLOCAL=${AUTOMAKE_PREFIX}${ACLOCAL:-aclocal}${AUTOMAKE_SUFFIX}
-
-GETTEXT=${GETTEXT_PREFIX}${GETTEXT:-gettext}${GETTEXT_SUFFIX}
-MSGMERGE=${GETTEXT_PREFIX}${MSGMERGE:-msgmerge}${GETTEXT_SUFFIX}
-
 DIE=no
 FORCE=
 if test x"$1" = x"--force"; then
@@ -45,9 +35,45 @@ if test x"$1" = x"--force"; then
   shift
 fi
 
+# Begin list of optional variables sourced from ~/.gnupg-autogen.rc
+w32_toolprefixes=
+w32_extraoptions=
+w64_toolprefixes=
+w64_extraoptions=
+# End list of optional variables sourced from ~/.gnupg-autogen.rc
+# What follows are variables which are sourced but default to
+# environment variables or lacking them hardcoded values.
+#w32root=
+#w64root=
+
+if [ -f "$HOME/.gnupg-autogen.rc" ]; then
+    echo "sourcing extra definitions from $HOME/.gnupg-autogen.rc"
+    . "$HOME/.gnupg-autogen.rc"
+fi
+
+# Convenience option to use certain configure options for some hosts.
+myhost=""
+myhostsub=""
+case "$1" in
+    --build-w32)
+        myhost="w32"
+        ;;
+    --build-w64)
+        myhost="w32"
+        myhostsub="64"
+        ;;
+    --build*)
+        echo "**Error**: invalid build option $1" >&2
+        exit 1
+        ;;
+    *)
+        ;;
+esac
+
+
 # ***** W32 build script *******
 # Used to cross-compile for Windows.
-if test "$1" = "--build-w32"; then
+if [ "$myhost" = "w32" ]; then
     tmp=`dirname $0`
     tsdir=`cd "$tmp"; pwd`
     shift
@@ -57,30 +83,38 @@ if test "$1" = "--build-w32"; then
     fi
     build=`$tsdir/config.guess`
 
-    [ -z "$w32root" ] && w32root="$HOME/w32root"
+    case $myhostsub in
+        64)
+          w32root="$w64root"
+          [ -z "$w32root" ] && w32root="$HOME/w64root"
+          toolprefixes="$w64_toolprefixes x86_64-w64-mingw32"
+          ;;
+        *)
+          [ -z "$w32root" ] && w32root="$HOME/w32root"
+          toolprefixes="$w32_toolprefixes i586-mingw32msvc"
+          toolprefixes="$toolprefixes i386-mingw32msvc mingw32"
+          ;;
+    esac
     echo "Using $w32root as standard install directory" >&2
-    
-    # See whether we have the Debian cross compiler package or the
-    # old mingw32/cpd system
-    if i586-mingw32msvc-gcc --version >/dev/null 2>&1 ; then
-        host=i586-mingw32msvc
-        crossbindir=/usr/$host/bin
-    else
-       host=i386--mingw32
-       if ! mingw32 --version >/dev/null; then
-          echo "We need at least version 0.3 of MingW32/CPD" >&2
-          exit 1
-       fi
-       crossbindir=`mingw32 --install-dir`/bin
-       # Old autoconf version required us to setup the environment
-       # with the proper tool names.
-       CC=`mingw32 --get-path gcc`
-       CPP=`mingw32 --get-path cpp`
-       AR=`mingw32 --get-path ar`
-       RANLIB=`mingw32 --get-path ranlib`
-       export CC CPP AR RANLIB 
+
+    crossbindir=
+    for host in $toolprefixes; do
+        if ${host}-gcc --version >/dev/null 2>&1 ; then
+            crossbindir=/usr/${host}/bin
+            conf_CC="CC=${host}-gcc"
+            break;
+        fi
+    done
+    if [ -z "$crossbindir" ]; then
+        echo "Cross compiler kit not installed" >&2
+        if [ -z "$myhostsub" ]; then
+          echo "Under Debian GNU/Linux, you may install it using" >&2
+          echo "  apt-get install mingw32 mingw32-runtime mingw32-binutils" >&2
+        fi
+        echo "Stop." >&2
+        exit 1
     fi
-   
+
     if [ -f "$tsdir/config.log" ]; then
         if ! head $tsdir/config.log | grep "$host" >/dev/null; then
             echo "Pease run a 'make distclean' first" >&2
@@ -88,10 +122,10 @@ if test "$1" = "--build-w32"; then
         fi
     fi
 
-    ./configure --enable-maintainer-mode --prefix=${w32root}  \
-             --host=i586-mingw32msvc --build=${build} \
+    $tsdir/configure --enable-maintainer-mode --prefix=${w32root}  \
+             --host=${host} --build=${build} \
              --with-gpg-error-prefix=${w32root} \
-	     --with-libassuan-prefix=${w32root} 
+	     --with-libassuan-prefix=${w32root}
     rc=$?
 
     exit $rc
@@ -102,19 +136,19 @@ fi
 
 
 # Grep the required versions from configure.ac
-autoconf_vers=`sed -n '/^AC_PREREQ(/ { 
+autoconf_vers=`sed -n '/^AC_PREREQ(/ {
 s/^.*(\(.*\))/\1/p
 q
 }' ${configure_ac}`
 autoconf_vers_num=`echo "$autoconf_vers" | cvtver`
 
-automake_vers=`sed -n '/^min_automake_version=/ { 
+automake_vers=`sed -n '/^min_automake_version=/ {
 s/^.*="\(.*\)"/\1/p
 q
 }' ${configure_ac}`
 automake_vers_num=`echo "$automake_vers" | cvtver`
 
-gettext_vers=`sed -n '/^AM_GNU_GETTEXT_VERSION(/ { 
+gettext_vers=`sed -n '/^AM_GNU_GETTEXT_VERSION(/ {
 s/^.*(\(.*\))/\1/p
 q
 }' ${configure_ac}`
@@ -127,6 +161,16 @@ then
   echo "**Error**: version information not found in "\`${configure_ac}\'"." >&2
   exit 1
 fi
+
+# Allow to override the default tool names
+AUTOCONF=${AUTOCONF_PREFIX}${AUTOCONF:-autoconf}${AUTOCONF_SUFFIX}
+AUTOHEADER=${AUTOCONF_PREFIX}${AUTOHEADER:-autoheader}${AUTOCONF_SUFFIX}
+
+AUTOMAKE=${AUTOMAKE_PREFIX}${AUTOMAKE:-automake}${AUTOMAKE_SUFFIX}
+ACLOCAL=${AUTOMAKE_PREFIX}${ACLOCAL:-aclocal}${AUTOMAKE_SUFFIX}
+
+GETTEXT=${GETTEXT_PREFIX}${GETTEXT:-gettext}${GETTEXT_SUFFIX}
+MSGMERGE=${GETTEXT_PREFIX}${MSGMERGE:-msgmerge}${GETTEXT_SUFFIX}
 
 
 if check_version $AUTOCONF $autoconf_vers_num $autoconf_vers ; then
@@ -142,11 +186,40 @@ fi
 if test "$DIE" = "yes"; then
     cat <<EOF
 
-Note that you may use alternative versions of the tools by setting 
+Note that you may use alternative versions of the tools by setting
 the corresponding environment variables; see README.SVN for details.
-                   
+
 EOF
     exit 1
+fi
+
+# Check the git setup.
+if [ -d .git ]; then
+  if [ -f .git/hooks/pre-commit.sample -a ! -f .git/hooks/pre-commit ] ; then
+    cat <<EOF >&2
+*** Activating trailing whitespace git pre-commit hook. ***
+    For more information see this thread:
+      http://mail.gnome.org/archives/desktop-devel-list/2009-May/msg00084html
+    To deactivate this pre-commit hook again move .git/hooks/pre-commit
+    and .git/hooks/pre-commit.sample out of the way.
+EOF
+      cp .git/hooks/pre-commit.sample .git/hooks/pre-commit
+      chmod +x  .git/hooks/pre-commit
+  fi
+  tmp=$(git config --get filter.cleanpo.clean)
+  if [ "$tmp" != "awk '/^\"POT-Creation-Date:/&&!s{s=1;next};!/^#: /{print}'" ]
+  then
+    echo "*** Adding GIT filter.cleanpo.clean configuration." >&2
+    git config --add filter.cleanpo.clean \
+        "awk '/^\"POT-Creation-Date:/&&!s{s=1;next};!/^#: /{print}'"
+  fi
+  if [ -f build-aux/git-hooks/commit-msg -a ! -f .git/hooks/commit-msg ] ; then
+    cat <<EOF >&2
+*** Activating commit log message check hook. ***
+EOF
+      cp build-aux/git-hooks/commit-msg .git/hooks/commit-msg
+      chmod +x  .git/hooks/commit-msg
+  fi
 fi
 
 
@@ -159,4 +232,8 @@ $AUTOMAKE --gnu --add-missing
 echo "Running autoconf${FORCE} ..."
 $AUTOCONF${FORCE}
 
-echo "You may now run \"./configure --enable-maintainer-mode && make\"."
+echo "You may now run:
+  ./autogen.sh --build-w32 && make
+or
+  ./autogen.sh --build-w64 && make
+"
