@@ -119,7 +119,7 @@ void _gpgex_debug (unsigned int flags, const char *format, ...);
 
 #define TRACE(lvl, name, tag)						\
   (_gpgex_debug (lvl, "%s (%s=0x%x): call\n",				\
-		 name, STRINGIFY (tag), (void *) tag), 0)
+		 name, STRINGIFY (tag), (void *)(uintptr_t)tag), 0)
 #define TRACE0(lvl, name, tag, fmt)					\
   (_gpgex_debug (lvl, "%s (%s=0x%x): call: " fmt "\n",			\
 		 name, STRINGIFY (tag), (void *) tag), 0)
