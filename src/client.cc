@@ -29,6 +29,7 @@
 using std::vector;
 using std::string;
 
+#include <winsock2.h>
 #include <windows.h>
 
 #include <assuan.h>
