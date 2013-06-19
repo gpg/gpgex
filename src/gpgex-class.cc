@@ -43,7 +43,6 @@ CLSID CLSID_gpgex = CLSID_GPGEX;
 void
 gpgex_class::init (void)
 {
-  DWORD result;
   char key[MAX_PATH];
   char value[MAX_PATH];
   HKEY key_handle = 0;
@@ -61,7 +60,7 @@ gpgex_class::init (void)
   /* The InprocServer32 key holds the path to the server component.  */
   strcpy (key, "CLSID\\{" CLSID_GPGEX_STR "}\\InprocServer32");
   RegCreateKey (HKEY_CLASSES_ROOT, key, &key_handle);
-  result = GetModuleFileName (gpgex_server::instance, value, MAX_PATH);
+  GetModuleFileName (gpgex_server::instance, value, MAX_PATH);
   RegSetValueEx (key_handle, 0, 0, REG_SZ, (BYTE *) value, strlen (value) + 1);
   /* We also need a threading model.  */
   strcpy (key, "ThreadingModel");

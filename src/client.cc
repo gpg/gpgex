@@ -75,15 +75,16 @@ default_uiserver_cmdline (void)
 				      "Install Directory");
       if (dir)
 	{
-	  char *uiserver = NULL;
-	  int uiserver_malloced = 1;
+	  char *uiserver_buffer = NULL;
+          const char *uiserver;
 
-	  uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
-	  if (! uiserver)
+	  uiserver_buffer = read_w32_registry_string (NULL,
+                                                      REGKEY, "UI Server");
+	  if (uiserver_buffer)
+            uiserver = uiserver_buffer;
+          else
 	    {
 	      string fname;
-
-	      uiserver_malloced = 0;
 
 	      try { fname = ((string) dir) + "\\"
 		  + "kleopatra.exe"; } catch (...) {}
@@ -98,8 +99,7 @@ default_uiserver_cmdline (void)
 
 	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
 
-	  if (uiserver_malloced)
-	    free (uiserver);
+          free (uiserver_buffer);
 	  free ((void *) dir);
 	}
     }
