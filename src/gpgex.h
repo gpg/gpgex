@@ -106,8 +106,7 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
       (void) TRACE_SUC ();
     }
 
-  /* The "virtual" fixes a compile time warning.  */
-  virtual ~gpgex_t (void)
+  ~gpgex_t (void)
     {
       TRACE_BEG (DEBUG_INIT, "gpgex_t::~gpgex_t", this);
 
