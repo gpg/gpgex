@@ -2,17 +2,17 @@
    Copyright (C) 2007 g10 Code GmbH
 
    This file is part of GpgEX.
- 
+
    GpgEX is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    GpgEX is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -67,6 +67,6 @@ class gpgex_server
 #define GUID_FMT "{%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX}"
 #define GUID_ARG(x) (x).Data1, (x).Data2, (x).Data3, (x).Data4[0], \
     (x).Data4[1], (x).Data4[2], (x).Data4[3], (x).Data4[4],	   \
-    (x).Data4[5], (x).Data4[6], (x).Data4[7] 
+    (x).Data4[5], (x).Data4[6], (x).Data4[7]
 
 #endif

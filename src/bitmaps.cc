@@ -1,18 +1,18 @@
 /* bitmaps.cc - gpgex bitmap implementation
    Copyright (C) 2007 g10 Code GmbH
-   
+
    This file is part of GpgEX.
- 
+
    GpgEX is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    GpgEX is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -54,7 +54,7 @@ gpgex_bitmaps_t::gpgex_bitmaps_t (void)
      automatically.  */
   int width = GetSystemMetrics (SM_CXMENUCHECK);
   int height = GetSystemMetrics (SM_CYMENUCHECK);
-  
+
   /* All our images are square, so take the minimum and look for the
      biggest available size that fits in there.  */
   int max_size = (width < height) ? width : height;
@@ -65,7 +65,7 @@ gpgex_bitmaps_t::gpgex_bitmaps_t (void)
       this->size = this->available_sizes[i];
     else
       break;
-  
+
   (void) TRACE3 (DEBUG_INIT, "gpgex_bitmaps_t::gpgex_bitmaps_t", this,
 		 "GetSystemMetrics: %ix%i (using %i)", width, height,
 		 this->size);
@@ -87,7 +87,7 @@ HBITMAP gpgex_bitmaps_t::load_bitmap (string name)
   else
     (void) TRACE1 (DEBUG_INIT, "gpgex_bitmaps_t::load_bitmap", this,
 		   "loaded image %s", out.str().c_str());
-    
+
   /* FIXME: Create cache of images.  */
   return bmap;
 }

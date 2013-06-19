@@ -2,17 +2,17 @@
    Copyright (C) 2007 g10 Code GmbH
 
    This file is part of GpgEX.
- 
+
    GpgEX is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    GpgEX is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -33,7 +33,7 @@ using std::string;
 #include "bitmaps.h"
 
 /* Our shell extension interface.  We use multiple inheritance to
-   achieve polymorphy.  
+   achieve polymorphy.
 
    NOTE 1: By this we save some effort, but we can only provide one
    implementation for each virtual function signature.  The overlap in
@@ -84,7 +84,7 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
 
   /* Support for IShellExtInit.  */
   vector<string> filenames;
-  
+
   /* TRUE if all files in filenames are directly related to GPG.  */
   BOOL all_files_gpg;
 
@@ -128,7 +128,7 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
   STDMETHODIMP_(ULONG) Release (void);
 
   /* IShellExtInit methods.  */
-  STDMETHODIMP Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj, 
+  STDMETHODIMP Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 			   HKEY hRegKey);
 
   /* IContextMenu methods.  */

@@ -1,18 +1,18 @@
 /* client.cc - gpgex assuan client implementation
    Copyright (C) 2007, 2008 g10 Code GmbH
-   
+
    This file is part of GpgEX.
- 
+
    GpgEX is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    GpgEX is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -48,7 +48,7 @@ default_socket_name (void)
   if (name.size () == 0)
     {
       char *dir = NULL;
-      
+
       dir = default_homedir ();
       if (dir)
 	{
@@ -76,14 +76,14 @@ default_uiserver_cmdline (void)
 	{
 	  char *uiserver = NULL;
 	  int uiserver_malloced = 1;
-	  
+
 	  uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
 	  if (! uiserver)
 	    {
 	      string fname;
 
 	      uiserver_malloced = 0;
-	      
+
 	      try { fname = ((string) dir) + "\\"
 		  + "kleopatra.exe"; } catch (...) {}
 
@@ -181,7 +181,7 @@ send_one_option (assuan_context_t ctx, const char *name, const char *value)
 
   if (! value || ! *value)
     err = 0;  /* Avoid sending empty strings.  */
-  else 
+  else
     {
       snprintf (buffer, sizeof (buffer), "OPTION %s=%s", name, value);
       err = assuan_transact (ctx, buffer, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -307,7 +307,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
   int rc = 0;
   assuan_context_t ctx = NULL;
   string msg;
-  
+
   TRACE_BEG2 (DEBUG_ASSUAN, "client_t::call_assuan", this,
 	      "%s on %u files", cmd, filenames.size ());
 
@@ -321,15 +321,15 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
       for (unsigned int i = 0; i < filenames.size (); i++)
 	{
 	  msg = "FILE " + escape (filenames[i]);
-	  
+
 	  (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
-	  
+
 	  rc = assuan_transact (ctx, msg.c_str (),
 				NULL, NULL, NULL, NULL, NULL, NULL);
 	  if (rc)
 	    goto leave;
 	}
-      
+
       /* Set the --nohup option, so that the operation continues and
 	 completes in the background.  */
       msg = ((string) cmd) + " --nohup";
@@ -345,7 +345,7 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
     {
       rc = gpg_error (GPG_ERR_GENERAL);
     }
-  
+
   /* Fall-through.  */
  leave:
   TRACE_GPGERR (rc);

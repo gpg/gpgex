@@ -1,18 +1,18 @@
 /* gpgex.cc - gpgex implementation
    Copyright (C) 2007 g10 Code GmbH
-   
+
    This file is part of GpgEX.
- 
+
    GpgEX is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
    version 2 of the License, or (at your option) any later version.
- 
+
    GpgEX is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -148,7 +148,7 @@ gpgex_t::Release (void)
 /* IShellExtInit methods.  */
 
 STDMETHODIMP
-gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj, 
+gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 		     HKEY hRegKey)
 {
   HRESULT err = S_OK;
@@ -165,7 +165,7 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
   try
     {
       if (pDataObj)
-	{ 
+	{
 	  /* The data object contains a drop item which we extract.  */
 	  FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
 	  STGMEDIUM medium;
@@ -175,7 +175,7 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 	    {
 	      HDROP drop = (HDROP) GlobalLock (medium.hGlobal);
 	      unsigned int i;
-	      
+
 	      /* Now that we have the drop item, we can extract the
 		 file names.  */
 	      count = DragQueryFile (drop, (UINT) -1, NULL, 0);
@@ -209,7 +209,7 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 			      || ! strcasecmp (ending, "p7s")
                               )
 			    gpg = true;
-			      
+
 			  if (gpg == false)
 			    this->all_files_gpg = FALSE;
 			}
@@ -277,7 +277,7 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
   res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
-  
+
   /* First we add the file-specific menus.  */
   if (this->all_files_gpg)
     {
@@ -535,7 +535,7 @@ start_help (HWND hwnd)
       }
     url[URLSIZE - 1] = '\0';
   }
-  
+
   BSTR burl = SysAllocString ((const OLECHAR *) url);
   VARIANT vars[4];
   memset (vars, 0, sizeof (vars));
@@ -563,7 +563,7 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
      and bail out.  */
   if (HIWORD (lpcmi->lpVerb) != 0)
     return TRACE_RES (E_INVALIDARG);
- 
+
   client_t client (lpcmi->hwnd);
 
   /* Get the command index, which is the offset to IDCMDFIRST of
