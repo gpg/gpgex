@@ -44,7 +44,7 @@ gpg_error_t
 gpgex_spawn_detached (const char *cmdline)
 {
   SECURITY_ATTRIBUTES sec_attr;
-  PROCESS_INFORMATION pi = 
+  PROCESS_INFORMATION pi =
     {
       NULL,      /* Returns process handle.  */
       0,         /* Returns primary thread handle.  */
@@ -61,7 +61,7 @@ gpgex_spawn_detached (const char *cmdline)
   memset (&sec_attr, 0, sizeof sec_attr);
   sec_attr.nLength = sizeof sec_attr;
   sec_attr.bInheritHandle = FALSE;
-  
+
   /* Start the process.  Note that we can't run the PREEXEC function
      because this would change our own environment. */
   memset (&si, 0, sizeof si);
@@ -89,9 +89,9 @@ gpgex_spawn_detached (const char *cmdline)
       (void) TRACE_LOG1 ("CreateProcess failed: %i\n", GetLastError ());
       return gpg_error (GPG_ERR_GENERAL);
     }
-  
+
   /* Process has been created suspended; resume it now. */
-  CloseHandle (pi.hThread); 
+  CloseHandle (pi.hThread);
   CloseHandle (pi.hProcess);
 
   return 0;

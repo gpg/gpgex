@@ -5,9 +5,9 @@
 
    GpgEX is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public License
-   as published by the Free Software Foundation; either version 2.1 
+   as published by the Free Software Foundation; either version 2.1
    of the License, or (at your option) any later version.
-  
+
    GpgEX is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
@@ -203,7 +203,7 @@ standard_homedir (void)
   if (!dir)
     {
       char path[MAX_PATH];
-      
+
       /* It might be better to use LOCAL_APPDATA because this is
          defined as "non roaming" and thus more likely to be kept
          locally.  For private keys this is desired.  However, given
@@ -211,8 +211,8 @@ standard_homedir (void)
          using a system roaming services might be better than to let
          them do it manually.  A security conscious user will anyway
          use the registry entry to have better control.  */
-      if (w32_shgetfolderpath (NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, 
-                               NULL, 0, path) >= 0) 
+      if (w32_shgetfolderpath (NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,
+                               NULL, 0, path) >= 0)
         {
           char *tmp = malloc (strlen (path) + 6 + 1);
 
@@ -223,7 +223,7 @@ standard_homedir (void)
 	  strcat (tmp, "\\gnupg");
 
           dir = tmp;
-          
+
           /* Try to create the directory if it does not yet exists.  */
           if (access (dir, F_OK))
             CreateDirectory (dir, NULL);
@@ -245,7 +245,7 @@ default_homedir (void)
   if (!dir || !*dir)
     {
       static char *saved_dir;
-      
+
       if (!saved_dir)
         {
           if (!dir || !*dir)
@@ -262,7 +262,7 @@ default_homedir (void)
               if (tmp)
                 saved_dir = tmp;
             }
-          
+
           if (!saved_dir)
             saved_dir = standard_homedir ();
         }
