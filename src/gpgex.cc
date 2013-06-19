@@ -466,7 +466,7 @@ gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
 }
 
 
-static char *
+static const char *
 get_lang_name (void)
 {
   LANGID lang;
