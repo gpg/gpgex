@@ -387,7 +387,7 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
    to return a wide character string.  */
 
 STDMETHODIMP
-gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
+gpgex_t::GetCommandString (UINT_PTR idCommand, UINT uFlags, LPUINT lpReserved,
 			   LPSTR pszName, UINT uMaxNameLen)
 {
   const char *txt;
@@ -395,7 +395,8 @@ gpgex_t::GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
   TRACE_BEG5 (DEBUG_CONTEXT_MENU, "gpgex_t::GetCommandString", this,
 	      "idCommand=%u, uFlags=%x, lpReserved=%lu, pszName=%p, "
 	      "uMaxNameLen=%u",
-	      idCommand, uFlags, lpReserved, pszName, uMaxNameLen);
+	      (unsigned int)(idCommand & 0xffffffff),
+              uFlags, lpReserved, pszName, uMaxNameLen);
 
   if (! (uFlags & GCS_HELPTEXT))
     return TRACE_RES (E_INVALIDARG);

@@ -134,7 +134,8 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
   /* IContextMenu methods.  */
   STDMETHODIMP QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
 				 UINT idCmdLast, UINT uFlags);
-  STDMETHODIMP GetCommandString (UINT idCommand, UINT uFlags, LPUINT lpReserved,
+  STDMETHODIMP GetCommandString (UINT_PTR idCommand,
+                                 UINT uFlags, LPUINT lpReserved,
 				 LPSTR pszName, UINT uMaxNameLen);
   STDMETHODIMP InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi);
 
