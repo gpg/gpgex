@@ -231,8 +231,17 @@ send_options (assuan_context_t ctx, HWND hwnd, pid_t *r_pid)
 
   if (! rc && hwnd)
     {
-      snprintf (numbuf, sizeof (numbuf), "%lx", (unsigned long) hwnd);
-      rc = send_one_option (ctx, "window-id", numbuf);
+      /* We hope that HWND is limited to 32 bit.  If not a 32 bit
+         UI-server would not be able to do anything with this
+         window-id.  */
+      uintptr_t tmp = (uintptr_t)hwnd;
+
+      if (tmp & ~0xffffffff)
+        {
+          /* HWND fits into 32 bit - send it. */
+          snprintf (numbuf, sizeof (numbuf), "%lx", (unsigned long)tmp);
+          rc = send_one_option (ctx, "window-id", numbuf);
+        }
     }
 
   return TRACE_GPGERR (rc);
