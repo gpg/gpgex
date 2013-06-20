@@ -62,6 +62,8 @@ BUILD_FILEVERSION=`echo "$VERSION" | sed 's/\([0-9.]*\).*/\1./;s/\./,/g'`
 changequote([,])dnl
 BUILD_FILEVERSION="${BUILD_FILEVERSION}${SVN_REVISION}"
 AC_SUBST(BUILD_FILEVERSION)
+BUILD_FILEVERSION_DOT=`echo "$BUILD_FILEVERSION" | tr ',' '.'`
+AC_SUBST(BUILD_FILEVERSION_DOT)
 
 
 AH_BOTTOM([
@@ -106,10 +108,12 @@ case "${host}" in
         have_dosish_system=yes
         have_w32_system=yes
         have_w64_system=yes
+        BUILD_CPU_ARCH=amd64
         ;;
     *-mingw32*)
         have_dosish_system=yes
         have_w32_system=yes
+        BUILD_CPU_ARCH=x86
         ;;
     *)
     AC_MSG_ERROR([[
@@ -122,6 +126,10 @@ case "${host}" in
 ***]])
        ;;
 esac
+
+# We need the CPU architecture for the manifest file.
+AC_SUBST(BUILD_CPU_ARCH)
+
 
 AC_DEFINE(HAVE_DRIVE_LETTERS,1,
           [defined if we must run on a stupid file system])
@@ -252,6 +260,7 @@ AC_CONFIG_FILES([ Makefile
 doc/Makefile
 src/Makefile
 src/versioninfo.rc
+src/gpgex.manifest
 po/Makefile.in
 m4/Makefile
 ])

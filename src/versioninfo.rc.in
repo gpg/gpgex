@@ -1,6 +1,6 @@
-/* versioninfo.rc.in 
- *    Copyright (C) 2005, 2007, 2009 g10 Code GmbH
- * 
+/* versioninfo.rc.in                                         -*- c -*-
+ * Copyright (C) 2005, 2007, 2009, 2013 g10 Code GmbH
+ *
  * This file is free software; as a special exception the author gives
  * unlimited permission to copy and/or distribute it, with or without
  * modifications, as long as this notice is preserved.
@@ -9,7 +9,7 @@
  * WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
- 
+
 /* This file is processed by configure to create versioninfo.rc */
 
 #line __LINE__ "versioninfo.rc.in"
@@ -54,3 +54,17 @@ BEGIN
     END
 END
 
+/* Fixme: It was not possible to convince Windows to use the manifest.
+ * Thus we resort to static linking of gpgex with the helper
+ * libraries.  The idea was to put have this directory layout
+ *
+ *   bin/gpgex.dll
+ *   bin/GNU.GnuPG.Gcc64Support/GNU.GnuPG.Gcc64Support.manifest
+ *   bin/GNU.GnuPG.Gcc64Support/libstdc++-6.dll
+ *   bin/GNU.GnuPG.Gcc64Support/libgcc_s_sjlj-1.dll
+ *
+ * to cope with the 64 bit and 32 bit versions of the gcc support
+ * libraries.  It works with exe files but not with DLLs loaded.  Any
+ * hints to fix this are welcome.
+ */
+/* ISOLATIONAWARE_MANIFEST_RESOURCE_ID RT_MANIFEST "gpgex.manifest" */

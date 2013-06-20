@@ -1,5 +1,5 @@
 # Makefile.am - main makefile for dialogs part of GpgEX
-# Copyright (C) 2005, 2007 g10 Code GmbH
+# Copyright (C) 2005, 2007, 2013 g10 Code GmbH
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -12,7 +12,8 @@
 ## Process this file with automake to produce Makefile.in
 
 bin_PROGRAMS = gpgex
-EXTRA_DIST = versioninfo.rc.in
+EXTRA_DIST = versioninfo.rc.in gpgex.manifest.in \
+	     GNU.GnuPG.Gcc64Support.manifest
 EXEEXT = .dll
 
 AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
@@ -23,7 +24,7 @@ ICON_SIZES = 12 16
 ICONS = $(addprefix icon-, \
 	$(foreach size,$(ICON_SIZES),$(addsuffix -$(size).bmp, $(ICON_NAMES))))
 
-nodist_gpgex_SOURCES = versioninfo.rc
+nodist_gpgex_SOURCES = versioninfo.rc gpgex.manifest
 gpgex_SOURCES = 				\
 	gpgex.def				\
 	icons.rc 				\
@@ -50,6 +51,7 @@ clean-local:
 #gpgex_LDADD = $(srcdir)/gpgex.def		\
 #	-L . -lshell32  -lcomdlg32 -ladvapi32
 
+gpgex_LDFLAGS = -static-libgcc -static-libstdc++
 # We need -loleaut32 for start_help() in gpgex.cc.
 gpgex_LDADD = $(srcdir)/gpgex.def -L . \
 	-lshell32 -lgdi32 -lole32 -luuid \

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity
+    type="win32"
+    name="gpgex"
+    version="@BUILD_FILEVERSION_DOT@"
+    processorArchitecture="@BUILD_CPU_ARCH@"
+  />
+  <description>GpgEX - GnuPG shell extensions</description>
+  <dependency>
+    <dependentAssembly>
+       <assemblyIdentity
+           type="win32"
+           name="GNU.GnuPG.Gcc64Support"
+           version="6.0.0.0"
+           processorArchitecture="@BUILD_CPU_ARCH@"/>
+    </dependentAssembly>
+  </dependency>
+</assembly>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity
+    type="win32"
+    name="GNU.GnuPG.Gcc64Support"
+    version="6.0.0.0"
+    processorArchitecture="amd64"/>
+  <file name="libstdc++-6.dll"/>
+  <file name="libgcc_s_sjlj-1.dll"/>
+</assembly>
