@@ -16,43 +16,45 @@
 
 #include <afxres.h>
 
+1 ICON "./gnupg.ico"
 
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION @BUILD_FILEVERSION@
- PRODUCTVERSION @BUILD_FILEVERSION@
- FILEFLAGSMASK 0x3fL
+1 VERSIONINFO
+  FILEVERSION @BUILD_FILEVERSION@
+  PRODUCTVERSION @BUILD_FILEVERSION@
+  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
- FILEFLAGS 0x21L
+  FILEFLAGS      0x01L    /* VS_FF_DEBUG (0x1)*/
 #else
- FILEFLAGS 0x20L
+  FILEFLAGS      0x00L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
+  FILEOS         0x40004L /* VOS_NT (0x40000) | VOS__WINDOWS32 (0x4)  */
+  FILETYPE       0x2L     /* VFT_DLL (0x2)  */
+  FILESUBTYPE    0x0L     /* VFT2_UNKNOWN   */
+  BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "040904b0" /* US English (0409), Unicode (04b0) */
         BEGIN
-            VALUE "Comments", "This plugin is available under the terms of the GNU Lesser General Public License.\0"
-            VALUE "CompanyName", "g10 Code GmbH\0"
             VALUE "FileDescription", "GpgEX - GnuPG shell extensions\0"
-            VALUE "FileVersion", "@VERSION@\0"
             VALUE "InternalName", "gpgex\0"
-            VALUE "LegalCopyright", "Copyright © 2009 g10 Code GmbH\0"
-            VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "gpgex.dll\0"
-            VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "GpgEX\0"
             VALUE "ProductVersion", "@VERSION@\0"
-            VALUE "SpecialBuild", "@BUILD_TIMESTAMP@\0"
+            VALUE "CompanyName", "g10 Code GmbH\0"
+            VALUE "FileVersion", "@VERSION@\0"
+            VALUE "LegalCopyright", "Copyright \xa9 2013 g10 Code GmbH\r\n \
+This program is free software; you can redistribute it and/or modify it \
+under the terms of the GNU Lesser General Public License as published by \
+the Free Software Foundation; either version 2.1 of the License, \
+or (at your option) any later version.\0"
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
         VALUE "Translation", 0x409, 1200
     END
-END
+  END
+
 
 /* Fixme: It was not possible to convince Windows to use the manifest.
  * Thus we resort to static linking of gpgex with the helper
@@ -68,3 +70,12 @@ END
  * hints to fix this are welcome.
  */
 /* ISOLATIONAWARE_MANIFEST_RESOURCE_ID RT_MANIFEST "gpgex.manifest" */
+
+
+/*
+ * Our bitmaps.
+ */
+Key_12		BITMAP	"icon-key-12.bmp"
+Key_16		BITMAP	"icon-key-16.bmp"
+Lock_12		BITMAP	"icon-lock-12.bmp"
+Lock_16		BITMAP	"icon-lock-16.bmp"

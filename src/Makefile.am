@@ -19,15 +19,12 @@ EXEEXT = .dll
 AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 AM_CXXFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 
-ICON_NAMES = key lock
-ICON_SIZES = 12 16
-ICONS = $(addprefix icon-, \
-	$(foreach size,$(ICON_SIZES),$(addsuffix -$(size).bmp, $(ICON_NAMES))))
+ICONS = icon-key-12.bmp icon-key-16.bmp     \
+        icon-lock-12.bmp  icon-lock-16.bmp
 
 nodist_gpgex_SOURCES = versioninfo.rc gpgex.manifest
 gpgex_SOURCES = 				\
 	gpgex.def				\
-	icons.rc 				\
 	registry.h registry.c			\
 	exechelp.h exechelp.c			\
 	w32-gettext.c w32-gettext.h		\
@@ -40,10 +37,10 @@ gpgex_SOURCES = 				\
 	$(ICONS)
 
 libgpg-error.a:
-	ln -sf $(shell $(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a
+	ln -sf $$($(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a .
 
 libassuan.a:
-	ln -sf $(shell $(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a
+	ln -sf $$($(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a .
 
 clean-local:
 	rm -f libgpg-error.a libassuan.a
