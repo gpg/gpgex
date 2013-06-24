@@ -1,5 +1,5 @@
 # configure.ac - for GpgEX
-# Copyright (C) 2005, 2006, 2007 g10 Code GmbH
+# Copyright (C) 2005, 2006, 2007, 2013 g10 Code GmbH
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -10,29 +10,39 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.59)
-min_automake_version="1.9.4"
+AC_PREREQ(2.61)
+min_automake_version="1.10"
 
-# Remember to change the version number immediately *after* a release.
-# Set my_issvn to "yes" for non-released code.  Remember to run an
-# "svn up" and "autogen.sh" right before creating a distribution.
-m4_define([my_version], [0.9.7])
-m4_define([my_issvn], [no])
+# To build a release you need to create a tag with the version number
+# (git tag -s gnupg-2.n.m) and run "./autogen.sh --force".  Please
+# bump the version number immediately *after* the release and do
+# another commit and push so that the git magic is able to work.
+m4_define([mym4_version], [1.0.0])
 
-m4_define([svn_revision], m4_esyscmd([echo -n $( (svn info 2>/dev/null \
-            || echo 'Revision: 0')|sed -n '/^Revision:/ {s/[^0-9]//gp;q;}')]))
-AC_INIT([gpgex], my_version[]m4_if(my_issvn,[yes],[-svn[]svn_revision]),
-        [http://bugs.gnupg.org])
+# Below is m4 magic to extract and compute the git revision number,
+# the decimalized short revision number, a beta version string and a
+# flag indicating a development version (mym4_isgit).  Note that the
+# m4 processing is done by autoconf and not during the configure run.
+m4_define([mym4_revision],
+          m4_esyscmd([git rev-parse --short HEAD | tr -d '\n\r']))
+m4_define([mym4_revision_dec],
+          m4_esyscmd_s([echo $((0x$(echo ]mym4_revision[|head -c 4)))]))
+m4_define([mym4_betastring],
+          m4_esyscmd_s([git describe --match 'gpgex-[0-9].[0-9].*[0-9]' --long|\
+                        awk -F- '$3!=0{print"-beta"$3}']))
+m4_define([mym4_isgit],m4_if(mym4_betastring,[],[no],[yes]))
+m4_define([mym4_full_version],[mym4_version[]mym4_betastring])
 
-SVN_REVISION=svn_revision
-PACKAGE=$PACKAGE_NAME
-PACKAGE_GT=${PACKAGE_NAME}
-VERSION=$PACKAGE_VERSION
+AC_INIT([gpgex],[mym4_full_version], [http://bugs.gnupg.org])
 
 NEED_GPG_ERROR_VERSION=1.12
 
 NEED_LIBASSUAN_API=2
 NEED_LIBASSUAN_VERSION=2.1.1
+
+PACKAGE=$PACKAGE_NAME
+PACKAGE_GT=${PACKAGE_NAME}
+VERSION=$PACKAGE_VERSION
 
 AC_CONFIG_SRCDIR(src/gpgex.def)
 AM_CONFIG_HEADER(config.h)
@@ -53,17 +63,6 @@ AC_DEFINE_UNQUOTED(PACKAGE_GT, "$PACKAGE_GT",
 AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version of this package])
 AC_DEFINE_UNQUOTED(PACKAGE_BUGREPORT, "$PACKAGE_BUGREPORT",
                                         [Bug report address])
-
-
-BUILD_TIMESTAMP=`date --iso-8601=minutes`
-AC_SUBST(BUILD_TIMESTAMP)
-changequote(,)dnl
-BUILD_FILEVERSION=`echo "$VERSION" | sed 's/\([0-9.]*\).*/\1./;s/\./,/g'`
-changequote([,])dnl
-BUILD_FILEVERSION="${BUILD_FILEVERSION}${SVN_REVISION}"
-AC_SUBST(BUILD_FILEVERSION)
-BUILD_FILEVERSION_DOT=`echo "$BUILD_FILEVERSION" | tr ',' '.'`
-AC_SUBST(BUILD_FILEVERSION_DOT)
 
 
 AH_BOTTOM([
@@ -221,6 +220,31 @@ AH_BOTTOM([
 /* We don't want the old assuan codes anymore. */
 #define _ASSUAN_ONLY_GPG_ERRORS 1
 ])
+
+
+#
+# Provide information about the build.
+#
+BUILD_REVISION="mym4_revision"
+AC_SUBST(BUILD_REVISION)
+AC_DEFINE_UNQUOTED(BUILD_REVISION, "$BUILD_REVISION",
+                   [GIT commit id revision used to build this package])
+
+changequote(,)dnl
+BUILD_FILEVERSION=`echo "$VERSION" | sed 's/\([0-9.]*\).*/\1./;s/\./,/g'`
+changequote([,])dnl
+BUILD_FILEVERSION="${BUILD_FILEVERSION}mym4_revision_dec"
+AC_SUBST(BUILD_FILEVERSION)
+BUILD_FILEVERSION_DOT=`echo "$BUILD_FILEVERSION" | tr ',' '.'`
+AC_SUBST(BUILD_FILEVERSION_DOT)
+
+BUILD_TIMESTAMP=`date -u +%Y-%m-%dT%H:%M+0000 2>/dev/null || date`
+AC_SUBST(BUILD_TIMESTAMP)
+AC_DEFINE_UNQUOTED(BUILD_TIMESTAMP, "$BUILD_TIMESTAMP",
+                   [The time this package was configured for a build])
+BUILD_HOSTNAME="$ac_hostname"
+AC_SUBST(BUILD_HOSTNAME)
+
 
 #
 # Print errors here so that they are visible all

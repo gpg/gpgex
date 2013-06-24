@@ -13,7 +13,7 @@
 
 bin_PROGRAMS = gpgex
 EXTRA_DIST = versioninfo.rc.in gpgex.manifest.in \
-	     GNU.GnuPG.Gcc64Support.manifest
+	     GNU.GnuPG.Gcc64Support.manifest gnupg.ico
 EXEEXT = .dll
 
 AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
