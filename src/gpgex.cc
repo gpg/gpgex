@@ -53,9 +53,11 @@ using std::string;
 #define ID_CMD_CREATE_CHECKSUMS 8
 #define ID_CMD_VERIFY_CHECKSUMS 9
 #define ID_CMD_POPUP		10
-#define ID_CMD_MAX		10
+#define ID_CMD_ABOUT		11
+#define ID_CMD_MAX		11
 
 #define ID_CMD_STR_HELP			_("Help on GpgEX")
+#define ID_CMD_STR_ABOUT         	_("About GpgEX")
 #define ID_CMD_STR_DECRYPT_VERIFY	_("Decrypt and verify")
 #define ID_CMD_STR_DECRYPT		_("Decrypt")
 #define ID_CMD_STR_VERIFY		_("Verify")
@@ -369,6 +371,9 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_HELP, ID_CMD_STR_HELP);
+  if (res)
+    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
+		      idCmdFirst + ID_CMD_ABOUT, ID_CMD_STR_ABOUT);
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
@@ -408,6 +413,10 @@ gpgex_t::GetCommandString (UINT_PTR idCommand, UINT uFlags, LPUINT lpReserved,
     {
     case ID_CMD_HELP:
       txt = _("Invoke the GpgEX documentation.");
+      break;
+
+    case ID_CMD_ABOUT:
+      txt = _("Show the version of GpgEX.");
       break;
 
     case ID_CMD_DECRYPT_VERIFY:
@@ -554,6 +563,61 @@ start_help (HWND hwnd)
 }
 
 
+/* Show the version informatione etc.  */
+static void
+show_about (HWND hwnd)
+{
+  const char cpynotice[] = "Copyright (C) 2013 g10 Code GmbH";
+  const char en_notice[] =
+      "GpgEX is an Explorer plugin for data encryption and signing\n"
+      "It uses the GnuPG software (http://www.gnupg.org).\n"
+      "\n"
+      "GpgEX is free software; you can redistribute it and/or\n"
+      "modify it under the terms of the GNU Lesser General Public\n"
+      "License as published by the Free Software Foundation; either\n"
+      "version 2.1 of the License, or (at your option) any later version.\n"
+      "\n"
+      "GpgEX is distributed in the hope that it will be useful,\n"
+      "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+      "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+      "GNU Lesser General Public License for more details.\n"
+      "\n"
+      "You should have received a copy of the GNU Lesser General Public "
+      "License\n"
+      "along with this program; if not, see <http://www.gnu.org/licenses/>.";
+
+  /* TRANSLATORS: See the source for the full english text.  */
+  const char notice_key[] = N_("-#GpgEXFullHelpText#-");
+  const char *notice;
+  char header[300];
+  char *buffer;
+  size_t nbuffer;
+
+  snprintf (header, sizeof header, _("This is GpgEX version %s (%s)"),
+            PACKAGE_VERSION,
+#ifdef HAVE_W64_SYSTEM
+            "64 bit"
+#else
+            "32 bit"
+#endif
+            );
+  notice = _(notice_key);
+  if (!strcmp (notice, notice_key))
+    notice = en_notice;
+  nbuffer = strlen (header) + strlen (cpynotice) + strlen (notice) + 20;
+  buffer = (char*)malloc (nbuffer);
+  if (buffer)
+    {
+      snprintf (buffer, nbuffer, "%s\n%s\n\n%s\n",
+                header, cpynotice, notice);
+      MessageBox (hwnd, buffer, "GpgEx", MB_OK);
+      free (buffer);
+    }
+  else
+      MessageBox (hwnd, header, "GpgEx", MB_OK);
+}
+
+
 STDMETHODIMP
 gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
 {
@@ -573,6 +637,10 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
     {
     case ID_CMD_HELP:
       start_help (lpcmi->hwnd);
+      break;
+
+    case ID_CMD_ABOUT:
+      show_about (lpcmi->hwnd);
       break;
 
     case ID_CMD_DECRYPT_VERIFY:
