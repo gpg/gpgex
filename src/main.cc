@@ -1,5 +1,5 @@
 /* main.cc - DLL entry point
-   Copyright (C) 2007 g10 Code GmbH
+   Copyright (C) 2007, 2010, 2013 g10 Code GmbH
 
    This file is part of GpgEX.
 
@@ -13,9 +13,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
    General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public License
-   along with GpgEX; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA  */
+   You should have received a copy of the GNU Lesser General Public
+   License along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -49,31 +49,71 @@ LONG gpgex_server::refcount;
 static char *
 get_locale_dir (void)
 {
-  char *instdir;
-  char *p;
-  char *dname;
+  static wchar_t moddir[MAX_PATH+5];
+  char *result, *p;
+  int nbytes;
 
-  instdir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
-				      "Install Directory");
-  if (!instdir)
-    return NULL;
+  if (!GetModuleFileNameW (NULL, moddir, MAX_PATH))
+    *moddir = 0;
 
-  /* Build the key: "<instdir>/share/locale".  */
 #define SLDIR "\\share\\locale"
-  dname = static_cast<char *> (malloc (strlen (instdir) + strlen (SLDIR) + 1));
-  if (!dname)
+  if (*moddir)
     {
-      free (instdir);
-      return NULL;
+      nbytes = WideCharToMultiByte (CP_UTF8, 0, moddir, -1, NULL, 0, NULL, NULL);
+      if (nbytes < 0)
+        return NULL;
+
+      result = (char*)malloc (nbytes + strlen (SLDIR) + 1);
+      if (result)
+        {
+          nbytes = WideCharToMultiByte (CP_UTF8, 0, moddir, -1,
+                                        result, nbytes, NULL, NULL);
+          if (nbytes < 0)
+            {
+              free (result);
+              result = NULL;
+            }
+          else
+            {
+              p = strrchr (result, '\\');
+              if (p)
+                *p = 0;
+              /* If we are installed below "bin" strip that part and
+                 use the top directory instead.
+
+                 Background: Under Windows we don't install GnuPG
+                 below bin/ but in the top directory with only share/,
+                 lib/, and etc/ below it.  One of the reasons is to
+                 keep the the length of the filenames at bay so not to
+                 increase the limited length of the PATH envvar.
+                 Another and more important reason, however, is that
+                 the very first GPG versions on W32 were installed
+                 into a flat directory structure and for best
+                 compatibility with these versions we didn't changed
+                 that later.  For WindowsCE we can right away install
+                 it under bin, though.  The hack with detection of the
+                 bin directory part allows us to eventually migrate to
+                 such a directory layout under plain Windows without
+                 the need to change libgpg-error.  */
+              p = strrchr (result, '\\');
+              if (p && !strcmp (p+1, "bin"))
+                *p = 0;
+              /* Append the static part.  */
+              strcat (result, SLDIR);
+            }
+        }
     }
-  p = dname;
-  strcpy (p, instdir);
-  p += strlen (instdir);
-  strcpy (p, SLDIR);
-
-  free (instdir);
-
-  return dname;
+  else /* Use the old default value.  */
+    {
+      result = (char*)malloc (10 + strlen (SLDIR) + 1);
+      if (result)
+        {
+          strcpy (result, "c:\\gnupg");
+          strcat (result, SLDIR);
+        }
+    }
+#undef SLDIR
+  return result;
 }
 
 
@@ -88,15 +128,6 @@ static void
 i18n_init (void)
 {
   char *locale_dir;
-
-#ifdef ENABLE_NLS
-# ifdef HAVE_LC_MESSAGES
-  setlocale (LC_TIME, "");
-  setlocale (LC_MESSAGES, "");
-# else
-  setlocale (LC_ALL, "" );
-# endif
-#endif
 
   locale_dir = get_locale_dir ();
   if (locale_dir)

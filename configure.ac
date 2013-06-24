@@ -219,6 +219,9 @@ AM_PATH_LIBASSUAN("$NEED_LIBASSUAN_API:$NEED_LIBASSUAN_VERSION",
 AH_BOTTOM([
 /* We don't want the old assuan codes anymore. */
 #define _ASSUAN_ONLY_GPG_ERRORS 1
+/* We use the gettext code from libgpg-error.  */
+#define GPG_ERR_ENABLE_GETTEXT_MACROS
+
 ])
 
 

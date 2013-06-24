@@ -27,7 +27,6 @@ gpgex_SOURCES = 				\
 	gpgex.def				\
 	registry.h registry.c			\
 	exechelp.h exechelp.c			\
-	w32-gettext.c w32-gettext.h		\
 	gpgex-class.h gpgex-class.cc		\
 	gpgex-factory.h gpgex-factory.cc	\
 	bitmaps.h bitmaps.cc			\
