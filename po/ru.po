@@ -28,6 +28,9 @@ msgstr ""
 msgid "Help on GpgEX"
 msgstr "Помощь по GpgEX"
 
+msgid "About GpgEX"
+msgstr ""
+
 msgid "Decrypt and verify"
 msgstr "Расшифровать и проверить"
 
@@ -61,6 +64,9 @@ msgstr "Другие параметры GpgEX"
 msgid "Invoke the GpgEX documentation."
 msgstr "Открыть документацию GpgEX."
 
+msgid "Show the version of GpgEX."
+msgstr ""
+
 msgid "Decrypt and verify the marked files."
 msgstr "Расшифровать и проверить отмеченные файлы."
 
@@ -90,3 +96,11 @@ msgstr "Проверить контрольные суммы."
 
 msgid "Show more GpgEX options."
 msgstr "Другие параметры GpgEX."
+
+#. TRANSLATORS: See the source for the full english text.
+msgid "-#GpgEXFullHelpText#-"
+msgstr ""
+
+#, c-format
+msgid "This is GpgEX version %s (%s)"
+msgstr ""
