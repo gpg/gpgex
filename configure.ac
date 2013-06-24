@@ -22,17 +22,17 @@ m4_define([my_issvn], [no])
 m4_define([svn_revision], m4_esyscmd([echo -n $( (svn info 2>/dev/null \
             || echo 'Revision: 0')|sed -n '/^Revision:/ {s/[^0-9]//gp;q;}')]))
 AC_INIT([gpgex], my_version[]m4_if(my_issvn,[yes],[-svn[]svn_revision]),
-        [bug-gpgex@g10code.com])
+        [http://bugs.gnupg.org])
 
 SVN_REVISION=svn_revision
 PACKAGE=$PACKAGE_NAME
 PACKAGE_GT=${PACKAGE_NAME}
 VERSION=$PACKAGE_VERSION
 
-NEED_GPG_ERROR_VERSION=1.9
+NEED_GPG_ERROR_VERSION=1.12
 
 NEED_LIBASSUAN_API=2
-NEED_LIBASSUAN_VERSION=2.0.0
+NEED_LIBASSUAN_VERSION=2.1.1
 
 AC_CONFIG_SRCDIR(src/gpgex.def)
 AM_CONFIG_HEADER(config.h)
