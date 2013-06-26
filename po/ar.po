@@ -19,9 +19,9 @@ msgstr ""
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Can not access Kleopatra:\r\n"
+"Can not access the UI-server%s%s%s:\r\n"
 "%s"
 msgstr ""
 "تعذّر النفاذ إلى كليوباترا:\r\n"
