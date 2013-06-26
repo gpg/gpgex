@@ -59,6 +59,8 @@ class gpgex_server
   /* The root of our installation.  */
   static const char *root_dir;
 
+  static const char *ui_server;
+
   /* Acquire a reference to the server component.  */
   static inline ULONG
     add_ref (void)

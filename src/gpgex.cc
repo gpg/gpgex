@@ -515,8 +515,9 @@ get_lang_name (void)
 }
 
 
-/* FIXME: Might be exported in a helper utility.  Also, it might be
-   that we use KDE's help browser?  */
+/* According to MSDN using ShellExecute may be problematic when using
+   within the Shell.  Thus we call Internet explorer directly.  It is
+   anyway only used for local files.  */
 static void
 start_help (HWND hwnd)
 {
@@ -580,7 +581,6 @@ start_help (HWND hwnd)
         wurl = utf8_to_wchar (url);
       }
   }
-
 
   if (wurl)
     {

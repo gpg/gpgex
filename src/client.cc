@@ -1,5 +1,5 @@
 /* client.cc - gpgex assuan client implementation
-   Copyright (C) 2007, 2008 g10 Code GmbH
+   Copyright (C) 2007, 2008, 2013 g10 Code GmbH
 
    This file is part of GpgEX.
 
@@ -40,6 +40,17 @@ using std::string;
 
 #include "client.h"
 
+static inline char *
+_gpgex_stpcpy (char *a, const char *b)
+{
+  while (*b)
+    *a++ = *b++;
+  *a = 0;
+  return a;
+}
+#define stpcpy(a,b) _gpgex_stpcpy ((a), (b))
+
+
 
 static const char *
 default_socket_name (void)
@@ -62,49 +73,79 @@ default_socket_name (void)
 }
 
 
+/* Return the name of the default UI server.  This name is used to
+   auto start an UI server if an initial connect failed.  */
 static const char *
 default_uiserver_cmdline (void)
 {
-  static string name;
+  static char *name;
 
-  if (name.size () == 0)
+  if (!name)
     {
-      char *dir = NULL;
+      const char *dir;
+      char *uiserver, *p;
+      int extra_arglen = 0;
 
-      dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
-				      "Install Directory");
-      if (dir)
-	{
-	  char *uiserver_buffer = NULL;
-          const char *uiserver;
+      dir = gpgex_server::root_dir;
+      if (!dir)
+        return NULL;
 
-	  uiserver_buffer = read_w32_registry_string (NULL,
-                                                      REGKEY, "UI Server");
-	  if (uiserver_buffer)
-            uiserver = uiserver_buffer;
-          else
-	    {
-	      string fname;
+      uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
+      if (!uiserver)
+        {
+          uiserver = strdup ("kleopatra.exe");
+          if (!uiserver)
+            return NULL;
+          extra_arglen = 9; /* Space required for " --daemon".  */
+        }
 
-	      try { fname = ((string) dir) + "\\"
-		  + "kleopatra.exe"; } catch (...) {}
+      name = (char*)malloc (strlen (dir) + strlen (uiserver) + extra_arglen +2);
+      if (!name)
+        {
+          free (uiserver);
+          return NULL;
+        }
+      strcpy (stpcpy (stpcpy (name, dir), "\\"), uiserver);
+      for (p = name; *p; p++)
+        if (*p == '/')
+          *p = '\\';
+      free (uiserver);
+      gpgex_server::ui_server = "Kleopatra";
+      if (extra_arglen && access (name, F_OK))
+        {
+          /* Kleopatra is not installed: Try GPA instead but if it is
+             also not available return the Kleopatra filename.  */
+          const char gpaserver[] = "gpa.exe";
+          char *name2;
 
-	      /* The option --use-standard-socket is the default on
-		 windows, so we can omit it here.  */
-	      if (! access (fname.c_str (), F_OK))
-		uiserver = "kleopatra.exe --daemon";
-	      else
-		uiserver = "gpa.exe --daemon";
-	    }
+          name2 = (char*)malloc (strlen (dir) + strlen (gpaserver)
+                                 + extra_arglen+2);
+          if (name2)
+            {
+              strcpy (stpcpy (stpcpy (name2, dir), "\\"), gpaserver);
+              for (p = name2; *p; p++)
+                if (*p == '/')
+                  *p = '\\';
+              if (access (name2, F_OK ))
+                free (name2);
+              else
+                {
+                  free (name);
+                  name = name2;
+                  gpgex_server::ui_server = "GPA";
+                }
+            }
+        }
 
-	  try { name = ((string) dir) + "\\" + uiserver; } catch (...) {}
-
-          free (uiserver_buffer);
-	  free ((void *) dir);
-	}
+      /* Append the --daemon arg unless the server name has been taken
+         from the Registry.  */
+      if (name && extra_arglen)
+        strcat (name, " --daemon");
+      else
+        gpgex_server::ui_server = NULL;
     }
 
-  return name.c_str ();
+  return name;
 }
 
 
@@ -364,7 +405,11 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
   if (rc)
     {
       char buf[256];
-      snprintf (buf, sizeof (buf), _("Can not access Kleopatra:\r\n%s"),
+      snprintf (buf, sizeof (buf),
+                _("Can not access the UI-server%s%s%s:\r\n%s"),
+                gpgex_server::ui_server? " (":"",
+                gpgex_server::ui_server? gpgex_server::ui_server:"",
+                gpgex_server::ui_server? ")":"",
 		gpg_strerror (rc));
       MessageBox (this->window, buf, "GpgEX", MB_ICONINFORMATION);
     }

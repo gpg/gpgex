@@ -48,6 +48,10 @@ LONG gpgex_server::refcount;
 /* The root of our installation.  */
 const char *gpgex_server::root_dir;
 
+/* The name of the UI-server or NULL if not known.  */
+const char *gpgex_server::ui_server;
+
+
 
 static char *
 get_locale_dir (void)

@@ -1,10 +1,18 @@
 2013-06-26  Werner Koch  <wk@gnupg.org>
 
+	* client.cc (default_uiserver_cmdline): Replace code with code
+	from gpgol so that gpgol will also be tried.   Use the
+	installation root to find the default UI server.
+	(call_assuan): Print the name of teh UI-server if it has been
+	launched by this instance.
+	* main.h (gpgex_server): New.
+
 	* gpgex.cc (get_lang_name): Rewrite using gettext.
 	(start_help): Improve language detection.  Remove fallback to an
 	external URL.
 	* main.h (gpgex_server): Add root_dir.
 	(utf8_to_wchar): Add prototype.
+
 	* main.cc (gpgex_server::root_dir): New.
 	(get_locale_dir): Pass then instance to GetModuleFileNameW.  Store
 	the root dir.
