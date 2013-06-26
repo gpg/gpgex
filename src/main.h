@@ -56,6 +56,9 @@ class gpgex_server
   /* The number of references to this component.  */
   static LONG refcount;
 
+  /* The root of our installation.  */
+  static const char *root_dir;
+
   /* Acquire a reference to the server component.  */
   static inline ULONG
     add_ref (void)
@@ -64,12 +67,14 @@ class gpgex_server
   }
 
 
-/* Release a reference to the server component.  */
+  /* Release a reference to the server component.  */
   static inline ULONG
     release (void)
   {
     return InterlockedDecrement (&refcount);
   }
+
+
 };
 
 
@@ -79,3 +84,6 @@ class gpgex_server
     (x).Data4[5], (x).Data4[6], (x).Data4[7]
 
 #endif
+
+
+extern "C" wchar_t *utf8_to_wchar (const char *string);

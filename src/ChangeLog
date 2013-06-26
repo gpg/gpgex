@@ -1,3 +1,16 @@
+2013-06-26  Werner Koch  <wk@gnupg.org>
+
+	* gpgex.cc (get_lang_name): Rewrite using gettext.
+	(start_help): Improve language detection.  Remove fallback to an
+	external URL.
+	* main.h (gpgex_server): Add root_dir.
+	(utf8_to_wchar): Add prototype.
+	* main.cc (gpgex_server::root_dir): New.
+	(get_locale_dir): Pass then instance to GetModuleFileNameW.  Store
+	the root dir.
+	(utf8_to_wchar): New.
+	(DllMain): Run i18n_init after debug_init.
+
 2010-07-21  Werner Koch  <wk@g10code.com>
 
 	* main.cc (DllMain): Add explicit init and deinit of libgpg-error.
@@ -207,7 +220,7 @@
 	(gpgex_SOURCES): Add $(ICONS).
 
 	* Makefile.am (gpgex_LDADD): More -lws2_32 after ./libassuan.a.
-	
+
 
 2007-09-04  Marcus Brinkmann  <marcus@g10code.de>
 
@@ -280,7 +293,7 @@
 	New macros.
 	(_gpgex_debug): New prototype.
 	* main.cc: Include <stdarg.h>, <stdio.h> and <shlobj.h>.  Add
-	debugging traces.	
+	debugging traces.
 	(debug_lock, debug_flags, debug_file): New statics.
 	(get_debug_file, debug_init, debug_deinit): New static functions.
 	(_gpgex_debug): New function.

@@ -1,5 +1,5 @@
 /* gpgex.cc - gpgex implementation
-   Copyright (C) 2007 g10 Code GmbH
+   Copyright (C) 2007, 2013 g10 Code GmbH
 
    This file is part of GpgEX.
 
@@ -476,22 +476,44 @@ gpgex_t::GetCommandString (UINT_PTR idCommand, UINT uFlags, LPUINT lpReserved,
 }
 
 
+/* Return the lang name.  This is either "xx" or "xx_YY".  On error
+   "en" is returned.  */
 static const char *
 get_lang_name (void)
 {
-  LANGID lang;
+  static char *name;
+  const char *s;
+  char *p;
+  int count = 0;
 
-  lang = GetUserDefaultUILanguage ();
-  switch (PRIMARYLANGID (lang))
+  if (!name)
     {
-    case LANG_GERMAN:
-      return "de";
+      s = gettext_localename ();
+      if (!s)
+        s = "en";
+      else if (!strcmp (s, "C") || !strcmp (s, "POSIX"))
+        s = "en";
 
-    case LANG_ENGLISH:
-    default:
-      return "en";
+      name = strdup (s);
+      if (!name)
+        return "en";
+
+      for (p = name; *p; p++)
+        {
+
+          if (*p == '.' || *p == '@' || *p == '/' /*(safeguard)*/)
+            *p = 0;
+          else if (*p == '_')
+            {
+              if (count++)
+                *p = 0;  /* Also cut at a underscore in the territory.  */
+            }
+        }
     }
+
+  return name;
 }
+
 
 /* FIXME: Might be exported in a helper utility.  Also, it might be
    that we use KDE's help browser?  */
@@ -524,37 +546,55 @@ start_help (HWND hwnd)
   // width, height
   web->put_Visible (VARIANT_TRUE);
 
-#define URLSIZE 512
-  wchar_t url[URLSIZE];
+  wchar_t *wurl;
   {
-    char *dir = NULL;
+#define URLSIZE 512
+    char url[URLSIZE];
+    const char *lang = get_lang_name ();
 
-    dir = read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
-				    "Install Directory");
-    if (!dir)
-      _snwprintf (url, URLSIZE, L"%S", "http://www.gpg4win.org/");
-    else
-      {
-	int sep = 0;
-	int len = strlen (dir) - 1;
-	if (len >= 0 && (dir[len] == '\\' || dir[len] == '/'))
-	  sep = 1;
-	_snwprintf (url,
-		    URLSIZE, L"file:///%S%Sshare\\doc\\gpgex\\gpgex-%S.html",
-		    dir, sep ? "" : "\\", get_lang_name ());
-      }
+    snprintf (url, URLSIZE, "file:///%s\\share\\doc\\gpgex\\gpgex-%s.html",
+              gpgex_server::root_dir, lang);
     url[URLSIZE - 1] = '\0';
+    wurl = utf8_to_wchar (url);
+
+    /* We need to test whether we need to fall back to the generic
+       lang id.  */
+    if (wurl && strchr (lang, '_') && _waccess (wurl+8, 0))
+      {
+        snprintf (url, URLSIZE,
+                  "file:///%s\\share\\doc\\gpgex\\gpgex-%.2s.html",
+                  gpgex_server::root_dir, lang);
+        url[URLSIZE - 1] = '\0';
+        free (wurl);
+        wurl = utf8_to_wchar (url);
+      }
+
+    /* If the help file does not exists fall back to the english version.  */
+    if (wurl && _waccess (wurl+8, 0))
+      {
+        snprintf (url, URLSIZE,
+                  "file:///%s\\share\\doc\\gpgex\\gpgex-en.html",
+                  gpgex_server::root_dir);
+        url[URLSIZE - 1] = '\0';
+        free (wurl);
+        wurl = utf8_to_wchar (url);
+      }
   }
 
-  BSTR burl = SysAllocString ((const OLECHAR *) url);
-  VARIANT vars[4];
-  memset (vars, 0, sizeof (vars));
-  res = web->Navigate (burl, vars, vars + 1, vars + 2, vars + 3);
-  SysFreeString (burl);
-  if (!SUCCEEDED (res))
+
+  if (wurl)
     {
-      web->Release ();
-      return;
+      BSTR burl = SysAllocString ((const OLECHAR *)wurl);
+      VARIANT vars[4];
+      memset (vars, 0, sizeof (vars));
+      res = web->Navigate (burl, vars, vars + 1, vars + 2, vars + 3);
+      SysFreeString (burl);
+      free (wurl);
+      if (!SUCCEEDED (res))
+        {
+          web->Release ();
+          return;
+        }
     }
 
   /* Do more stuff.  */

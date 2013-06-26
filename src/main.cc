@@ -45,6 +45,9 @@ HINSTANCE gpgex_server::instance;
 /* The number of references to this component.  */
 LONG gpgex_server::refcount;
 
+/* The root of our installation.  */
+const char *gpgex_server::root_dir;
+
 
 static char *
 get_locale_dir (void)
@@ -53,7 +56,7 @@ get_locale_dir (void)
   char *result, *p;
   int nbytes;
 
-  if (!GetModuleFileNameW (NULL, moddir, MAX_PATH))
+  if (!GetModuleFileNameW (gpgex_server::instance, moddir, MAX_PATH))
     *moddir = 0;
 
 #define SLDIR "\\share\\locale"
@@ -98,6 +101,9 @@ get_locale_dir (void)
               p = strrchr (result, '\\');
               if (p && !strcmp (p+1, "bin"))
                 *p = 0;
+
+              gpgex_server::root_dir = strdup (result);
+
               /* Append the static part.  */
               strcat (result, SLDIR);
             }
@@ -112,6 +118,11 @@ get_locale_dir (void)
           strcat (result, SLDIR);
         }
     }
+
+  if (!gpgex_server::root_dir)
+    gpgex_server::root_dir = "c:";
+
+  _gpgex_debug (1, "root dir is '%s'", gpgex_server::root_dir);
 #undef SLDIR
   return result;
 }
@@ -193,6 +204,10 @@ debug_deinit (void)
 }
 
 
+
+
+
+
 #ifdef __cplusplus
 extern "C" {
 #if 0
@@ -225,6 +240,36 @@ _gpgex_debug (unsigned int flags, const char *format, ...)
   errno = saved_errno;
 }
 
+
+/* Return a malloced wide char string from an UTF-8 encoded input
+   string STRING.  Caller must free this value. On failure returns
+   NULL; caller may use GetLastError to get the actual error number.
+   The result of calling this function with STRING set to NULL is not
+   defined. */
+wchar_t *
+utf8_to_wchar (const char *string)
+{
+  int n;
+  wchar_t *result;
+
+  n = MultiByteToWideChar (CP_UTF8, 0, string, -1, NULL, 0);
+  if (n < 0)
+    return NULL;
+
+  result = (wchar_t*)malloc ((n+1) * sizeof *result);
+  if (!result)
+    return NULL;
+
+  n = MultiByteToWideChar (CP_UTF8, 0, string, -1, result, n);
+  if (n < 0)
+    {
+      free (result);
+      return NULL;
+    }
+  return result;
+}
+
+
 #ifdef __cplusplus
 #if 0
 {
@@ -244,9 +289,9 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
       /* Early initializations of our subsystems. */
       gpg_err_init ();
 
-      i18n_init ();
-
       debug_init ();
+
+      i18n_init ();
 
       if (debug_flags & DEBUG_ASSUAN)
 	{

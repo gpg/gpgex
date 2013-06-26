@@ -3,6 +3,8 @@ Noteworthy changes for version 1.0.0 (unreleased)
 
 * Support 64 bit Windows.
 
+* Improved help file detection.
+
 
 Noteworthy changes for version 0.9.7 (2010-07-21)
 -------------------------------------------------
