@@ -1,3 +1,8 @@
+2013-06-27  Werner Koch  <wk@gnupg.org>
+
+	* client.cc (call_assuan): Distinguish between connection and and
+	server errors.
+
 2013-06-26  Werner Koch  <wk@gnupg.org>
 
 	* client.cc (default_uiserver_cmdline): Replace code with code

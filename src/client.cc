@@ -356,6 +356,8 @@ bool
 client_t::call_assuan (const char *cmd, vector<string> &filenames)
 {
   int rc = 0;
+  int connect_failed = 0;
+
   assuan_context_t ctx = NULL;
   string msg;
 
@@ -364,7 +366,10 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
 
   rc = uiserver_connect (&ctx, this->window);
   if (rc)
-    goto leave;
+    {
+      connect_failed = 1;
+      goto leave;
+    }
 
   try
     {
@@ -405,12 +410,21 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
   if (rc)
     {
       char buf[256];
-      snprintf (buf, sizeof (buf),
-                _("Can not access the UI-server%s%s%s:\r\n%s"),
-                gpgex_server::ui_server? " (":"",
-                gpgex_server::ui_server? gpgex_server::ui_server:"",
-                gpgex_server::ui_server? ")":"",
-		gpg_strerror (rc));
+
+      if (connect_failed)
+        snprintf (buf, sizeof (buf),
+                  _("Can not connect to the GnuPG user interface%s%s%s:\r\n%s"),
+                  gpgex_server::ui_server? " (":"",
+                  gpgex_server::ui_server? gpgex_server::ui_server:"",
+                  gpgex_server::ui_server? ")":"",
+                  gpg_strerror (rc));
+      else
+        snprintf (buf, sizeof (buf),
+                  _("Error returned by the GnuPG user interface%s%s%s:\r\n%s"),
+                  gpgex_server::ui_server? " (":"",
+                  gpgex_server::ui_server? gpgex_server::ui_server:"",
+                  gpgex_server::ui_server? ")":"",
+                  gpg_strerror (rc));
       MessageBox (this->window, buf, "GpgEX", MB_ICONINFORMATION);
     }
 
