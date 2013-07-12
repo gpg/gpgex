@@ -1,15 +1,14 @@
 # translation of GPGex.
 # Copyright (C) 2008 g10 Code GmbH
-# This file is distributed under the same license as the FIXME:GPGex package.
-# Diego Escalante Urrelo <diegoe@gnome.org>, 2008.
-#
+# This file is distributed under the same license as the GPGex package.
+# Diego Escalante Urrelo <diegoe@gnome.org>, 2008, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GpgEX FIXME:VERSION\n"
+"Project-Id-Version: GpgEX 1.0.0\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
 "PO-Revision-Date: 2013-06-26 16:29+0200\n"
-"Last-Translator: \n"
+"Last-Translator: Diego Escalante Urrelo <diegoe@gnome.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -18,17 +17,25 @@ msgstr ""
 
 #, c-format
 msgid ""
-"Can not access the UI-server%s%s%s:\r\n"
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"No se pudo acceder a UI-server%s%s%s:\\r\n"
+"No se pudo acceder a la interface de usuario de GnuPG%s%s%s:\\r\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Error de la interface de usuario de GnuPG%s%s%s:\r\n"
 "%s"
 
 msgid "Help on GpgEX"
 msgstr "Ayuda de GpgEX"
 
 msgid "About GpgEX"
-msgstr ""
+msgstr "Acerca de GpgEX"
 
 msgid "Decrypt and verify"
 msgstr "Descifrar y verificar."
@@ -64,7 +71,7 @@ msgid "Invoke the GpgEX documentation."
 msgstr "Invocar la documentación de GpgEX."
 
 msgid "Show the version of GpgEX."
-msgstr ""
+msgstr "Mostrar la versión de GpgEX"
 
 msgid "Decrypt and verify the marked files."
 msgstr "Descifrar y verificar los archivos marcados."
@@ -76,7 +83,7 @@ msgid "Verify the marked files."
 msgstr "Verificar los archivos marcados."
 
 msgid "Sign and encrypt the marked files."
-msgstr "Firmar y cifrar firmar los archivos marcados."
+msgstr "Firmar y cifrar los archivos marcados."
 
 msgid "Encrypt the marked files."
 msgstr "Cifrar los archivos marcados."
@@ -102,4 +109,4 @@ msgstr ""
 
 #, c-format
 msgid "This is GpgEX version %s (%s)"
-msgstr ""
+msgstr "Esto es GpgEX versión %s (%s)"
