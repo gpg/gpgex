@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gpgex 0.0.0-svn10\n"
+"Project-Id-Version: gpgex 1.0.0\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"PO-Revision-Date: 2013-06-26 16:28+0200\n"
-"Last-Translator: Marcus Brinkmann <marcus@g10code.com>\n"
+"PO-Revision-Date: 2013-06-27 17:32+0200\n"
+"Last-Translator: Werner Koch <wk@gnupg.org>\n"
 "Language-Team: German\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -18,10 +18,19 @@ msgstr ""
 
 #, c-format
 msgid ""
-"Can not access the UI-server%s%s%s:\r\n"
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Fehler beim Zugriff auf den UI-Server%s%s%s:\\r\n"
+"Verbindung zur GnuPG Benutzerschnittstelle%s%s%s kann nicht aufgebaut werden:"
+"\\r\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Fehlermeldung der GnuPG Benutzerschnittstelle%s%s%s:\\r\n"
 "%s"
 
 msgid "Help on GpgEX"
