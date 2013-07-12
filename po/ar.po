@@ -1,37 +1,44 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR g10 Code GmbH
 # This file is distributed under the same license as the PACKAGE package.
-# Ahmad Gharbeia <ahmad@gharbeia.org>, 2008.
+# Ahmad Gharbeia <ahmad@gharbeia.org>, 2008, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gpgex\n"
-"Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"PO-Revision-Date: 2008-03-24 23:07+0200\n"
-"Last-Translator: أحمد غربية <ahmad@gharbeia.org>\n"
-"Language-Team: arabeyes.org <info@arabeyes.org>\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
+"PO-Revision-Date: 2013-07-19 22:21+0430\n"
+"Last-Translator: Ahmad Gharbeia <ahmad@gharbeia.org>\n"
+"Language-Team: Arabic <>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n>=3 && "
-"n<=10 ? 3 : n>=11 && n<=99 ? 4 : 5;\\n\n"
+"Plural-Forms: nplurals=9; plural=(n!=1);\n"
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
-"Can not access the UI-server%s%s%s:\r\n"
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"تعذّر النفاذ إلى كليوباترا:\r\n"
+"تعذّر الاتصال بواجهة المستخدم GnuPG%s%s%s:\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"الخطأ الذي أرجعته واجهة المستخدم GnuPG%s%s%s:\n"
 "%s"
 
 msgid "Help on GpgEX"
 msgstr "‮مساعدة حول ‪GpgEx‬"
 
 msgid "About GpgEX"
-msgstr ""
+msgstr "عن GpgEX"
 
 msgid "Decrypt and verify"
 msgstr "ظهِّر و تحقق"
@@ -67,7 +74,7 @@ msgid "Invoke the GpgEX documentation."
 msgstr "‮طالع وثائق ‪GpgEx‬"
 
 msgid "Show the version of GpgEX."
-msgstr ""
+msgstr "أظهر رقم إصدارة GpgEX"
 
 msgid "Decrypt and verify the marked files."
 msgstr "ظهِّر و تحقق من الملفات المؤشَّرة."
@@ -102,7 +109,20 @@ msgstr "‮أظهر مزيدا من خيارات ‪GpgEx‬."
 #. TRANSLATORS: See the source for the full english text.
 msgid "-#GpgEXFullHelpText#-"
 msgstr ""
+"GpgEX مُلحَقَة لإنترنت إكسبلورَر لتعمية البيانات و التوقيع الرقمي\n"
+"و هي تستخدم أداة GnuPG (http://www.gnupg.org).\n"
+"\n"
+"GpgEX برمجية حُرَّة; لك حق توزيعها و/أو تعديلها وفق شروط\n"
+"رخصة گنو العمومية الصغرى التي تنشرها مؤسسة البرمجيات الحُرَّة\n"
+"إما في إصدارتها رقم 2.1 أو (إن أردت) أي إصدارة لاحقة.\n"
+"\n"
+"GpgEX منشورة بِنِيّة أن تكون مفيدة لكن بلا أي ضمانات،\n"
+"و لا حتّى الضمان الضمني لصلاحيتها كسلعة و لا ملاءمتها لأي غرض بعينه.\n"
+"طالع نصّ \"رخصة گنو العمومية الصغرى لمزيد من التفاصيل.\n"
+"\n"
+"يُفترض أن تكون قد حصلت مع هذه البرمجية على نسخة من نصّ رخصة گنو العموميةالصغرى "
+"المنشور في <http://www.gnu.org/licenses/>."
 
 #, c-format
 msgid "This is GpgEX version %s (%s)"
-msgstr ""
+msgstr "هذه إصدارة GpgEX رقم %s (%s)"
