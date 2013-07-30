@@ -1,9 +1,11 @@
-Noteworthy changes for version 1.0.0 (unreleased)
+Noteworthy changes for version 1.0.0 (2013-07-30)
 -------------------------------------------------
 
 * Support 64 bit Windows.
 
 * Improved help file detection.
+
+* Updated Arabian, German, Portuguese, Russian, and Spanish translations.
 
 
 Noteworthy changes for version 0.9.7 (2010-07-21)

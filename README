@@ -11,19 +11,15 @@ Registry Settings
 The following registry entries are read by GpgEX and affect its
 operation:
 
-HKLM\Software\GNU\GnuPG:Install Directory
-  The installation directory of Gpg4Win.  This is used to compose the
-  path to the UI server executable.  Also known as INSTDIR below.  Set
-  by the installer at installation time.
-
 HKCU\Software\GNU\GnuPG:UI Server
 HKLM\Software\GNU\GnuPG:UI Server
   The path to the executable binary of the UI server, relative to
-  INSTDIR.  Absolute paths are currently not supported.
+  INSTDIR.  Absolute paths are currently not supported.  It defaults
+  to the empty sting, so that the UI server is expected in INSTDIR.
 
 HKCU\Software\GNU\GnuPG:HomeDir
 HKLM\Software\GNU\GnuPG:HomeDir
-  The GnuPG home directory.  Defaults to APPDATA\gnupg.
+  The GnuPG home directory.  Defaults to %APPDATA%\gnupg.
 
 HKLM\Software\GNU\GnuPG:GpgEX Debug File
   See below.

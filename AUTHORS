@@ -1,6 +1,6 @@
 Package: gpgex
 Contact: info-gpgex@g10code.com
-Bugs:    bug-gpgex@g10code.com
+Bugs:    http://bugs.gnupg.org
 License: LGPLv2.1
 
 g10 Code GmbH
@@ -17,4 +17,3 @@ Sergei Smirnov <moscow@hro.org>
 
 Marco A.G.Pinto  <marcoagpinto@mail.telepac.pt>
         Portuguese translations.
-
