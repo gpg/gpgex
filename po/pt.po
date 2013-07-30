@@ -1,5 +1,5 @@
 # translation of GPGex.
-# Copyright (C) 2008 g10 Code GmbH
+# Copyright (C) 2013 g10 Code GmbH
 # This file is distributed under the same license as the FIXME:GPGex package.
 # Diego Escalante Urrelo <diegoe@gnome.org>, 2008.
 #
@@ -8,30 +8,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX\n"
 "Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
-"PO-Revision-Date: 2013-06-26 16:30+0200\n"
+"PO-Revision-Date: 2013-07-11 21:07-0000\n"
 "Last-Translator: Marco A.G.Pinto <marcoagpinto@mail.telepac.pt>\n"
 "Language-Team: Portuguese <marcoagpinto@mail.telepac.pt>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: PORTUGAL\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #, c-format
 msgid ""
-"Can not access the UI-server%s%s%s:\r\n"
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Não é possível aceder a UI-server%s%s%s:\\r\n"
+"Não é possível aceder à interface de utilizador do GnuPG%s%s%s:\\r\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Erro devolvido pela interface de utilizador do GnuPG%s%s%s:\r\n"
 "%s"
 
 msgid "Help on GpgEX"
-msgstr "Ajuda de GpgEX"
+msgstr "Ajuda do GpgEX"
 
 msgid "About GpgEX"
-msgstr ""
+msgstr "Sobre o GpgEX"
 
 msgid "Decrypt and verify"
 msgstr "Desencriptar e verificar"
@@ -67,7 +74,7 @@ msgid "Invoke the GpgEX documentation."
 msgstr "Invocar a documentação do GpgEX."
 
 msgid "Show the version of GpgEX."
-msgstr ""
+msgstr "Mostrar a versão do GpgEX."
 
 msgid "Decrypt and verify the marked files."
 msgstr "Desencriptar e verificar os ficheiros marcados."
@@ -101,8 +108,8 @@ msgstr "Mostrar mais opções do GpgEX."
 
 #. TRANSLATORS: See the source for the full english text.
 msgid "-#GpgEXFullHelpText#-"
-msgstr ""
+msgstr "-#GpgEXFullHelpText#-"
 
 #, c-format
 msgid "This is GpgEX version %s (%s)"
-msgstr ""
+msgstr "Este é o GpgEX versão %s (%s)"
