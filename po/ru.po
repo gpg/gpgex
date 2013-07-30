@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX\n"
-"Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
 "PO-Revision-Date: 2013-06-26 16:31+0200\n"
 "Last-Translator: Sergei Smirnov <moscow@hro.org>\n"
 "Language-Team: Sergei Smirnov <moscow@hro.org>\n"
@@ -17,13 +17,19 @@ msgstr ""
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Can not access the UI-server%s%s%s:\r\n"
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
 "Нет доступа к программе UI-server%s%s%s:\\r\n"
 "%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
 
 msgid "Help on GpgEX"
 msgstr "Помощь по GpgEX"

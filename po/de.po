@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gpgex 1.0.0\n"
-"Report-Msgid-Bugs-To: bug-gpgex@g10code.com\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
 "PO-Revision-Date: 2013-06-27 17:32+0200\n"
 "Last-Translator: Werner Koch <wk@gnupg.org>\n"
 "Language-Team: German\n"
