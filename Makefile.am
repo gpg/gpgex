@@ -19,7 +19,7 @@ DISTCHECK_CONFIGURE_FLAGS = --host=@host@ --build=@build@ \
 			    --with-gpg-error-prefix=@prefix@ \
                             --prefix=@prefix@
 
-EXTRA_DIST = autogen.sh
+EXTRA_DIST = autogen.sh autogen.rc
 
 
 SUBDIRS = doc src po m4

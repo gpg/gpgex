@@ -1,0 +1,12 @@
+# autogen.sh configuration for GpgEX                          -*- sh -*-
+
+configure_opts="
+  --with-gpg-error-prefix=@SYSROOT@
+  --with-libassuan-prefix=@SYSROOT@
+  "
+
+final_info="
+  ./autogen.sh --build-w32
+or
+  ./autorun.sh --build-w64
+"

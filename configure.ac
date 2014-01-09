@@ -159,7 +159,7 @@ AM_CONDITIONAL(HAVE_W64_SYSTEM, test "$have_w64_system" = yes)
 #
 
 # Note, that autogen.sh greps for the next line.
-AM_GNU_GETTEXT_VERSION(0.12.1)
+AM_GNU_GETTEXT_VERSION([0.12.1])
 AM_GNU_GETTEXT([external])
 # We always want NLs, despite what the above macro figures out.
 USE_NLS=yes
