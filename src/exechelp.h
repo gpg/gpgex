@@ -30,9 +30,15 @@ extern "C" {
 #endif
 #endif
 
+#define lock_spawn_t HANDLE
+
+gpg_error_t gpgex_lock_spawning (lock_spawn_t *lock);
+void gpgex_unlock_spawning (lock_spawn_t *lock);
+
 /* Fork and exec CMDLINE with /dev/null as stdin, stdout and stderr.
    Returns 0 on success or an error code.  */
 gpg_error_t gpgex_spawn_detached (const char *cmdline);
+
 #ifdef __cplusplus
 #if 0
 {

@@ -1,5 +1,5 @@
 /* exechelp.c - fork and exec helpers
- * Copyright (C) 2004, 2007 g10 Code GmbH
+ * Copyright (C) 2004, 2007, 2014 g10 Code GmbH
  *
  * This file is part of GpgEX.
  *
@@ -37,7 +37,62 @@
 /* Define to 1 do enable debugging.  */
 #define DEBUG_W32_SPAWN 0
 
+
 
+
+/* Lock a spawning process.  The caller needs to provide the address
+   of a variable to store the lock information and the name or the
+   process.  */
+gpg_error_t
+gpgex_lock_spawning (lock_spawn_t *lock)
+{
+  int waitrc;
+  int timeout = 5;
+
+  _TRACE (DEBUG_ASSUAN, "gpgex_lock_spawning", lock);
+
+  *lock = CreateMutexW (NULL, FALSE, L"spawn_gnupg_uiserver_sentinel");
+  if (!*lock)
+    {
+      TRACE_LOG1 ("failed to create the spawn mutex: rc=%d", GetLastError ());
+      return gpg_error (GPG_ERR_GENERAL);
+    }
+
+ retry:
+  waitrc = WaitForSingleObject (*lock, 1000);
+  if (waitrc == WAIT_OBJECT_0)
+    return 0;
+
+  if (waitrc == WAIT_TIMEOUT && timeout)
+    {
+      timeout--;
+      goto retry;
+    }
+  if (waitrc == WAIT_TIMEOUT)
+    TRACE_LOG ("error waiting for the spawn mutex: timeout");
+  else
+    TRACE_LOG2 ("error waiting for the spawn mutex: (code=%d) rc=%d",
+                waitrc, GetLastError ());
+  return gpg_error (GPG_ERR_GENERAL);
+}
+
+
+/* Unlock the spawning process.  */
+void
+gpgex_unlock_spawning (lock_spawn_t *lock)
+{
+  if (*lock)
+    {
+      _TRACE (DEBUG_ASSUAN, "gpgex_unlock_spawning", lock);
+
+      if (!ReleaseMutex (*lock))
+        TRACE_LOG1 ("failed to release the spawn mutex: rc=%d", GetLastError());
+      CloseHandle (*lock);
+      *lock = NULL;
+    }
+}
+
+
 /* Fork and exec the program with /dev/null as stdin, stdout and
    stderr.  Returns 0 on success or an error code.  */
 gpg_error_t

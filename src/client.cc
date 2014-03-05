@@ -1,5 +1,5 @@
 /* client.cc - gpgex assuan client implementation
-   Copyright (C) 2007, 2008, 2013 g10 Code GmbH
+   Copyright (C) 2007, 2008, 2013, 2014 g10 Code GmbH
 
    This file is part of GpgEX.
 
@@ -295,6 +295,7 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
   gpg_error_t rc;
   const char *socket_name = NULL;
   pid_t pid;
+  lock_spawn_t lock;
 
   TRACE_BEG (DEBUG_ASSUAN, "client_t::uiserver_connect", ctx);
 
@@ -320,19 +321,26 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
 
       (void) TRACE_LOG ("UI server not running, starting it");
 
-      rc = gpgex_spawn_detached (default_uiserver_cmdline ());
-      if (rc)
-	return TRACE_GPGERR (rc);
+      /* Now try to connect again with the spawn lock taken.  */
+      if (!(rc = gpgex_lock_spawning (&lock))
+          && assuan_socket_connect (*ctx, socket_name, -1, 0))
+        {
+          rc = gpgex_spawn_detached (default_uiserver_cmdline ());
+          if (!rc)
+            {
+              /* Give it a bit of time to start up and try a couple of
+                 times.  */
+              for (count = 0; count < 10; count++)
+                {
+                  Sleep (1000);
+                  rc = assuan_socket_connect (*ctx, socket_name, -1, 0);
+                  if (!rc)
+                    break;
+                }
+            }
 
-      /* Give it a bit of time to start up and try a couple of
-	 times.  */
-      for (count = 0; count < 10; count++)
-	{
-	  Sleep (1000);
-	  rc = assuan_socket_connect (*ctx, socket_name, -1, 0);
-	  if (!rc)
-	    break;
-	}
+        }
+      gpgex_unlock_spawning (&lock);
     }
 
   if (! rc)

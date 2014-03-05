@@ -1,6 +1,9 @@
 Noteworthy changes for version 1.0.1 (unreleased)
 -------------------------------------------------
 
+* Avoid double starting of the UI-server.
+
+
 Noteworthy changes for version 1.0.0 (2013-07-30)
 -------------------------------------------------
 
