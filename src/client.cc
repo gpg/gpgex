@@ -115,7 +115,7 @@ default_uiserver_cmdline (void)
         {
           /* Kleopatra is not installed: Try GPA instead but if it is
              also not available return the Kleopatra filename.  */
-          const char gpaserver[] = "gpa.exe";
+          const char gpaserver[] = "launch-gpa.exe";
           char *name2;
 
           name2 = (char*)malloc (strlen (dir) + strlen (gpaserver)
