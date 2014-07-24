@@ -236,7 +236,7 @@ standard_homedir (void)
 
 
 /* Retrieve the default home directory.  */
-char *
+const char *
 default_homedir (void)
 {
   char *dir;

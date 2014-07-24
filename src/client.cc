@@ -55,21 +55,26 @@ _gpgex_stpcpy (char *a, const char *b)
 static const char *
 default_socket_name (void)
 {
-  static string name;
+  static char *name;
 
-  if (name.size () == 0)
+  if (!name)
     {
-      char *dir = NULL;
+      const char *dir;
+      const char sockname[] = "\\S.uiserver";
 
       dir = default_homedir ();
       if (dir)
 	{
-	  try { name = ((string) dir) + "\\S.uiserver"; } catch (...) {}
-	  free ((void *) dir);
+          name = (char *)malloc (strlen (dir) + strlen (sockname) + 1);
+          if (name)
+            {
+              strcpy (name, dir);
+              strcat (name, sockname);
+            }
 	}
     }
 
-  return name.c_str ();
+  return name;
 }
 
 
