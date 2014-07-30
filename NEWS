@@ -1,7 +1,9 @@
-Noteworthy changes for version 1.0.1 (unreleased)
+Noteworthy changes for version 1.0.1 (2014-07-30)
 -------------------------------------------------
 
-* Avoid double starting of the UI-server.
+* Fixed segv in case GNUPGHOME is set.
+
+* Fixed possible double starting of the UI-server.
 
 
 Noteworthy changes for version 1.0.0 (2013-07-30)
