@@ -153,6 +153,17 @@ fi
 AM_CONDITIONAL(HAVE_W32_SYSTEM, test "$have_w32_system" = yes)
 AM_CONDITIONAL(HAVE_W64_SYSTEM, test "$have_w64_system" = yes)
 
+gpa_only=no
+AC_ARG_ENABLE(gpa-only,
+              AC_HELP_STRING([--enable-gpa-only],
+                             [Try only GPA as UI-server]),
+              gpa_only=$enableval)
+AC_MSG_RESULT($gpa_only)
+if test "$gpa_only" = yes ; then
+    AC_DEFINE(ENABLE_GPA_ONLY, 1,
+             [Define to use only GPA as UI-server])
+fi
+
 
 #
 # Checks for libraries.

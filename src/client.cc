@@ -86,6 +86,27 @@ default_uiserver_cmdline (void)
   static char *name;
 
   if (!name)
+#if ENABLE_GPA_ONLY
+    {
+      const char gpaserver[] = "bin\\launch-gpa.exe";
+      const char *dir;
+      char *p;
+
+      dir = gpgex_server::root_dir;
+      if (!dir)
+        return NULL;
+
+      name = (char*)malloc (strlen (dir) + strlen (gpaserver) + 9 + 2);
+      if (!name)
+        return NULL;
+      strcpy (stpcpy (stpcpy (name, dir), "\\"), gpaserver);
+      for (p = name; *p; p++)
+        if (*p == '/')
+          *p = '\\';
+      strcat (name, " --daemon");
+      gpgex_server::ui_server = "GPA";
+    }
+#else /*!ENABLE_GPA_ONLY*/
     {
       const char *dir;
       char *uiserver, *p;
@@ -149,6 +170,7 @@ default_uiserver_cmdline (void)
       else
         gpgex_server::ui_server = NULL;
     }
+#endif /*!ENABLE_GPA_ONLY*/
 
   return name;
 }
