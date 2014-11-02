@@ -1,0 +1,129 @@
+# Polish translations for gpgex package.
+# Copyright (C) 2007 g10 Code GmbH
+# This file is distributed under the same license as the gpgex package.
+# Marcus Brinkmann <marcus@g10code.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gpgex 1.0.0\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
+"PO-Revision-Date: 2014-10-19 10:25+0100\n"
+"Last-Translator: Tomasz Krawczyk <tomkrawc@gmail.com>\n"
+"Language-Team: Polish\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#, c-format
+msgid ""
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Nie można połączyć się z interfejsem użytkownika GnuPG%s%s%s:\r\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Błąd zwrócony przez interfejs użytkownika GnuPG%s%s%s:\\r\n"
+"%s"
+
+msgid "Help on GpgEX"
+msgstr "Pomoc do GpgEX"
+
+msgid "About GpgEX"
+msgstr "O GpgEX"
+
+msgid "Decrypt and verify"
+msgstr "Rozszyfruj i zweryfikuj"
+
+msgid "Decrypt"
+msgstr "Rozszyfruj"
+
+msgid "Verify"
+msgstr "Weryfikuj"
+
+msgid "Sign and encrypt"
+msgstr "Podpisz i zaszyfruj"
+
+msgid "Encrypt"
+msgstr "Zaszyfruj"
+
+msgid "Sign"
+msgstr "Podpisz"
+
+msgid "Import keys"
+msgstr "Importuj klucze"
+
+msgid "Create checksums"
+msgstr "Utwórz sumy kontrolne"
+
+msgid "Verify checksums"
+msgstr "Zweryfikuj sumy kontrolne"
+
+msgid "More GpgEX options"
+msgstr "Więcej opcji GpgEX"
+
+msgid "Invoke the GpgEX documentation."
+msgstr "Otwórz dokumentację GpgEX."
+
+msgid "Show the version of GpgEX."
+msgstr "Pokaż wersję GpgEX."
+
+msgid "Decrypt and verify the marked files."
+msgstr "Rozszyfruj i zweryfikuj zaznaczone pliki."
+
+msgid "Decrypt the marked files."
+msgstr "Rozszyfruj zaznaczone pliki."
+
+msgid "Verify the marked files."
+msgstr "Zweryfikuj  zaznaczone pliki."
+
+msgid "Sign and encrypt the marked files."
+msgstr "Podpisz i zaszyfruj  zaznaczone pliki."
+
+msgid "Encrypt the marked files."
+msgstr "Zaszyfruj  zaznaczone pliki."
+
+msgid "Sign the marked files."
+msgstr "Podpisz zaznaczone pliki."
+
+msgid "Import the marked files."
+msgstr "Importuj zaznaczone pliki."
+
+msgid "Create checksums."
+msgstr "Utwórz sumy kontrolne."
+
+msgid "Verify checksums."
+msgstr "Zweryfikuj sumy kontrolne."
+
+msgid "Show more GpgEX options."
+msgstr "Pokaż więcej opcji GpgEX."
+
+#. TRANSLATORS: See the source for the full english text.
+msgid "-#GpgEXFullHelpText#-"
+msgstr ""
+"GpgEX jest pluginem do Exploatora Windows do szyfrowania i podpisywania\n"
+"danych. Używa oprogramowania GnuPG  (http://www.gnupg.org).\n"
+"\n"
+"GpgEX jest oprogramowaniem darmowym; możesz je redystrybuować i/lub\n"
+"modyfikować na warunkach GNU Lesser General Public License \n"
+"i publikowanej przez Free Software Foundation; zarówno\n"
+"wersji 2.1 jak i (twoja opcja) jakąkolwiek nowszą wersją.\n"
+"\n"
+"GpgEX jest dystrybuowany w nadziei, że będzie użyteczny, ale\n"
+"BEZ ŻADNEJ GWARANCJI; nawet bez pośredniej gwarancji\n"
+"RYNKOWOŚCI lub PRZYDATNOŚCI DLA SZCZEGÓLNEGO CELU.\n"
+"Więcej szczegółów w GNU Lesser General Pulbic License.\n"
+"\n"
+"Powinieneś otrzymać kopię GNU Lesser General Public License\n"
+"wraz z tym programem; jeśli nie, zobacz <http://www.gnu.org/licenses/>."
+
+#, c-format
+msgid "This is GpgEX version %s (%s)"
+msgstr "To jest GpgEX wersja %s (%s)"
