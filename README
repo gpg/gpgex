@@ -16,6 +16,8 @@ HKLM\Software\GNU\GnuPG:UI Server
   The path to the executable binary of the UI server, relative to
   INSTDIR.  Absolute paths are currently not supported.  It defaults
   to the empty sting, so that the UI server is expected in INSTDIR.
+  If the configure option --enable-gpa-only is used these registry
+  entries have no effect.
 
 HKCU\Software\GNU\GnuPG:HomeDir
 HKLM\Software\GNU\GnuPG:HomeDir

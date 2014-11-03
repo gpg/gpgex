@@ -304,7 +304,7 @@ send_options (assuan_context_t ctx, HWND hwnd, pid_t *r_pid)
          window-id.  */
       uintptr_t tmp = (uintptr_t)hwnd;
 
-      if (tmp & ~0xffffffff)
+      if (!(tmp & ~0xffffffff))
         {
           /* HWND fits into 32 bit - send it. */
           snprintf (numbuf, sizeof (numbuf), "%lx", (unsigned long)tmp);
