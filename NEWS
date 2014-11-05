@@ -1,7 +1,9 @@
-Noteworthy changes for version 1.0.2 (unreleased)
+Noteworthy changes for version 1.0.2 (2014-11-05)
 -------------------------------------------------
 
 * Added Polish translation.
+
+* Add configure option --enable-gpa-only
 
 
 Noteworthy changes for version 1.0.1 (2014-07-30)
