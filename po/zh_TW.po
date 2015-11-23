@@ -1,0 +1,125 @@
+# Chinese (Taiwan) Translation.
+# Copyright (C) 2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the GpgEx package.
+# Mingye Wang (Arthur2e5) <arthur200126@hotmail.com>，2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GpgEX\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
+"PO-Revision-Date: 2015-08-15 20:50+0800\n"
+"Last-Translator: Mingye Wang (Arthur2e5) <arthur200126@hotmail.com>\n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, c-format
+msgid ""
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"無法連線到 GnuPG 使用者介面%s%s%s：\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"GnuPG 使用者介面返回的錯誤%s%s%s：\n"
+"%s"
+
+msgid "Help on GpgEX"
+msgstr "GpgEX 幫助"
+
+msgid "About GpgEX"
+msgstr "關於 GpgEX"
+
+msgid "Decrypt and verify"
+msgstr "解密並驗證"
+
+msgid "Decrypt"
+msgstr "解密"
+
+msgid "Verify"
+msgstr "驗證"
+
+msgid "Sign and encrypt"
+msgstr "簽名並加密"
+
+msgid "Encrypt"
+msgstr "加密"
+
+msgid "Sign"
+msgstr "簽名"
+
+msgid "Import keys"
+msgstr "匯入金鑰"
+
+msgid "Create checksums"
+msgstr "生成校驗值"
+
+msgid "Verify checksums"
+msgstr "驗證校驗值"
+
+msgid "More GpgEX options"
+msgstr "更多 GpgEX 選項"
+
+msgid "Invoke the GpgEX documentation."
+msgstr "呼叫 GpgEx 文件。"
+
+msgid "Show the version of GpgEX."
+msgstr "顯示 GpgEx 版本。"
+
+msgid "Decrypt and verify the marked files."
+msgstr "解密並驗證選中的檔案。"
+
+msgid "Decrypt the marked files."
+msgstr "解密選中的檔案。"
+
+msgid "Verify the marked files."
+msgstr "驗證選中的檔案。"
+
+msgid "Sign and encrypt the marked files."
+msgstr "簽名並加密選中的檔案。"
+
+msgid "Encrypt the marked files."
+msgstr "加密選中的檔案。"
+
+msgid "Sign the marked files."
+msgstr "簽名選中的檔案。"
+
+msgid "Import the marked files."
+msgstr "匯入選中的檔案。"
+
+msgid "Create checksums."
+msgstr "生成校驗值。"
+
+msgid "Verify checksums."
+msgstr "驗證校驗值。"
+
+msgid "Show more GpgEX options."
+msgstr "顯示更多 GpgEX 選項。"
+
+#. TRANSLATORS: See the source for the full english text.
+msgid "-#GpgEXFullHelpText#-"
+msgstr ""
+"GpgEX 是用於資源管理器的資料加密和簽名外掛。\n"
+"它使用 GnuPG 軟體 (http://www.gnupg.org)。\n"
+"\n"
+"GpgEX 是自由軟體；你可以按照 GNU Lesser General Public License\n"
+"（以自由軟體基金會發布的版本為準）版本 2.1 或（如你所願）任意更新的版本\n"
+"使用和分發它。\n"
+"\n"
+"GpgEX 在希望其能夠有用的情況下分發，但不含任何保證——甚至不含隱含的\n"
+"對其商品性和對特定用途的適用性的保證。要獲取更多資訊，請參閱 GNU LGPL。\n"
+"你應當與本程式一起獲得了一份 GNU Lesser General Public Licence 的副本；\n"
+"若沒有，請參見 <http://www.gnu.org/licenses/>。"
+
+#, c-format
+msgid "This is GpgEX version %s (%s)"
+msgstr "這裡是 GpgEX 版本 %s (%s)"
