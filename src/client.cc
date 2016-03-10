@@ -410,20 +410,29 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
   return TRACE_GPGERR (rc);
 }
 
-
-bool
-client_t::call_assuan (const char *cmd, vector<string> &filenames)
+typedef struct async_arg
 {
+  const char *cmd;
+  vector<string> filenames;
+  HWND wid;
+} async_arg_t;
+
+static DWORD WINAPI
+call_assuan_async (LPVOID arg)
+{
+  async_arg_t *async_args = (async_arg_t *)arg;
   int rc = 0;
   int connect_failed = 0;
+  const char *cmd = async_args->cmd;
+  const vector<string> filenames = async_args->filenames;
 
   assuan_context_t ctx = NULL;
   string msg;
 
-  TRACE_BEG2 (DEBUG_ASSUAN, "client_t::call_assuan", this,
-	      "%s on %u files", cmd, filenames.size ());
+  TRACE_BEG2 (DEBUG_ASSUAN, "client_t::call_assuan_async", 0,
+              "%s on %u files", cmd, filenames.size ());
 
-  rc = uiserver_connect (&ctx, this->window);
+  rc = uiserver_connect (&ctx, async_args->wid);
   if (rc)
     {
       connect_failed = 1;
@@ -434,23 +443,23 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
     {
       /* Set the input files.  We don't specify the output files.  */
       for (unsigned int i = 0; i < filenames.size (); i++)
-	{
-	  msg = "FILE " + escape (filenames[i]);
+        {
+          msg = "FILE " + escape (filenames[i]);
 
-	  (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
+          (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
 
-	  rc = assuan_transact (ctx, msg.c_str (),
-				NULL, NULL, NULL, NULL, NULL, NULL);
-	  if (rc)
-	    goto leave;
-	}
+          rc = assuan_transact (ctx, msg.c_str (),
+                                NULL, NULL, NULL, NULL, NULL, NULL);
+          if (rc)
+            goto leave;
+        }
 
       /* Set the --nohup option, so that the operation continues and
-	 completes in the background.  */
+         completes in the background.  */
       msg = ((string) cmd) + " --nohup";
       (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
       rc = assuan_transact (ctx, msg.c_str (),
-			    NULL, NULL, NULL, NULL, NULL, NULL);
+                            NULL, NULL, NULL, NULL, NULL, NULL);
     }
   catch (std::bad_alloc)
     {
@@ -484,10 +493,31 @@ client_t::call_assuan (const char *cmd, vector<string> &filenames)
                   gpgex_server::ui_server? gpgex_server::ui_server:"",
                   gpgex_server::ui_server? ")":"",
                   gpg_strerror (rc));
-      MessageBox (this->window, buf, "GpgEX", MB_ICONINFORMATION);
+      MessageBox (async_args->wid, buf, "GpgEX", MB_ICONINFORMATION);
     }
+  delete async_args;
+  return 0;
+}
 
-  return rc ? false : true;
+void
+client_t::call_assuan (const char *cmd, vector<string> &filenames)
+{
+  TRACE_BEG (DEBUG_ASSUAN, "client_t::call_assuan", cmd);
+  async_arg_t * args = new async_arg_t;
+  args->cmd = cmd;
+  args->filenames = filenames;
+  args->wid = this->window;
+
+  /* We move the call in a different thread as the Windows explorer
+     is blocked until our call finishes. We don't want that.
+     Additionally Kleopatra / Qt5 SendsMessages to the parent
+     window provided in wid. Qt does this with blocking calls
+     so Kleopatra blocks until the explorer processes more
+     Window Messages and we block the explorer. This is
+     a deadlock. */
+  CreateThread (NULL, 0, call_assuan_async, (LPVOID) args, 0,
+                NULL);
+  return;
 }
 
 

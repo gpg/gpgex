@@ -34,7 +34,7 @@ class client_t
  private:
   HWND window;
 
-  bool call_assuan (const char *cmd, vector<string> &filenames);
+  void call_assuan (const char *cmd, vector<string> &filenames);
 
  public:
   client_t (HWND window_handle)
