@@ -108,67 +108,91 @@ default_uiserver_cmdline (void)
     }
 #else /*!ENABLE_GPA_ONLY*/
     {
-      const char *dir;
+      const char *dir, *tmp;
       char *uiserver, *p;
-      int extra_arglen = 0;
+      int extra_arglen = 9;
+      const char * server_names[] = {"bin\\kleopatra.exe",
+                                     "kleopatra.exe",
+                                     "bin\\launch-gpa.exe",
+                                     "launch-gpa.exe",
+                                     "bin\\gpa.exe",
+                                     "gpa.exe",
+                                     NULL};
 
       dir = gpgex_server::root_dir;
       if (!dir)
         return NULL;
 
-      uiserver = read_w32_registry_string (NULL, REGKEY, "UI Server");
+      uiserver = read_w32_registry_string (NULL, GPG4WIN_REGKEY_2,
+                                           "UI Server");
+      if (!uiserver)
+        {
+          uiserver = read_w32_registry_string (NULL, GPG4WIN_REGKEY_3,
+                                               "UI Server");
+        }
       if (!uiserver)
         {
           uiserver = strdup ("kleopatra.exe");
           if (!uiserver)
             return NULL;
-          extra_arglen = 9; /* Space required for " --daemon".  */
         }
-
-      name = (char*)malloc (strlen (dir) + strlen (uiserver) + extra_arglen +2);
-      if (!name)
+      if (uiserver)
         {
+          name = (char*) malloc (strlen (dir) + strlen (uiserver) +
+                                 extra_arglen + 2);
+          if (!name)
+            return NULL;
+          strcpy (stpcpy (stpcpy (name, dir), "\\"), uiserver);
+          for (p = name; *p; p++)
+            if (*p == '/')
+              *p = '\\';
           free (uiserver);
-          return NULL;
         }
-      strcpy (stpcpy (stpcpy (name, dir), "\\"), uiserver);
-      for (p = name; *p; p++)
-        if (*p == '/')
-          *p = '\\';
-      free (uiserver);
-      gpgex_server::ui_server = "Kleopatra";
-      if (extra_arglen && access (name, F_OK))
+      if (name && !access (name, F_OK))
         {
-          /* Kleopatra is not installed: Try GPA instead but if it is
-             also not available return the Kleopatra filename.  */
-          const char gpaserver[] = "launch-gpa.exe";
-          char *name2;
-
-          name2 = (char*)malloc (strlen (dir) + strlen (gpaserver)
-                                 + extra_arglen+2);
-          if (name2)
+          /* Set through registry or default kleo */
+          if (strstr (name, "kleopatra.exe"))
             {
-              strcpy (stpcpy (stpcpy (name2, dir), "\\"), gpaserver);
-              for (p = name2; *p; p++)
-                if (*p == '/')
-                  *p = '\\';
-              if (access (name2, F_OK ))
-                free (name2);
+              gpgex_server::ui_server = "Kleopatra";
+              strcat (name, " --daemon");
+            }
+          else
+            {
+              gpgex_server::ui_server = "GPA";
+            }
+          return name;
+        }
+      /* Fallbacks */
+      for (tmp = *server_names; *tmp; tmp++)
+        {
+          if (name)
+            {
+              free (name);
+            }
+          name = (char*) malloc (strlen (dir) + strlen (tmp) + extra_arglen + 2);
+          if (!name)
+            return NULL;
+          strcpy (stpcpy (stpcpy (name, dir), "\\"), tmp);
+          for (p = name; *p; p++)
+            if (*p == '/')
+              *p = '\\';
+          if (!access (name, F_OK))
+            {
+              /* Found a viable candidate */
+              /* Set through registry and is accessible */
+              if (strstr (name, "kleopatra.exe"))
+                {
+                  gpgex_server::ui_server = "Kleopatra";
+                  strcat (name, " --daemon");
+                }
               else
                 {
-                  free (name);
-                  name = name2;
                   gpgex_server::ui_server = "GPA";
                 }
+              return name;
             }
         }
-
-      /* Append the --daemon arg unless the server name has been taken
-         from the Registry.  */
-      if (name && extra_arglen)
-        strcat (name, " --daemon");
-      else
-        gpgex_server::ui_server = NULL;
+      gpgex_server::ui_server = NULL;
     }
 #endif /*!ENABLE_GPA_ONLY*/
 

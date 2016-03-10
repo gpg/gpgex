@@ -167,8 +167,16 @@ FILE *debug_file;
 static char *
 get_debug_file (void)
 {
-  return read_w32_registry_string ("HKEY_LOCAL_MACHINE", REGKEY,
-				   "GpgEX Debug File");
+  char *name = read_w32_registry_string (NULL,
+                                         GPG4WIN_REGKEY_3,
+                                         "GpgEX Debug File");
+  if (!name)
+    {
+      name = read_w32_registry_string (NULL,
+                                       GPG4WIN_REGKEY_2,
+                                       "GpgEX Debug File");
+    }
+  return name;
 }
 
 
