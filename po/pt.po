@@ -1,4 +1,4 @@
-# translation of GPGex.
+# Translation of GPGex.
 # Copyright (C) 2013 g10 Code GmbH
 # This file is distributed under the same license as the FIXME:GPGex package.
 # Diego Escalante Urrelo <diegoe@gnome.org>, 2008.
@@ -8,22 +8,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX\n"
 "Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
-"PO-Revision-Date: 2013-07-11 21:07-0000\n"
+"PO-Revision-Date: 2016-02-02 17:33+0000\n"
 "Last-Translator: Marco A.G.Pinto <marcoagpinto@mail.telepac.pt>\n"
 "Language-Team: Portuguese <marcoagpinto@mail.telepac.pt>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #, c-format
 msgid ""
 "Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"N�o � poss�vel aceder � interface de utilizador do GnuPG%s%s%s:\\r\n"
+"Não é possível aceder à interface de utilizador do GnuPG%s%s%s:\r\n"
 "%s"
 
 #, c-format
@@ -68,13 +68,13 @@ msgid "Verify checksums"
 msgstr "Verificar checksums"
 
 msgid "More GpgEX options"
-msgstr "Mais op��es do GpgEX"
+msgstr "Mais opções do GpgEX"
 
 msgid "Invoke the GpgEX documentation."
-msgstr "Invocar a documenta��o do GpgEX."
+msgstr "Invocar a documentação do GpgEX."
 
 msgid "Show the version of GpgEX."
-msgstr "Mostrar a vers�o do GpgEX."
+msgstr "Mostrar a versão do GpgEX."
 
 msgid "Decrypt and verify the marked files."
 msgstr "Desencriptar e verificar os ficheiros marcados."
@@ -104,12 +104,27 @@ msgid "Verify checksums."
 msgstr "Verificar checksums."
 
 msgid "Show more GpgEX options."
-msgstr "Mostrar mais op��es do GpgEX."
+msgstr "Mostrar mais opções do GpgEX."
 
 #. TRANSLATORS: See the source for the full english text.
 msgid "-#GpgEXFullHelpText#-"
-msgstr "-#GpgEXFullHelpText#-"
+msgstr ""
+"O GpgEX é um plugin Explorer para encriptação e assinar dados.\n"
+"Ele usa o software GnuPG (http://www.gnupg.org).\n"
+"\n"
+"O GpgEX é software livre; podes redistribuí-lo e/ou\n"
+"modificá-lo nos termos da GNU Lesser General Public\n"
+"License, como está publicado pela Free Software Foundation; quer\n"
+"a versão 2.1 da Licença,  ou (à tua escolha) qualquer versão posterior.\n"
+"\n"
+"O GpgEX é distribuído na esperança que possa ser útil,\n"
+"mas SEM QUALQUER GARANTIA; nem mesmo a garantia implícita de\n"
+"MERCANTIBILIDADE ou APTIDÃO PARA UMA FINALIDADE PARTICULAR. Vê a\n"
+"GNU Lesser General Public License para mais detalhes.\n"
+"\n"
+"Deves ter recebido uma cópia da GNU Lesser General Public License\n"
+"juntamente com este programa; se não, vê <http://www.gnu.org/licenses/>."
 
 #, c-format
 msgid "This is GpgEX version %s (%s)"
-msgstr "Este � o GpgEX vers�o %s (%s)"
+msgstr "Este é o GpgEX versão %s (%s)"
