@@ -111,12 +111,12 @@ default_uiserver_cmdline (void)
       const char *dir, *tmp;
       char *uiserver, *p;
       int extra_arglen = 9;
-      const char * server_names[] = {"bin\\kleopatra.exe",
-                                     "kleopatra.exe",
-                                     "bin\\launch-gpa.exe",
+      const char * server_names[] = {"kleopatra.exe",
+                                     "bin\\kleopatra.exe",
                                      "launch-gpa.exe",
-                                     "bin\\gpa.exe",
+                                     "bin\\launch-gpa.exe",
                                      "gpa.exe",
+                                     "bin\\gpa.exe",
                                      NULL};
 
       dir = gpgex_server::root_dir;
