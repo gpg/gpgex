@@ -108,7 +108,7 @@ default_uiserver_cmdline (void)
     }
 #else /*!ENABLE_GPA_ONLY*/
     {
-      const char *dir, *tmp;
+      const char *dir, **tmp;
       char *uiserver, *p;
       int extra_arglen = 9;
       const char * server_names[] = {"kleopatra.exe",
@@ -163,16 +163,16 @@ default_uiserver_cmdline (void)
           return name;
         }
       /* Fallbacks */
-      for (tmp = *server_names; *tmp; tmp++)
+      for (tmp = server_names; *tmp; tmp++)
         {
           if (name)
             {
               free (name);
             }
-          name = (char*) malloc (strlen (dir) + strlen (tmp) + extra_arglen + 2);
+          name = (char*) malloc (strlen (dir) + strlen (*tmp) + extra_arglen + 2);
           if (!name)
             return NULL;
-          strcpy (stpcpy (stpcpy (name, dir), "\\"), tmp);
+          strcpy (stpcpy (stpcpy (name, dir), "\\"), *tmp);
           for (p = name; *p; p++)
             if (*p == '/')
               *p = '\\';
