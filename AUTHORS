@@ -1,6 +1,8 @@
 Package: gpgex
 Contact: info-gpgex@g10code.com
-Bugs:    http://bugs.gnupg.org
+Bugs:    https://bugs.gnupg.org
+Security related bug reports: <security@gnupg.org>
+Maintainer: Andre Heinecke <aheinecke@gnupg.org>
 License: LGPLv2.1
 
 g10 Code GmbH
