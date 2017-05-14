@@ -164,87 +164,69 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
 
   this->reset ();
 
-  try
+  if (pDataObj)
     {
-      if (pDataObj)
-	{
-	  /* The data object contains a drop item which we extract.  */
-	  FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
-	  STGMEDIUM medium;
-	  UINT count;
+      /* The data object contains a drop item which we extract.  */
+      FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
+      STGMEDIUM medium;
+      UINT count;
 
-	  if (SUCCEEDED (pDataObj->GetData (&fe, &medium)))
-	    {
-	      HDROP drop = (HDROP) GlobalLock (medium.hGlobal);
-	      unsigned int i;
+      if (SUCCEEDED (pDataObj->GetData (&fe, &medium)))
+        {
+          HDROP drop = (HDROP) GlobalLock (medium.hGlobal);
+          unsigned int i;
 
-	      /* Now that we have the drop item, we can extract the
-		 file names.  */
-	      count = DragQueryFile (drop, (UINT) -1, NULL, 0);
-	      if (count == 0)
-		throw std::invalid_argument ("no filenames");
+          /* Now that we have the drop item, we can extract the
+             file names.  */
+          count = DragQueryFile (drop, (UINT) -1, NULL, 0);
+          if (count == 0)
+            {
+              err = E_INVALIDARG;
+            }
 
-	      try
-		{
-		  for (i = 0; i < count; i++)
-		    {
-		      char filename[MAX_PATH];
-		      UINT len;
-		      len = DragQueryFile (drop, i,
-					   filename, sizeof (filename) - 1);
-		      if (len == 0)
-			throw std::invalid_argument ("zero-length filename");
+          if (!err)
+            {
 
-		      /* Take a look at the ending.  */
-		      char *ending = strrchr (filename, '.');
-		      if (ending)
-			{
-			  BOOL gpg = false;
+              for (i = 0; i < count; i++)
+                {
+                  char filename[MAX_PATH];
+                  UINT len;
+                  len = DragQueryFile (drop, i,
+                                       filename, sizeof (filename) - 1);
+                  if (len == 0)
+                    {
+                      err = E_INVALIDARG;
+                      break;
+                    }
+                  /* Take a look at the ending.  */
+                  char *ending = strrchr (filename, '.');
+                  if (ending)
+                    {
+                      BOOL gpg = false;
 
-			  ending++;
-			  if (! strcasecmp (ending, "gpg")
-			      || ! strcasecmp (ending, "pgp")
-			      || ! strcasecmp (ending, "asc")
-			      || ! strcasecmp (ending, "sig")
-			      || ! strcasecmp (ending, "pem")
-			      || ! strcasecmp (ending, "p7m")
-			      || ! strcasecmp (ending, "p7s")
-                              )
-			    gpg = true;
+                      ending++;
+                      if (! strcasecmp (ending, "gpg")
+                          || ! strcasecmp (ending, "pgp")
+                          || ! strcasecmp (ending, "asc")
+                          || ! strcasecmp (ending, "sig")
+                          || ! strcasecmp (ending, "pem")
+                          || ! strcasecmp (ending, "p7m")
+                          || ! strcasecmp (ending, "p7s")
+                          )
+                        gpg = true;
 
-			  if (gpg == false)
-			    this->all_files_gpg = FALSE;
-			}
-		      else
-			this->all_files_gpg = FALSE;
+                      if (gpg == false)
+                        this->all_files_gpg = FALSE;
+                    }
+                  else
+                    this->all_files_gpg = FALSE;
 
-		      this->filenames.push_back (filename);
-		    }
-		}
-	      catch (...)
-		{
-		  GlobalUnlock (medium.hGlobal);
-		  ReleaseStgMedium (&medium);
-		  throw;
-		}
-
-	      GlobalUnlock (medium.hGlobal);
-	      ReleaseStgMedium (&medium);
-	    }
-	}
-    }
-  catch (std::bad_alloc)
-    {
-      err = E_OUTOFMEMORY;
-    }
-  catch (std::invalid_argument &e)
-    {
-      (VOID) TRACE_LOG1 ("exception: E_INVALIDARG: %s", e.what ());
-      err = E_INVALIDARG;
-    }
-  catch (...)
-    {
-      err = E_UNEXPECTED;
+                  this->filenames.push_back (filename);
+                }
+              GlobalUnlock (medium.hGlobal);
+              ReleaseStgMedium (&medium);
+            }
+        }
     }
 
   if (err != S_OK)

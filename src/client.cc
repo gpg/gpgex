@@ -256,7 +256,7 @@ escape (string str)
   char *arg_esc = percent_escape (str.c_str (), "+= ");
 
   if (arg_esc == NULL)
-    throw std::bad_alloc ();
+    return std::string();
 
   string res = arg_esc;
   free (arg_esc);
@@ -439,36 +439,25 @@ call_assuan_async (LPVOID arg)
       goto leave;
     }
 
-  try
-    {
-      /* Set the input files.  We don't specify the output files.  */
-      for (unsigned int i = 0; i < filenames.size (); i++)
-        {
-          msg = "FILE " + escape (filenames[i]);
+    /* Set the input files.  We don't specify the output files.  */
+    for (unsigned int i = 0; i < filenames.size (); i++)
+      {
+        msg = "FILE " + escape (filenames[i]);
 
-          (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
+        (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
 
-          rc = assuan_transact (ctx, msg.c_str (),
-                                NULL, NULL, NULL, NULL, NULL, NULL);
-          if (rc)
-            goto leave;
-        }
+        rc = assuan_transact (ctx, msg.c_str (),
+                              NULL, NULL, NULL, NULL, NULL, NULL);
+        if (rc)
+          goto leave;
+      }
 
-      /* Set the --nohup option, so that the operation continues and
-         completes in the background.  */
-      msg = ((string) cmd) + " --nohup";
-      (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
-      rc = assuan_transact (ctx, msg.c_str (),
-                            NULL, NULL, NULL, NULL, NULL, NULL);
-    }
-  catch (std::bad_alloc)
-    {
-      rc = gpg_error (GPG_ERR_ENOMEM);
-    }
-  catch (...)
-    {
-      rc = gpg_error (GPG_ERR_GENERAL);
-    }
+    /* Set the --nohup option, so that the operation continues and
+       completes in the background.  */
+    msg = ((string) cmd) + " --nohup";
+    (void) TRACE_LOG1 ("sending cmd: %s", msg.c_str ());
+    rc = assuan_transact (ctx, msg.c_str (),
+                          NULL, NULL, NULL, NULL, NULL, NULL);
 
   /* Fall-through.  */
  leave:
