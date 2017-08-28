@@ -1,5 +1,5 @@
 # Translation of GPGex.
-# Copyright (C) 2013 g10 Code GmbH
+# Copyright (C) 2017 g10 Code GmbH
 # This file is distributed under the same license as the FIXME:GPGex package.
 # Diego Escalante Urrelo <diegoe@gnome.org>, 2008.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpgEX\n"
 "Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
-"PO-Revision-Date: 2016-02-02 17:33+0000\n"
+"PO-Revision-Date: 2017-08-26 07:52+0100\n"
 "Last-Translator: Marco A.G.Pinto <marcoagpinto@mail.telepac.pt>\n"
 "Language-Team: Portuguese <marcoagpinto@mail.telepac.pt>\n"
 "Language: pt\n"
@@ -16,7 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.0.3\n"
+"POT-Creation-Date: \n"
 
 #, c-format
 msgid ""
@@ -31,7 +32,7 @@ msgid ""
 "Error returned by the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Erro devolvido pela interface de utilizador do GnuPG%s%s%s:\r\n"
+"Erro retornado pela interface de utilizador do GnuPG%s%s%s:\r\n"
 "%s"
 
 msgid "Help on GpgEX"
@@ -109,13 +110,13 @@ msgstr "Mostrar mais opções do GpgEX."
 #. TRANSLATORS: See the source for the full english text.
 msgid "-#GpgEXFullHelpText#-"
 msgstr ""
-"O GpgEX é um plugin Explorer para encriptação e assinar dados.\n"
+"O GpgEX é um plug-in Explorer para encriptação e assinar dados.\n"
 "Ele usa o software GnuPG (http://www.gnupg.org).\n"
 "\n"
 "O GpgEX é software livre; podes redistribuí-lo e/ou\n"
 "modificá-lo nos termos da GNU Lesser General Public\n"
 "License, como está publicado pela Free Software Foundation; quer\n"
-"a versão 2.1 da Licença,  ou (à tua escolha) qualquer versão posterior.\n"
+"a versão 2.1 da Licença, ou (à tua escolha) qualquer versão posterior.\n"
 "\n"
 "O GpgEX é distribuído na esperança que possa ser útil,\n"
 "mas SEM QUALQUER GARANTIA; nem mesmo a garantia implícita de\n"
