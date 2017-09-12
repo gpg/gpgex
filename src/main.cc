@@ -103,7 +103,7 @@ get_locale_dir (void)
                  such a directory layout under plain Windows without
                  the need to change libgpg-error.  */
               p = strrchr (result, '\\');
-              if (p && !strcmp (p+1, "bin"))
+              if (p && (!strcmp (p+1, "bin") || !strcmp (p+1, "bin_64")))
                 *p = 0;
 
               gpgex_server::root_dir = strdup (result);
