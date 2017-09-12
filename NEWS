@@ -1,5 +1,9 @@
-Noteworthy changes for version 1.0.5 (unreleased)
+Noteworthy changes for version 1.0.5 (2017-09-12)
 -------------------------------------------------
+
+* Fixed localisation for the 64bit version.
+
+* Added c++ hardending flags by default.
 
 
 Noteworthy changes for version 1.0.4 (2016-03-30)
