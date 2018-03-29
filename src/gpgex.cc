@@ -25,11 +25,15 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <map>
 
 using std::vector;
 using std::string;
 
 #include <windows.h>
+#include <gdiplus.h>
+#include <olectl.h>
+#include <objidl.h>
 
 /* For the start_help() function.  */
 #include <exdisp.h>
@@ -39,6 +43,8 @@ using std::string;
 #include "registry.h"
 
 #include "gpgex.h"
+
+#include "resource.h"
 
 
 /* For context menus.  */
@@ -235,6 +241,126 @@ gpgex_t::Initialize (LPCITEMIDLIST pIDFolder, IDataObject *pDataObj,
   return TRACE_RES (err);
 }
 
+static HBITMAP
+getBitmap (int id)
+{
+  TRACE_BEG0 (DEBUG_CONTEXT_MENU, __func__, nullptr, "get bitmap");
+  PICTDESC pdesc;
+  Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+  Gdiplus::Bitmap* pbitmap;
+  ULONG_PTR gdiplusToken;
+  HRSRC hResource;
+  DWORD imageSize;
+  const void* pResourceData;
+  HGLOBAL hBuffer;
+
+  memset (&pdesc, 0, sizeof pdesc);
+  pdesc.cbSizeofstruct = sizeof pdesc;
+  pdesc.picType = PICTYPE_BITMAP;
+
+  /* Initialize GDI */
+  gdiplusStartupInput.DebugEventCallback = NULL;
+  gdiplusStartupInput.SuppressBackgroundThread = FALSE;
+  gdiplusStartupInput.SuppressExternalCodecs = FALSE;
+  gdiplusStartupInput.GdiplusVersion = 1;
+  GdiplusStartup (&gdiplusToken, &gdiplusStartupInput, NULL);
+
+  /* Get the image from the resource file */
+  hResource = FindResource (gpgex_server::instance, MAKEINTRESOURCE(id), RT_RCDATA);
+  if (!hResource)
+    {
+      TRACE1 (DEBUG_CONTEXT_MENU, __func__, nullptr, "Failed to find id: %i",
+                  id);
+      return nullptr;
+    }
+
+  imageSize = SizeofResource (gpgex_server::instance, hResource);
+  if (!imageSize)
+    {
+      TRACE1 (DEBUG_CONTEXT_MENU, __func__, nullptr, "WTF: %i",
+                  __LINE__);
+      return nullptr;
+    }
+
+  pResourceData = LockResource (LoadResource (gpgex_server::instance, hResource));
+
+  if (!pResourceData)
+    {
+      TRACE1 (DEBUG_CONTEXT_MENU, __func__, nullptr, "WTF: %i",
+                  __LINE__);
+      return nullptr;
+    }
+
+  hBuffer = GlobalAlloc (GMEM_MOVEABLE, imageSize);
+
+  if (hBuffer)
+    {
+      void* pBuffer = GlobalLock (hBuffer);
+      if (pBuffer)
+        {
+          IStream* pStream = NULL;
+          CopyMemory (pBuffer, pResourceData, imageSize);
+
+          if (CreateStreamOnHGlobal (hBuffer, FALSE, &pStream) == S_OK)
+            {
+              pbitmap = Gdiplus::Bitmap::FromStream (pStream);
+              pStream->Release();
+              if (!pbitmap || pbitmap->GetHBITMAP (0, &pdesc.bmp.hbitmap))
+                {
+                  TRACE1 (DEBUG_CONTEXT_MENU, __func__, nullptr, "WTF: %i",
+                  __LINE__);
+                  return nullptr;
+                }
+            }
+        }
+      GlobalUnlock (pBuffer);
+    }
+  GlobalFree (hBuffer);
+
+  Gdiplus::GdiplusShutdown (gdiplusToken);
+
+  return pdesc.bmp.hbitmap;
+}
+
+static HBITMAP
+getBitmapCached (int id)
+{
+  static std::map<int, HBITMAP> s_id_map;
+
+  const auto it = s_id_map.find (id);
+  if (it == s_id_map.end ())
+    {
+      const HBITMAP icon = getBitmap (id);
+      s_id_map.insert (std::make_pair (id, icon));
+      return icon;
+    }
+  return it->second;
+}
+
+static bool
+setupContextMenuIcon (int id, HMENU hMenu, UINT indexMenu)
+{
+  TRACE_BEG2 (DEBUG_CONTEXT_MENU, __func__, nullptr, "Start. menu: %p index %u",
+              hMenu, indexMenu);
+  int width = GetSystemMetrics (SM_CXMENUCHECK);
+  int height = GetSystemMetrics (SM_CYMENUCHECK);
+
+  TRACE2 (DEBUG_CONTEXT_MENU, __func__, nullptr, "width %i height %i",
+          width, height);
+
+  HBITMAP bmp = getBitmapCached (id);
+
+  if (!bmp)
+    {
+      TRACE1 (DEBUG_CONTEXT_MENU, __func__, nullptr, "WTF: %i",
+              __LINE__);
+      return false;
+    }
+
+  return SetMenuItemBitmaps (hMenu, indexMenu - 1, MF_BYPOSITION,
+                             bmp, bmp);
+}
+
 
 /* IContextMenu methods.  */
 
@@ -304,12 +430,8 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
       return TRACE_RES (HRESULT_FROM_WIN32 (last_error));
     }
 
-  if (this->key_bitmap)
-    {
-      // indexMenu - 1!!!
-      res = SetMenuItemBitmaps (hMenu, indexMenu - 1, MF_BYPOSITION,
-				this->key_bitmap, this->key_bitmap);
-    }
+  res = setupContextMenuIcon (IDI_ICON_16, hMenu, indexMenu);
+
   if (res)
     res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR,
 		      0, NULL);

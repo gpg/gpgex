@@ -13,14 +13,14 @@
 
 bin_PROGRAMS = gpgex
 EXTRA_DIST = versioninfo.rc.in gpgex.manifest.in \
-	     GNU.GnuPG.Gcc64Support.manifest gnupg.ico
+	     GNU.GnuPG.Gcc64Support.manifest gnupg.ico \
+	     gpgex_logo.svg standalone.svg
 EXEEXT = .dll
 
 AM_CFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 AM_CXXFLAGS = $(LIBASSUAN_CFLAGS) $(GPG_ERROR_CFLAGS) -shared
 
-ICONS = icon-key-12.bmp icon-key-16.bmp     \
-        icon-lock-12.bmp  icon-lock-16.bmp
+ICONS = icon-16.png
 
 nodist_gpgex_SOURCES = versioninfo.rc gpgex.manifest
 gpgex_SOURCES = 				\
@@ -29,10 +29,10 @@ gpgex_SOURCES = 				\
 	exechelp.h exechelp.c			\
 	gpgex-class.h gpgex-class.cc		\
 	gpgex-factory.h gpgex-factory.cc	\
-	bitmaps.h bitmaps.cc			\
 	gpgex.h gpgex.cc			\
 	client.h client.cc			\
 	main.h debug.h main.cc				\
+	resource.h \
 	$(ICONS)
 
 libgpg-error.a:
@@ -50,7 +50,7 @@ clean-local:
 gpgex_LDFLAGS = -static-libgcc -static-libstdc++
 # We need -loleaut32 for start_help() in gpgex.cc.
 gpgex_LDADD = $(srcdir)/gpgex.def -L . \
-	-lshell32 -lgdi32 -lole32 -luuid \
+	-lshell32 -lgdi32 -lole32 -luuid -lgdiplus \
 	./libassuan.a ./libgpg-error.a -lws2_32 -loleaut32
 
 .rc.o:

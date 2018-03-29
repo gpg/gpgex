@@ -30,8 +30,6 @@ using std::string;
 #include <windows.h>
 #include <shlobj.h>
 
-#include "bitmaps.h"
-
 /* Our shell extension interface.  We use multiple inheritance to
    achieve polymorphy.
 
@@ -88,9 +86,6 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
   /* TRUE if all files in filenames are directly related to GPG.  */
   BOOL all_files_gpg;
 
-  /* Support for the context menu.  */
-  HBITMAP key_bitmap;
-
  public:
   /* Constructors and destructors.  For these, we update the global
      component reference counter.  */
@@ -101,17 +96,12 @@ class gpgex_t : public IShellExtInit, public IContextMenu3
 
       gpgex_server::add_ref ();
 
-      this->key_bitmap = gpgex_bitmaps.load_bitmap ("Lock");
-
       (void) TRACE_SUC ();
     }
 
   ~gpgex_t (void)
     {
       TRACE_BEG (DEBUG_INIT, "gpgex_t::~gpgex_t", this);
-
-      if (this->key_bitmap != NULL)
-	DeleteObject (this->key_bitmap);
 
       gpgex_server::release ();
 

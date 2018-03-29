@@ -1,5 +1,5 @@
-/* bitmaps.h - gpgex bitmap prototypes
-   Copyright (C) 2007 g10 Code GmbH
+/* resource.h - resource ids
+   Copyright (C) 2018 Intevation GmbH
 
    This file is part of GpgEX.
 
@@ -18,35 +18,9 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
    02110-1301, USA.  */
 
-#ifndef GPGEX_BITMAPS_H
-#define GPGEX_BITMAPS_H
+#ifndef RESOURCE_H
+#define RESOURCE_H
 
-#include <string>
+#define IDI_ICON_16                     0x1000
 
-using std::string;
-
-#include <windows.h>
-
-
-/* The class used to load bitmap resources.  */
-class gpgex_bitmaps_t
-{
-  /* The icon size used.  */
-  static int size;
-
-  /* The available sizes.  */
-  static int available_sizes[];
-
- public:
-  /* Constructor.  */
-  gpgex_bitmaps_t (void);
-
-  /* Load the bitmap with name NAME.  */
-  HBITMAP load_bitmap (string name);
-};
-
-
-/* The global singleton object.  */
-extern gpgex_bitmaps_t gpgex_bitmaps;
-
-#endif	/* ! GPGEX_BITMAPS_H */
+#endif // RESOURCE_H
