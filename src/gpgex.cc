@@ -711,7 +711,7 @@ start_help (HWND hwnd)
 static void
 show_about (HWND hwnd)
 {
-  const char cpynotice[] = "Copyright (C) 2013 g10 Code GmbH";
+  const char cpynotice[] = "Copyright (C) 2018 g10 Code GmbH";
   const char en_notice[] =
       "GpgEX is an Explorer plugin for data encryption and signing\n"
       "It uses the GnuPG software (http://www.gnupg.org).\n"
