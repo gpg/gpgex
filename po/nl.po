@@ -1,0 +1,131 @@
+# Dutch translations for gpgex package.
+# Copyright (C) 2018 g10 Code GmbH
+# This file is distributed under the same license as the gpgex package.
+# Erwin Bronkhorst <erwinbronkhorst@gmail.com>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GpgEX 1.0.3\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
+"PO-Revision-Date: 2018-05-23 14:31+0200\n"
+"Last-Translator: Erwin Bronkhorst <erwinbronkhorst@gmail.com>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, c-format
+msgid ""
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Kan niet met de GnuPG gebuikersinterface verbinden%s%s%s:\r\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Fout gerapporteerd door de GnuPG gebruikersinterface%s%s%s:\r\n"
+"%s"
+
+msgid "Help on GpgEX"
+msgstr "Help voor GpgEX"
+
+msgid "About GpgEX"
+msgstr "Over GpgEX"
+
+msgid "Decrypt and verify"
+msgstr "Ontcijferen en verifiëren"
+
+msgid "Decrypt"
+msgstr "Ontcijferen"
+
+msgid "Verify"
+msgstr "Verifiëren"
+
+msgid "Sign and encrypt"
+msgstr "Ondertekenen en versleutelen"
+
+msgid "Encrypt"
+msgstr "Versleutelen"
+
+msgid "Sign"
+msgstr "Ondertekenen"
+
+msgid "Import keys"
+msgstr "Sleutels importeren"
+
+msgid "Create checksums"
+msgstr "Controlesommen maken"
+
+msgid "Verify checksums"
+msgstr "Controlesommen verifiëren"
+
+msgid "More GpgEX options"
+msgstr "Meer opties voor GpgEX"
+
+msgid "Invoke the GpgEX documentation."
+msgstr "De documentatie voor GpgEX raadplegen."
+
+msgid "Show the version of GpgEX."
+msgstr "De versie van GpgEX weergeven."
+
+msgid "Decrypt and verify the marked files."
+msgstr "De gemarkeerde bestanden ontcijferen en verifiëren."
+
+msgid "Decrypt the marked files."
+msgstr "De gemarkeerde bestanden ontcijferen."
+
+msgid "Verify the marked files."
+msgstr "De gemarkeerde bestanden verifiëren."
+
+msgid "Sign and encrypt the marked files."
+msgstr "De gemarkeerde bestanden ondertekenen en versleutelen."
+
+msgid "Encrypt the marked files."
+msgstr "De geselecteerde bestanden versleutelen."
+
+msgid "Sign the marked files."
+msgstr "De gemarkeerde bestanden ondertekenen."
+
+msgid "Import the marked files."
+msgstr "De gemarkeerde bestanden importeren."
+
+msgid "Create checksums."
+msgstr "Controlesommen maken."
+
+msgid "Verify checksums."
+msgstr "Controlesommen verifiëren."
+
+msgid "Show more GpgEX options."
+msgstr "Meer opties voor GpgEX weergeven."
+
+#. TRANSLATORS: See the source for the full english text.
+msgid "-#GpgEXFullHelpText#-"
+msgstr ""
+"GpgEX is een invoegtoepassing voor Verkenner voor het versleutelen en "
+"ondertekenen van gegevens.\n"
+"Het gebruikt de GnuPG-software (http://www.gnupg.org).\n"
+"\n"
+"GpgEX is vrije software; u kunt het verspreiden en/of aanpassen\n"
+"onder de voorwaarden van de GNU Lesser General Public License\n"
+"zoals gepubliceerd bij de Free Software Foundation; zowel versie\n"
+"2.1 van de licentie, of (naar eigen keuze) elke nieuwere versie.\n"
+"\n"
+"GpgEX wordt verspreid in de hoop dat het bruikbaar zal zijn,\n"
+"maar ZONDER ENIGE GARANTIE; zonder ook maar de impliciete garantie\n"
+"van VERKOOPBAARHEID of TOEPASSING VOOR EEN BEPAALD DOEL. Zie de\n"
+"GNU Lesser General Public LIcense voor meer details.\n"
+"\n"
+"U zou een kopie van de GNU Lesser General Public License\n"
+"ontvangen moeten hebben bij dit programma; zo niet,\n"
+"zie <http://www.gnu.org/licenses/>."
+
+#, c-format
+msgid "This is GpgEX version %s (%s)"
+msgstr "Dit is GpgEX versie %s (%s)"
