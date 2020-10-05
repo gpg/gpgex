@@ -407,6 +407,12 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
 	return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
     }
 
+  /* Setup the icon */
+  res = setupContextMenuIcon (IDI_ICON_16, hMenu, indexMenu);
+  if (! res)
+    return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
+
+
   /* Now generate and add the generic command popup menu.  */
   HMENU popup;
   UINT idx = 0;
@@ -430,11 +436,8 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
       return TRACE_RES (HRESULT_FROM_WIN32 (last_error));
     }
 
-  res = setupContextMenuIcon (IDI_ICON_16, hMenu, indexMenu);
-
-  if (res)
-    res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR,
-		      0, NULL);
+  res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_SEPARATOR,
+                    0, NULL);
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
 
