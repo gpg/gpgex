@@ -81,7 +81,7 @@ default_socket_name (void)
 /* Return the name of the default UI server.  This name is used to
    auto start an UI server if an initial connect failed.  */
 static const char *
-default_uiserver_cmdline (void)
+default_uiserver_name (void)
 {
   static char *name;
 
@@ -154,7 +154,6 @@ default_uiserver_cmdline (void)
           if (strstr (name, "kleopatra.exe"))
             {
               gpgex_server::ui_server = "Kleopatra";
-              strcat (name, " --daemon");
             }
           else
             {
@@ -183,7 +182,6 @@ default_uiserver_cmdline (void)
               if (strstr (name, "kleopatra.exe"))
                 {
                   gpgex_server::ui_server = "Kleopatra";
-                  strcat (name, " --daemon");
                 }
               else
                 {
@@ -371,12 +369,20 @@ uiserver_connect (assuan_context_t *ctx, HWND hwnd)
       int count;
 
       (void) TRACE_LOG ("UI server not running, starting it");
+      const char *cmdline = NULL;
+      const char *program = default_uiserver_name ();
+
+      if (gpgex_server::ui_server &&
+          !strcmp (gpgex_server::ui_server, "Kleopatra"))
+        {
+          cmdline = "--daemon";
+        }
 
       /* Now try to connect again with the spawn lock taken.  */
       if (!(rc = gpgex_lock_spawning (&lock))
           && assuan_socket_connect (*ctx, socket_name, -1, 0))
         {
-          rc = gpgex_spawn_detached (default_uiserver_cmdline ());
+          rc = gpgex_spawn_detached (program, cmdline);
           if (!rc)
             {
               /* Give it a bit of time to start up and try a couple of

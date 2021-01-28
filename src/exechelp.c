@@ -96,7 +96,7 @@ gpgex_unlock_spawning (lock_spawn_t *lock)
 /* Fork and exec the program with /dev/null as stdin, stdout and
    stderr.  Returns 0 on success or an error code.  */
 gpg_error_t
-gpgex_spawn_detached (const char *cmdline)
+gpgex_spawn_detached (const char *pgmname, const char *cmdline)
 {
   SECURITY_ATTRIBUTES sec_attr;
   PROCESS_INFORMATION pi =
@@ -129,7 +129,7 @@ gpgex_spawn_detached (const char *cmdline)
 	      | CREATE_NEW_PROCESS_GROUP
               | DETACHED_PROCESS);
 
-  if (!CreateProcess (NULL,          /* pgmname; Program to start.  */
+  if (!CreateProcess (pgmname,         /* pgmname; Program to start.  */
                       (char *) cmdline, /* Command line arguments.  */
                       &sec_attr,     /* Process security attributes.  */
                       &sec_attr,     /* Thread security attributes.  */
