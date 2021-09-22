@@ -43,15 +43,14 @@ char *read_w32_registry_string (const char *root, const char *dir,
 /* Retrieve the default home directory.  */
 const char *default_homedir (void);
 
-/* The Registry key used by Gpg4win.  */
+/* The Registry keys used by Gpg4win and GnUPG.  */
 #ifdef WIN64
+# define GPG4WIN_REGKEY_1  "Software\\Wow6432Node\\GnuPG"
 # define GPG4WIN_REGKEY_2  "Software\\Wow6432Node\\GNU\\GnuPG"
-#else
-# define GPG4WIN_REGKEY_2  "Software\\GNU\\GnuPG"
-#endif
-#ifdef WIN64
 # define GPG4WIN_REGKEY_3  "Software\\Wow6432Node\\Gpg4win"
 #else
+# define GPG4WIN_REGKEY_1  "Software\\GnuPG"
+# define GPG4WIN_REGKEY_2  "Software\\GNU\\GnuPG"
 # define GPG4WIN_REGKEY_3  "Software\\Gpg4win"
 #endif
 

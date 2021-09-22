@@ -39,6 +39,13 @@ void gpgex_unlock_spawning (lock_spawn_t *lock);
    Returns 0 on success or an error code.  */
 gpg_error_t gpgex_spawn_detached (const char *pgmname, const char *cmdline);
 
+/* Fork and exec PGMNAME with args in CMDLINE and /dev/null connected
+ * to stdin and stderr.  Read from stdout and return the result as a
+ * malloced string at R_STRING.  Returns 0 on success or an error code.  */
+gpg_error_t gpgex_spawn_get_string (const char *pgmname, const char *cmdline,
+                                    char **r_string);
+
+
 #ifdef __cplusplus
 #if 0
 {

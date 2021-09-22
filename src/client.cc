@@ -52,26 +52,101 @@ _gpgex_stpcpy (char *a, const char *b)
 
 
 
+/* Find the gpgconf binary which is used to return installation
+ * properties of the GnuPG system.  We can't simply snatch some code
+ * from GnuPG because that would also require that we link to
+ * Libgcrypt or implement our own SHA-1 function to build the
+ * directory name for a non-default GNUPGHOME.  It is just better to
+ * that info from gpgconf and try hard to find the correct
+ * gpgconf.  */
+static const char *
+get_gpgconf_name (void)
+{
+  static int tried;
+  static char *name;
+
+  if (!tried)
+    {
+      const char *dir, **tmp;
+      char *instdir, *p;
+      const char *possible_names[] =
+        {
+         "gpgconf.exe",
+         "..\\bin\\gpgconf.exe",
+         "..\\GnuPG\\bin\\gpgconf.exe",
+         "..\\..\\GnuPG\\bin\\gpgconf.exe",
+         NULL
+        };
+
+      tried = 1;
+
+      instdir = read_w32_registry_string (NULL, GPG4WIN_REGKEY_1,
+                                          "Install Directory");
+      if (instdir)
+        {
+          name = (char*)malloc (strlen (instdir) + 16 + 1);
+          if (!name)
+            return NULL;
+          strcpy (stpcpy (name, instdir), "/bin/gpgconf.exe");
+          for (p = name; *p; p++)
+            if (*p == '/')
+              *p = '\\';
+          free (instdir);
+        }
+      if (name && !gpgrt_access (name, F_OK))
+        return name;  /* Yeah, Installed.  */
+
+      dir = gpgex_server::root_dir;
+      if (!dir)
+        return NULL;  /* No way.  */
+
+      /* Try fallbacks */
+      for (tmp = possible_names; *tmp; tmp++)
+        {
+          if (name)
+            free (name);
+          name = (char*)malloc (strlen (dir) + 1 + strlen (*tmp) + 1);
+          if (!name)
+            return NULL; /* Ooops.  */
+
+          strcpy (stpcpy (stpcpy (name, dir), "\\"), *tmp);
+          for (p = name; *p; p++)
+            if (*p == '/')
+              *p = '\\';
+          if (!gpgrt_access (name, F_OK))
+            return name; /* Found.  */
+        }
+    }
+
+  return name;
+}
+
+
 static const char *
 default_socket_name (void)
 {
+  static int tried;
   static char *name;
 
-  if (!name)
+  if (!tried)
     {
-      const char *dir;
+      const char *gpgconf;
+      char *dir;
       const char sockname[] = "\\S.uiserver";
 
-      dir = default_homedir ();
-      if (dir)
-	{
-          name = (char *)malloc (strlen (dir) + strlen (sockname) + 1);
-          if (name)
-            {
-              strcpy (name, dir);
-              strcat (name, sockname);
-            }
-	}
+      tried = 1;
+      gpgconf = get_gpgconf_name ();
+      if (!gpgconf)
+        return NULL;
+
+      if (gpgex_spawn_get_string (gpgconf, "gpgconf -0 --list-dirs socketdir",
+                                  &dir))
+        return NULL;
+
+      name = (char *)malloc (strlen (dir) + strlen (sockname) + 1);
+      if (name)
+        strcpy (stpcpy (name, dir), sockname);
+      free (dir);
     }
 
   return name;
@@ -148,7 +223,7 @@ default_uiserver_name (void)
               *p = '\\';
           free (uiserver);
         }
-      if (name && !access (name, F_OK))
+      if (name && !gpgrt_access (name, F_OK))
         {
           /* Set through registry or default kleo */
           if (strstr (name, "kleopatra.exe"))
@@ -175,7 +250,7 @@ default_uiserver_name (void)
           for (p = name; *p; p++)
             if (*p == '/')
               *p = '\\';
-          if (!access (name, F_OK))
+          if (!gpgrt_access (name, F_OK))
             {
               /* Found a viable candidate */
               /* Set through registry and is accessible */
@@ -196,6 +271,7 @@ default_uiserver_name (void)
 
   return name;
 }
+
 
 
 #define tohex_lower(n) ((n) < 10 ? ((n) + '0') : (((n) - 10) + 'a'))
