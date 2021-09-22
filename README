@@ -19,9 +19,16 @@ HKLM\Software\GNU\GnuPG:UI Server
   If the configure option --enable-gpa-only is used these registry
   entries have no effect.
 
-HKCU\Software\GNU\GnuPG:HomeDir
-HKLM\Software\GNU\GnuPG:HomeDir
-  The GnuPG home directory.  Defaults to %APPDATA%\gnupg.
+HKCU\Software\GNU\GnuPG:Install Directory
+HKLM\Software\GNU\GnuPG:Install Directory
+  The directory where GnuPG is installed.  This is set by the GnuPG or
+  Gpg4win installer and used to locate the gpgconf.exe binary.  If
+  this is not set that binary is searched starting at the installation
+  directory of gpgex.dll in this order:
+    .\gpgconf.exe
+    ..\bin\gpgconf.exe
+    ..\GnuPG\\bin\\gpgconf.exe
+    ..\..\GnuPG\bin\gpgconf.exe
 
 HKLM\Software\GNU\GnuPG:GpgEX Debug File
   See below.

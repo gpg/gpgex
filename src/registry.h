@@ -40,9 +40,6 @@ HRESULT w32_shgetfolderpath (HWND a, int b, HANDLE c, DWORD d, LPSTR e);
 char *read_w32_registry_string (const char *root, const char *dir,
 				const char *name);
 
-/* Retrieve the default home directory.  */
-const char *default_homedir (void);
-
 /* The Registry keys used by Gpg4win and GnUPG.  */
 #ifdef WIN64
 # define GPG4WIN_REGKEY_1  "Software\\Wow6432Node\\GnuPG"
