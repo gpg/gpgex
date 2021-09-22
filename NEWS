@@ -1,5 +1,10 @@
-Noteworthy changes for version 1.0.8 (unreleased)
+Noteworthy changes for version 1.0.8 (2021-09-22)
 -------------------------------------------------
+
+* Take the UI-Server socket directory from information provided by
+  gpgconf.  This matches the changes to the used socket directory
+  introduced with GnuPG 2.2.30.
+
 
 Noteworthy changes for version 1.0.7 (2021-01-26)
 -------------------------------------------------
@@ -119,4 +124,3 @@ Noteworthy changes for version 0.9.0 (2008-03-26)
 -------------------------------------------------
 
 * Initial release.
-
