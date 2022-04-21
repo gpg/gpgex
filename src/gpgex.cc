@@ -74,6 +74,40 @@ using std::string;
 #define ID_CMD_STR_CREATE_CHECKSUMS	_("Create checksums")
 #define ID_CMD_STR_VERIFY_CHECKSUMS	_("Verify checksums")
 
+/* Returns the string for a command id */
+static const char *
+getCaptionForId (int id)
+{
+  /* Yeah,.. maps were invented but this works, too */
+  switch (id)
+    {
+      case ID_CMD_HELP:
+        return ID_CMD_STR_HELP;
+      case ID_CMD_DECRYPT_VERIFY:
+        return ID_CMD_STR_DECRYPT_VERIFY;
+      case ID_CMD_DECRYPT:
+        return ID_CMD_STR_DECRYPT;
+      case ID_CMD_VERIFY:
+        return ID_CMD_STR_VERIFY;
+      case ID_CMD_SIGN_ENCRYPT:
+        return ID_CMD_STR_SIGN_ENCRYPT;
+      case ID_CMD_ENCRYPT:
+        return ID_CMD_STR_ENCRYPT;
+      case ID_CMD_SIGN:
+        return ID_CMD_STR_SIGN;
+      case ID_CMD_IMPORT:
+        return ID_CMD_STR_IMPORT;
+      case ID_CMD_CREATE_CHECKSUMS:
+        return ID_CMD_STR_CREATE_CHECKSUMS;
+      case ID_CMD_VERIFY_CHECKSUMS:
+        return ID_CMD_STR_VERIFY_CHECKSUMS;
+      case ID_CMD_ABOUT:
+        return ID_CMD_STR_ABOUT;
+      default:
+        return "Unknown command";
+    }
+}
+
 
 /* Reset the instance between operations.  */
 void
@@ -361,6 +395,28 @@ setupContextMenuIcon (int id, HMENU hMenu, UINT indexMenu)
                              bmp, bmp);
 }
 
+static int
+readDefaultEntry ()
+{
+  TRACE_BEG0 (DEBUG_CONTEXT_MENU, __func__, nullptr, "read default entry");
+  char *entry = read_w32_registry_string (NULL,
+                                          GPG4WIN_REGKEY_2,
+                                          "GpgExDefault");
+  if (!entry)
+    {
+      return -1;
+    }
+  long int val = strtol (entry, nullptr, 10);
+  free (entry);
+  if (val > ID_CMD_MAX || val < 0)
+    {
+      TRACE1 (DEBUG_CONTEXT_MENU, __func__, nullptr, "invalid cmd value: %li",
+              val);
+      return -1;
+    }
+  return static_cast<int> (val);
+}
+
 
 /* IContextMenu methods.  */
 
@@ -399,10 +455,15 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
     }
   else
     {
-      /* FIXME: Check error.  */
+      /* Check registry if a different default menu entry is configured */
+      int def_entry = readDefaultEntry ();
+      if (def_entry == -1)
+        {
+          def_entry = ID_CMD_SIGN_ENCRYPT;
+        }
       res = InsertMenu (hMenu, indexMenu++, MF_BYPOSITION | MF_STRING,
-			idCmdFirst + ID_CMD_SIGN_ENCRYPT,
-			ID_CMD_STR_SIGN_ENCRYPT);
+                        idCmdFirst + def_entry,
+                        getCaptionForId (def_entry));
       if (! res)
 	return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
     }
@@ -714,7 +775,7 @@ start_help (HWND hwnd)
 static void
 show_about (HWND hwnd)
 {
-  const char cpynotice[] = "Copyright (C) 2021 g10 Code GmbH";
+  const char cpynotice[] = "Copyright (C) 2022 g10 Code GmbH";
   const char en_notice[] =
       "GpgEX is an Explorer plugin for data encryption and signing\n"
       "It uses the GnuPG software (http://www.gnupg.org).\n"
