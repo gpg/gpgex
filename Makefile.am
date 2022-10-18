@@ -15,8 +15,6 @@ ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = no-dist-gzip dist-bzip2
 # Because we can only build the w32 version we need to help automake.
 DISTCHECK_CONFIGURE_FLAGS = --host=@host@ --build=@build@ \
-			    --with-libassuan-prefix=@prefix@ \
-			    --with-gpg-error-prefix=@prefix@ \
                             --prefix=@prefix@
 
 EXTRA_DIST = autogen.sh autogen.rc
