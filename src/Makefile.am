@@ -35,11 +35,29 @@ gpgex_SOURCES = 				\
 	resource.h \
 	$(ICONS)
 
+if HAVE_W64_SYSTEM
+libgpg-error.a:
+	if [ -e "$$($(GPG_ERROR_CONFIG) --prefix)/lib64/libgpg-error.a" ]; then \
+		ln -sf $$($(GPG_ERROR_CONFIG) --prefix)/lib64/libgpg-error.a .; \
+	else \
+		ln -sf $$($(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a .; \
+	fi
+else
 libgpg-error.a:
 	ln -sf $$($(GPG_ERROR_CONFIG) --prefix)/lib/libgpg-error.a .
+endif
 
+if HAVE_W64_SYSTEM
+libassuan.a:
+	if [ -e "$$($(LIBASSUAN_CONFIG) --prefix)/lib64/libassuan.a" ]; then \
+		ln -sf $$($(LIBASSUAN_CONFIG) --prefix)/lib64/libassuan.a .; \
+	else \
+		ln -sf $$($(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a .; \
+	fi
+else
 libassuan.a:
 	ln -sf $$($(LIBASSUAN_CONFIG) --prefix)/lib/libassuan.a .
+endif
 
 clean-local:
 	rm -f libgpg-error.a libassuan.a
