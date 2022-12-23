@@ -35,9 +35,6 @@ using std::string;
 #include <olectl.h>
 #include <objidl.h>
 
-/* For the start_help() function.  */
-#include <exdisp.h>
-
 #include "main.h"
 #include "client.h"
 #include "registry.h"
@@ -48,7 +45,6 @@ using std::string;
 
 
 /* For context menus.  */
-#define ID_CMD_HELP		0
 #define ID_CMD_DECRYPT_VERIFY	1
 #define ID_CMD_DECRYPT		2
 #define ID_CMD_VERIFY		3
@@ -62,7 +58,6 @@ using std::string;
 #define ID_CMD_ABOUT		11
 #define ID_CMD_MAX		11
 
-#define ID_CMD_STR_HELP			_("Help on GpgEX")
 #define ID_CMD_STR_ABOUT         	_("About GpgEX")
 #define ID_CMD_STR_DECRYPT_VERIFY	_("Decrypt and verify")
 #define ID_CMD_STR_DECRYPT		_("Decrypt")
@@ -81,8 +76,6 @@ getCaptionForId (int id)
   /* Yeah,.. maps were invented but this works, too */
   switch (id)
     {
-      case ID_CMD_HELP:
-        return ID_CMD_STR_HELP;
       case ID_CMD_DECRYPT_VERIFY:
         return ID_CMD_STR_DECRYPT_VERIFY;
       case ID_CMD_DECRYPT:
@@ -538,9 +531,6 @@ gpgex_t::QueryContextMenu (HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
   if (res)
     res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
-		      idCmdFirst + ID_CMD_HELP, ID_CMD_STR_HELP);
-  if (res)
-    res = InsertMenu (popup, idx++, MF_BYPOSITION | MF_STRING,
 		      idCmdFirst + ID_CMD_ABOUT, ID_CMD_STR_ABOUT);
   if (! res)
     return TRACE_RES (HRESULT_FROM_WIN32 (GetLastError ()));
@@ -579,10 +569,6 @@ gpgex_t::GetCommandString (UINT_PTR idCommand, UINT uFlags, LPUINT lpReserved,
 
   switch (idCommand)
     {
-    case ID_CMD_HELP:
-      txt = _("Invoke the GpgEX documentation.");
-      break;
-
     case ID_CMD_ABOUT:
       txt = _("Show the version of GpgEX.");
       break;
@@ -683,94 +669,6 @@ get_lang_name (void)
 }
 
 
-/* According to MSDN using ShellExecute may be problematic when using
-   within the Shell.  Thus we call Internet explorer directly.  It is
-   anyway only used for local files.  */
-static void
-start_help (HWND hwnd)
-{
-  HRESULT res;
-  CLSID clsid;
-  LPUNKNOWN browser = NULL;
-  IWebBrowser2 *web = NULL;
-
-  CLSIDFromProgID (OLESTR ("InternetExplorer.Application"), &clsid);
-  res = CoCreateInstance (clsid, NULL, CLSCTX_SERVER, IID_IUnknown, (void **) &browser);
-  if (! SUCCEEDED (res))
-    {
-      MessageBox (hwnd, "Can not open browser", "GpgEX", MB_ICONINFORMATION);
-      return;
-    }
-
-  browser->QueryInterface (IID_IWebBrowser2, (void **) &web);
-  browser->Release ();
-
-  /* FIXME: Pick a good configuration.  */
-  // Only for IE7?
-  // web->put_Resizable (VARIANT_TRUE);
-  // web->put_ToolBar (FALSE);
-  // web->put_AddressBar (VARIANT_FALSE);
-  // web->put_MenuBar (VARIANT_FALSE);
-  // web->put_StatusBar (VARIANT_FALSE);
-  // width, height
-  web->put_Visible (VARIANT_TRUE);
-
-  wchar_t *wurl;
-  {
-#define URLSIZE 512
-    char url[URLSIZE];
-    const char *lang = get_lang_name ();
-
-    snprintf (url, URLSIZE, "file:///%s\\share\\doc\\gpgex\\gpgex-%s.html",
-              gpgex_server::root_dir, lang);
-    url[URLSIZE - 1] = '\0';
-    wurl = utf8_to_wchar (url);
-
-    /* We need to test whether we need to fall back to the generic
-       lang id.  */
-    if (wurl && strchr (lang, '_') && _waccess (wurl+8, 0))
-      {
-        snprintf (url, URLSIZE,
-                  "file:///%s\\share\\doc\\gpgex\\gpgex-%.2s.html",
-                  gpgex_server::root_dir, lang);
-        url[URLSIZE - 1] = '\0';
-        free (wurl);
-        wurl = utf8_to_wchar (url);
-      }
-
-    /* If the help file does not exists fall back to the english version.  */
-    if (wurl && _waccess (wurl+8, 0))
-      {
-        snprintf (url, URLSIZE,
-                  "file:///%s\\share\\doc\\gpgex\\gpgex-en.html",
-                  gpgex_server::root_dir);
-        url[URLSIZE - 1] = '\0';
-        free (wurl);
-        wurl = utf8_to_wchar (url);
-      }
-  }
-
-  if (wurl)
-    {
-      BSTR burl = SysAllocString ((const OLECHAR *)wurl);
-      VARIANT vars[4];
-      memset (vars, 0, sizeof (vars));
-      res = web->Navigate (burl, vars, vars + 1, vars + 2, vars + 3);
-      SysFreeString (burl);
-      free (wurl);
-      if (!SUCCEEDED (res))
-        {
-          web->Release ();
-          return;
-        }
-    }
-
-  /* Do more stuff.  */
-
-  web->Release ();
-}
-
-
 /* Show the version informatione etc.  */
 static void
 show_about (HWND hwnd)
@@ -843,10 +741,6 @@ gpgex_t::InvokeCommand (LPCMINVOKECOMMANDINFO lpcmi)
      QueryContextMenu, ie zero based).  */
   switch (LOWORD (lpcmi->lpVerb))
     {
-    case ID_CMD_HELP:
-      start_help (lpcmi->hwnd);
-      break;
-
     case ID_CMD_ABOUT:
       show_about (lpcmi->hwnd);
       break;
