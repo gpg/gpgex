@@ -204,7 +204,7 @@ if test "$GCC" = yes; then
         CXXFLAGS="$CXXFLAGS -Wcast-align -Wshadow"
         CXXFLAGS="$CXXFLAGS -Wno-format-y2k -Wformat-security"
     fi
-    HARDENING="-Wl,--dynamicbase -Wl,--nxcompat -fno-exceptions -D_FORTIFY_SOURCE=2 -O0"
+    HARDENING="-Wl,--dynamicbase -Wl,--nxcompat -fno-exceptions -D_FORTIFY_SOURCE=2"
     CFLAGS="$CFLAGS $HARDENING"
     CXXFLAGS="$CXXFLAGS $HARDENING"
 fi
