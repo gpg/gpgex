@@ -1,28 +1,29 @@
 # German translations for gpgex package.
 # Copyright (C) 2007 g10 Code GmbH
 # This file is distributed under the same license as the gpgex package.
-# Marcus Brinkmann <marcus@g10code.com>, 2007.
 #
+# Marcus Brinkmann <marcus@g10code.com>, 2007.
+# Eva Bolten <eva.bolten@gnupg.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: gpgex 1.0.0\n"
 "Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
-"PO-Revision-Date: 2013-06-27 17:32+0200\n"
-"Last-Translator: Werner Koch <wk@gnupg.org>\n"
-"Language-Team: German\n"
-"Language: \n"
+"PO-Revision-Date: 2023-07-13 13:52+0200\n"
+"Last-Translator: Eva Bolten <eva.bolten@gnupg.com>\n"
+"Language-Team: German <kde-i18n-doc@kde.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #, c-format
 msgid ""
 "Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Verbindung zur GnuPG Benutzerschnittstelle%s%s%s kann nicht aufgebaut werden:"
-"\\r\n"
+"Verbindung zur GnuPG Benutzerschnittstelle%s%s%s kann nicht aufgebaut werden:\r\n"
 "%s"
 
 #, c-format
@@ -30,7 +31,7 @@ msgid ""
 "Error returned by the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Fehlermeldung der GnuPG Benutzerschnittstelle%s%s%s:\\r\n"
+"Fehlermeldung der GnuPG Benutzerschnittstelle%s%s%s:\r\n"
 "%s"
 
 msgid "Help on GpgEX"
@@ -108,7 +109,7 @@ msgstr "Mehr GpgEX Optionen."
 #. TRANSLATORS: See the source for the full english text.
 msgid "-#GpgEXFullHelpText#-"
 msgstr ""
-"GpgEX ist eine Explorer Erweiterung, welches es ermöglicht\n"
+"GpgEX ist eine Explorer Erweiterung, welche es ermöglicht\n"
 "Daten mittels der Internet-Standards PGP/MIME oder S/MIME\n"
 "zu verschlüsseln und digital zu signieren.  Im Hintergrund wird\n"
 "dazu die GnuPG Software (<http://www.gnupg.org/>) benutzt.\n"
