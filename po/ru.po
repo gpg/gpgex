@@ -31,9 +31,6 @@ msgid ""
 "%s"
 msgstr ""
 
-msgid "Help on GpgEX"
-msgstr "Помощь по GpgEX"
-
 msgid "About GpgEX"
 msgstr ""
 
@@ -66,9 +63,6 @@ msgstr "Проверить контрольные суммы"
 
 msgid "More GpgEX options"
 msgstr "Другие параметры GpgEX"
-
-msgid "Invoke the GpgEX documentation."
-msgstr "Открыть документацию GpgEX."
 
 msgid "Show the version of GpgEX."
 msgstr ""
@@ -110,3 +104,9 @@ msgstr ""
 #, c-format
 msgid "This is GpgEX version %s (%s)"
 msgstr ""
+
+#~ msgid "Help on GpgEX"
+#~ msgstr "Помощь по GpgEX"
+
+#~ msgid "Invoke the GpgEX documentation."
+#~ msgstr "Открыть документацию GpgEX."

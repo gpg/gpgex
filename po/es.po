@@ -31,9 +31,6 @@ msgstr ""
 "Error de la interface de usuario de GnuPG%s%s%s:\r\n"
 "%s"
 
-msgid "Help on GpgEX"
-msgstr "Ayuda de GpgEX"
-
 msgid "About GpgEX"
 msgstr "Acerca de GpgEX"
 
@@ -66,9 +63,6 @@ msgstr "Verificar sumas de comprobación."
 
 msgid "More GpgEX options"
 msgstr "Más opciones de GpgEX"
-
-msgid "Invoke the GpgEX documentation."
-msgstr "Invocar la documentación de GpgEX."
 
 msgid "Show the version of GpgEX."
 msgstr "Mostrar la versión de GpgEX"
@@ -110,3 +104,9 @@ msgstr ""
 #, c-format
 msgid "This is GpgEX version %s (%s)"
 msgstr "Esto es GpgEX versión %s (%s)"
+
+#~ msgid "Help on GpgEX"
+#~ msgstr "Ayuda de GpgEX"
+
+#~ msgid "Invoke the GpgEX documentation."
+#~ msgstr "Invocar la documentación de GpgEX."

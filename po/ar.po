@@ -34,9 +34,6 @@ msgstr ""
 "الخطأ الذي أرجعته واجهة المستخدم GnuPG%s%s%s:\n"
 "%s"
 
-msgid "Help on GpgEX"
-msgstr "‮مساعدة حول ‪GpgEx‬"
-
 msgid "About GpgEX"
 msgstr "عن GpgEX"
 
@@ -69,9 +66,6 @@ msgstr "افحص التلبيدات"
 
 msgid "More GpgEX options"
 msgstr "‮مزيد من خيارات ‪GpgEx‬"
-
-msgid "Invoke the GpgEX documentation."
-msgstr "‮طالع وثائق ‪GpgEx‬"
 
 msgid "Show the version of GpgEX."
 msgstr "أظهر رقم إصدارة GpgEX"
@@ -126,3 +120,9 @@ msgstr ""
 #, c-format
 msgid "This is GpgEX version %s (%s)"
 msgstr "هذه إصدارة GpgEX رقم %s (%s)"
+
+#~ msgid "Help on GpgEX"
+#~ msgstr "‮مساعدة حول ‪GpgEx‬"
+
+#~ msgid "Invoke the GpgEX documentation."
+#~ msgstr "‮طالع وثائق ‪GpgEx‬"

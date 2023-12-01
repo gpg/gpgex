@@ -23,7 +23,8 @@ msgid ""
 "Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Verbindung zur GnuPG Benutzerschnittstelle%s%s%s kann nicht aufgebaut werden:\r\n"
+"Verbindung zur GnuPG Benutzerschnittstelle%s%s%s kann nicht aufgebaut werden:"
+"\r\n"
 "%s"
 
 #, c-format
@@ -33,9 +34,6 @@ msgid ""
 msgstr ""
 "Fehlermeldung der GnuPG Benutzerschnittstelle%s%s%s:\r\n"
 "%s"
-
-msgid "Help on GpgEX"
-msgstr "Hilfe zu GpgEX"
 
 msgid "About GpgEX"
 msgstr "Über GpgEX"
@@ -69,9 +67,6 @@ msgstr "Prüfsummen überprüfen"
 
 msgid "More GpgEX options"
 msgstr "Mehr GpgEX Optionen"
-
-msgid "Invoke the GpgEX documentation."
-msgstr "Öffne die Dokumentation zu GpgEX"
 
 msgid "Show the version of GpgEX."
 msgstr "Anzeige der Version von GpgEX"
@@ -132,3 +127,9 @@ msgstr ""
 #, c-format
 msgid "This is GpgEX version %s (%s)"
 msgstr "Dies ist GpgEX Version %s (%s)"
+
+#~ msgid "Help on GpgEX"
+#~ msgstr "Hilfe zu GpgEX"
+
+#~ msgid "Invoke the GpgEX documentation."
+#~ msgstr "Öffne die Dokumentation zu GpgEX"

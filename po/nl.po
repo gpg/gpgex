@@ -33,9 +33,6 @@ msgstr ""
 "Fout gerapporteerd door de GnuPG gebruikersinterface%s%s%s:\r\n"
 "%s"
 
-msgid "Help on GpgEX"
-msgstr "Help voor GpgEX"
-
 msgid "About GpgEX"
 msgstr "Over GpgEX"
 
@@ -68,9 +65,6 @@ msgstr "Controlesommen verifiëren"
 
 msgid "More GpgEX options"
 msgstr "Meer opties voor GpgEX"
-
-msgid "Invoke the GpgEX documentation."
-msgstr "De documentatie voor GpgEX raadplegen."
 
 msgid "Show the version of GpgEX."
 msgstr "De versie van GpgEX weergeven."
@@ -129,3 +123,9 @@ msgstr ""
 #, c-format
 msgid "This is GpgEX version %s (%s)"
 msgstr "Dit is GpgEX versie %s (%s)"
+
+#~ msgid "Help on GpgEX"
+#~ msgstr "Help voor GpgEX"
+
+#~ msgid "Invoke the GpgEX documentation."
+#~ msgstr "De documentatie voor GpgEX raadplegen."
