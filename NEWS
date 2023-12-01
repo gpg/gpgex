@@ -1,5 +1,9 @@
-Noteworthy changes for version 1.0.10 (unreleased)
+Noteworthy changes for version 1.0.10 (2023-12-01)
 -------------------------------------------------
+
+* Removed outdated help entry.
+
+* General build system maintenance.
 
 
 Noteworthy changes for version 1.0.9 (2022-04-21)
