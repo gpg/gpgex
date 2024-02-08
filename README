@@ -31,6 +31,7 @@ HKLM\Software\GNU\GnuPG:Install Directory
     ..\..\GnuPG\bin\gpgconf.exe
 
 HKLM\Software\GNU\GnuPG:GpgEX Debug File
+HKLM\Software\Wow6432Node\GNU\GnuPG:GpgEX Debug File
   See below.
 
 The following registry entries are set by GpgEX at installation time
@@ -46,7 +47,10 @@ Debugging
 
 A debug file path can be specified with the registry value "GpgEX
 Debug File" in the HKLM\Software\GNU\GnuPG key.  To this file logging
-information is appended.
+information is appended.  The above key is used for the legacy 32 bit
+version of Windows.  For the current 64 bit version the key is
+HKLM\Software\Wow6432Node\GNU\GnuPG - and yes, this is twisted but we
+won't change it anymore.
 
 To increase the frequency at which extensions are unloaded, create the
 following registry key with default value "1".
