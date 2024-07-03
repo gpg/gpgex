@@ -1,12 +1,13 @@
-# autogen.sh configuration for GpgEX                          -*- sh -*-
+# autogen.sh configuration for gpgex                           -*- sh -*-
 
-configure_opts="
-  --with-gpg-error-prefix=@SYSROOT@
-  --with-libassuan-prefix=@SYSROOT@
-  "
+case "$myhost:$myhostsub" in
+  w32:64)
+    extraoptions=
+    ;;
+  w32:)
+    extraoptions=
+    ;;
+esac
 
-final_info="
-  ./autogen.sh --build-w32
-or
-  ./autorun.sh --build-w64
-"
+
+final_info="./configure --build-{w32,w64} && make"
