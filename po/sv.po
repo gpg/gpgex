@@ -1,0 +1,133 @@
+# Swedish translations for gpgex package.
+# Copyright (C) 2007 g10 Code GmbH
+# This file is distributed under the same license as the gpgex package.
+#
+# Daniel Nylander <po@danielnylander.se>, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: gpgex 1.0.0\n"
+"Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
+"PO-Revision-Date: 2025-11-15 16:12+0100\n"
+"Last-Translator: Daniel Nylander <github@danielnylander.se>\n"
+"Language-Team: sv\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
+
+#, c-format
+msgid ""
+"Can not connect to the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Kan inte ansluta till GnuPG-användargränssnittet%s%s%s:\n"
+"%s"
+
+#, c-format
+msgid ""
+"Error returned by the GnuPG user interface%s%s%s:\r\n"
+"%s"
+msgstr ""
+"Fel som returneras av GnuPG-användargränssnittet%s%s%s:\n"
+"%s"
+
+msgid "About GpgEX"
+msgstr "Om GpgEX"
+
+msgid "Decrypt and verify"
+msgstr "Avkryptera och verifiera"
+
+msgid "Decrypt"
+msgstr "Avkryptera"
+
+msgid "Verify"
+msgstr "Verifiera"
+
+msgid "Sign and encrypt"
+msgstr "Signera och kryptera"
+
+msgid "Encrypt"
+msgstr "Kryptera"
+
+msgid "Sign"
+msgstr "Signera"
+
+msgid "Import keys"
+msgstr "Importera nycklar"
+
+msgid "Create checksums"
+msgstr "Skapa kontrollsummor"
+
+msgid "Verify checksums"
+msgstr "Verifiera kontrollsummor"
+
+msgid "More GpgEX options"
+msgstr "Fler GpgEX-alternativ"
+
+msgid "Show the version of GpgEX."
+msgstr "Visa versionen av GpgEX."
+
+msgid "Decrypt and verify the marked files."
+msgstr "Avkryptera och verifiera de markerade filerna."
+
+msgid "Decrypt the marked files."
+msgstr "Avkryptera de markerade filerna."
+
+msgid "Verify the marked files."
+msgstr "Verifiera de markerade filerna."
+
+msgid "Sign and encrypt the marked files."
+msgstr "Signera och kryptera de markerade filerna."
+
+msgid "Encrypt the marked files."
+msgstr "Kryptera de markerade filerna."
+
+msgid "Sign the marked files."
+msgstr "Signera de markerade filerna."
+
+msgid "Import the marked files."
+msgstr "Importera de markerade filerna."
+
+msgid "Create checksums."
+msgstr "Skapa kontrollsummor."
+
+msgid "Verify checksums."
+msgstr "Verifiera kontrollsummor."
+
+msgid "Show more GpgEX options."
+msgstr "Visa fler GpgEX-alternativ."
+
+#. TRANSLATORS: See the source for the full english text.
+msgid "-#GpgEXFullHelpText#-"
+msgstr ""
+"GpgEX är ett tillägg till Utforskaren som gör det möjligt att\n"
+"kryptera och digitalt signera data med hjälp av internetstandarderna\n"
+"PGP/MIME eller S/MIME. I bakgrunden används\n"
+"programvaran GnuPG (<http://www.gnupg.org/>).\n"
+"\n"
+"GpgEX är fri programvara. Du kan distribuera och/eller modifiera den enligt "
+"villkoren\n"
+"i GNU Lesser General Public License, som publicerats av Free Software\n"
+"Foundation, antingen enligt version 2.1 av licensen eller (efter eget val)\n"
+"varje senare version.\n"
+"\n"
+"GpgEX publiceras i hopp om att den ska vara till nytta för dig,\n"
+"men utan någon garanti, inte ens den underförstådda\n"
+"garanti för marknadsmognad eller användbarhet för ett visst\n"
+"ändamål. Mer information finns i GNU Lesser General Public License.\n"
+"\n"
+"Tillsammans med GpgEX bör du ha fått en kopia av GNU Lesser General\n"
+"Public License. Om inte, hittar du den\n"
+"på webbadressen <http://www.gnu.org/licenses/>."
+
+#, c-format
+msgid "This is GpgEX version %s (%s)"
+msgstr "Detta är GpgEX version %s (%s)"
+
+#~ msgid "Help on GpgEX"
+#~ msgstr "Hilfe zu GpgEX"
+
+#~ msgid "Invoke the GpgEX documentation."
+#~ msgstr "Öffne die Dokumentation zu GpgEX"
