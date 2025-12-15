@@ -56,9 +56,6 @@ class gpgex_server
   /* The number of references to this component.  */
   static LONG refcount;
 
-  /* The root of our installation.  */
-  static const char *root_dir;
-
   static const char *ui_server;
 
   /* Acquire a reference to the server component.  */
@@ -87,5 +84,4 @@ class gpgex_server
 
 #endif
 
-
-extern "C" wchar_t *utf8_to_wchar (const char *string);
+extern "C" const char *get_gpg4win_dir (void);

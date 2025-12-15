@@ -218,8 +218,8 @@ gpgex_spawn_detached (const char *pgmname, const char *cmdline)
   STARTUPINFO si;
   int cr_flags;
 
-  TRACE_BEG1 (DEBUG_ASSUAN, "gpgex_spawn_detached", cmdline,
-	      "cmdline=%s", cmdline);
+  TRACE_BEG2 (DEBUG_ASSUAN, "gpgex_spawn_detached", cmdline,
+	      "pgm=%s cmdline=%s", pgmname, cmdline);
 
   /* Prepare security attributes.  */
   memset (&sec_attr, 0, sizeof sec_attr);
@@ -283,8 +283,8 @@ gpgex_spawn_get_string (const char *pgmname, const char *cmdline,
 
   *r_string = NULL;
 
-  TRACE_BEG1 (DEBUG_ASSUAN, "gpgex_spawn_get_string", cmdline,
-	      "cmdline=%s", cmdline);
+  TRACE_BEG2 (DEBUG_ASSUAN, "gpgex_spawn_get_string", cmdline,
+	      "pgm=%s cmdline=%s", pgmname, cmdline);
 
   /* Set the inherit flag for the pipe into the securit attributes.  */
   memset (&sec_attr, 0, sizeof sec_attr);

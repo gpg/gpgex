@@ -35,7 +35,6 @@ using std::string;
 #include <assuan.h>
 
 #include "main.h"
-#include "registry.h"
 #include "exechelp.h"
 
 #include "client.h"
@@ -51,14 +50,11 @@ _gpgex_stpcpy (char *a, const char *b)
 #define stpcpy(a,b) _gpgex_stpcpy ((a), (b))
 
 
+
 
 /* Find the gpgconf binary which is used to return installation
- * properties of the GnuPG system.  We can't simply snatch some code
- * from GnuPG because that would also require that we link to
- * Libgcrypt or implement our own SHA-1 function to build the
- * directory name for a non-default GNUPGHOME.  It is just better to
- * that info from gpgconf and try hard to find the correct
- * gpgconf.  */
+ * properties of the GnuPG system.  We avoid linking to gpgme to avoid
+ * its overhead.  Instead we call gpgconf direcly.  */
 static const char *
 get_gpgconf_name (void)
 {
@@ -67,54 +63,26 @@ get_gpgconf_name (void)
 
   if (!tried)
     {
-      const char *dir, **tmp;
-      char *instdir, *p;
+      const char **tmp;
       const char *possible_names[] =
         {
-         "gpgconf.exe",
-         "..\\bin\\gpgconf.exe",
-         "..\\GnuPG\\bin\\gpgconf.exe",
-         "..\\..\\GnuPG\\bin\\gpgconf.exe",
+          "../GnuPG/bin/gpgconf.exe",    /* GnuPG-[VS-]Desktop */
+          "../../GnuPG/bin/gpgconf.exe", /* Gpg4win.  */
+          "../bin/gpgconf.exe",          /* Legacy */
          NULL
         };
 
       tried = 1;
 
-      instdir = read_w32_registry_string (NULL, GPG4WIN_REGKEY_1,
-                                          "Install Directory");
-      if (instdir)
-        {
-          name = (char*)malloc (strlen (instdir) + 16 + 1);
-          if (!name)
-            return NULL;
-          strcpy (stpcpy (name, instdir), "/bin/gpgconf.exe");
-          for (p = name; *p; p++)
-            if (*p == '/')
-              *p = '\\';
-          free (instdir);
-        }
-      if (name && !gpgrt_access (name, F_OK))
-        return name;  /* Yeah, Installed.  */
-
-      dir = gpgex_server::root_dir;
-      if (!dir)
-        return NULL;  /* No way.  */
-
-      /* Try fallbacks */
       for (tmp = possible_names; *tmp; tmp++)
         {
-          if (name)
-            free (name);
-          name = (char*)malloc (strlen (dir) + 1 + strlen (*tmp) + 1);
+          name = gpgrt_fconcat (0, get_gpg4win_dir (), *tmp, NULL);
           if (!name)
             return NULL; /* Ooops.  */
-
-          strcpy (stpcpy (stpcpy (name, dir), "\\"), *tmp);
-          for (p = name; *p; p++)
-            if (*p == '/')
-              *p = '\\';
           if (!gpgrt_access (name, F_OK))
-            return name; /* Found.  */
+              return name; /* Found.  */
+          free (name);
+          name = NULL;
         }
     }
 
@@ -143,9 +111,11 @@ default_socket_name (void)
                                   &dir))
         return NULL;
 
+      _gpgex_debug (DEBUG_INIT, "  got dir '%s'", dir);
       name = (char *)malloc (strlen (dir) + strlen (sockname) + 1);
       if (name)
         strcpy (stpcpy (name, dir), sockname);
+      _gpgex_debug (DEBUG_INIT, "  using socket name '%s'", name? name: "(null)");
       free (dir);
     }
 
@@ -161,95 +131,28 @@ default_uiserver_name (void)
   static char *name;
 
   if (!name)
-#if ENABLE_GPA_ONLY
     {
-      const char gpaserver[] = "bin\\launch-gpa.exe";
-      const char *dir;
+      const char **tmp;
       char *p;
-
-      dir = gpgex_server::root_dir;
-      if (!dir)
-        return NULL;
-
-      name = (char*)malloc (strlen (dir) + strlen (gpaserver) + 9 + 2);
-      if (!name)
-        return NULL;
-      strcpy (stpcpy (stpcpy (name, dir), "\\"), gpaserver);
-      for (p = name; *p; p++)
-        if (*p == '/')
-          *p = '\\';
-      strcat (name, " --daemon");
-      gpgex_server::ui_server = "GPA";
-    }
-#else /*!ENABLE_GPA_ONLY*/
-    {
-      const char *dir, **tmp;
-      char *uiserver, *p;
-      int extra_arglen = 9;
-      const char * server_names[] = {"kleopatra.exe",
-                                     "bin\\kleopatra.exe",
+      const char *server_names[] = {
+#ifndef ENABLE_GPA_ONLY
+                                     "bin/kleopatra.exe",
+#endif
+                                     "bin/launch-gpa.exe",
+                                     "bin/gpa.exe",
+#ifndef ENABLE_GPA_ONLY
+                                     "kleopatra.exe",
+#endif
                                      "launch-gpa.exe",
-                                     "bin\\launch-gpa.exe",
                                      "gpa.exe",
-                                     "bin\\gpa.exe",
                                      NULL};
 
-      dir = gpgex_server::root_dir;
-      if (!dir)
-        return NULL;
-
-      uiserver = read_w32_registry_string (NULL, GPG4WIN_REGKEY_2,
-                                           "UI Server");
-      if (!uiserver)
-        {
-          uiserver = read_w32_registry_string (NULL, GPG4WIN_REGKEY_3,
-                                               "UI Server");
-        }
-      if (!uiserver)
-        {
-          uiserver = strdup ("kleopatra.exe");
-          if (!uiserver)
-            return NULL;
-        }
-      if (uiserver)
-        {
-          name = (char*) malloc (strlen (dir) + strlen (uiserver) +
-                                 extra_arglen + 2);
-          if (!name)
-            return NULL;
-          strcpy (stpcpy (stpcpy (name, dir), "\\"), uiserver);
-          for (p = name; *p; p++)
-            if (*p == '/')
-              *p = '\\';
-          free (uiserver);
-        }
-      if (name && !gpgrt_access (name, F_OK))
-        {
-          /* Set through registry or default kleo */
-          if (strstr (name, "kleopatra.exe"))
-            {
-              gpgex_server::ui_server = "Kleopatra";
-            }
-          else
-            {
-              gpgex_server::ui_server = "GPA";
-            }
-          return name;
-        }
-      /* Fallbacks */
       for (tmp = server_names; *tmp; tmp++)
         {
-          if (name)
-            {
-              free (name);
-            }
-          name = (char*) malloc (strlen (dir) + strlen (*tmp) + extra_arglen + 2);
+          free (name);
+          name = gpgrt_fconcat (0, get_gpg4win_dir (), *tmp, NULL);
           if (!name)
             return NULL;
-          strcpy (stpcpy (stpcpy (name, dir), "\\"), *tmp);
-          for (p = name; *p; p++)
-            if (*p == '/')
-              *p = '\\';
           if (!gpgrt_access (name, F_OK))
             {
               /* Found a viable candidate */
@@ -262,12 +165,14 @@ default_uiserver_name (void)
                 {
                   gpgex_server::ui_server = "GPA";
                 }
+              for (p = name; *p; p++)
+                if (*p == '/')
+                  *p = '\\';
               return name;
             }
         }
       gpgex_server::ui_server = NULL;
     }
-#endif /*!ENABLE_GPA_ONLY*/
 
   return name;
 }

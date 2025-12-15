@@ -17,7 +17,7 @@ min_automake_version="1.10"
 # (git tag -s gnupg-2.n.m) and run "./autogen.sh --force".  Please
 # bump the version number immediately *after* the release and do
 # another commit and push so that the git magic is able to work.
-m4_define([mym4_version], [1.0.12])
+m4_define([mym4_version], [1.1.0])
 
 # Below is m4 magic to extract and compute the git revision number,
 # the decimalized short revision number, a beta version string and a
@@ -35,7 +35,7 @@ m4_define([mym4_full_version],[mym4_version[]mym4_betastring])
 
 AC_INIT([gpgex],[mym4_full_version], [http://bugs.gnupg.org])
 
-NEED_GPG_ERROR_VERSION=1.12
+NEED_GPG_ERROR_VERSION=1.58
 
 NEED_LIBASSUAN_API=2
 NEED_LIBASSUAN_VERSION=2.1.1

@@ -8,32 +8,6 @@ Windows Explorer shell.
 Registry Settings
 =================
 
-The following registry entries are read by GpgEX and affect its
-operation:
-
-HKCU\Software\GNU\GnuPG:UI Server
-HKLM\Software\GNU\GnuPG:UI Server
-  The path to the executable binary of the UI server, relative to
-  INSTDIR.  Absolute paths are currently not supported.  It defaults
-  to the empty sting, so that the UI server is expected in INSTDIR.
-  If the configure option --enable-gpa-only is used these registry
-  entries have no effect.
-
-HKCU\Software\GNU\GnuPG:Install Directory
-HKLM\Software\GNU\GnuPG:Install Directory
-  The directory where GnuPG is installed.  This is set by the GnuPG or
-  Gpg4win installer and used to locate the gpgconf.exe binary.  If
-  this is not set that binary is searched starting at the installation
-  directory of gpgex.dll in this order:
-    .\gpgconf.exe
-    ..\bin\gpgconf.exe
-    ..\GnuPG\\bin\\gpgconf.exe
-    ..\..\GnuPG\bin\gpgconf.exe
-
-HKLM\Software\GNU\GnuPG:GpgEX Debug File
-HKLM\Software\Wow6432Node\GNU\GnuPG:GpgEX Debug File
-  See below.
-
 The following registry entries are set by GpgEX at installation time
 to register it as a shell extension:
 
@@ -41,16 +15,27 @@ HKCR\CLSID\CCD955E4-5C16-4A33-AFDA-A8947A94946B
 HKCR\*\ShellEx\ContextMenuHandlers\GpgEX
 HKCR\Directory\ShellEx\ContextMenuHandlers\GpgEX
 
+The following registry entries are read by GpgEX and affect its
+operation:
+
+HKLM\Software\GNU\GnuPG:GpgEX Debug File
+HKLM\Software\Wow6432Node\GNU\GnuPG:GpgEX Debug File
+  See below.
+
+HKCU\Software\GNU\GnuPG:UI Server
+HKLM\Software\GNU\GnuPG:UI Server
+HKCU\Software\GNU\GnuPG:Install Directory
+HKLM\Software\GNU\GnuPG:Install Directory
+  These entries are not anymore used.
+
+
 
 Debugging
 =========
 
 A debug file path can be specified with the registry value "GpgEX
 Debug File" in the HKLM\Software\GNU\GnuPG key.  To this file logging
-information is appended.  The above key is used for the legacy 32 bit
-version of Windows.  For the current 64 bit version the key is
-HKLM\Software\Wow6432Node\GNU\GnuPG - and yes, this is twisted but we
-won't change it anymore.
+information is appended.
 
 To increase the frequency at which extensions are unloaded, create the
 following registry key with default value "1".

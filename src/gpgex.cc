@@ -37,7 +37,6 @@ using std::string;
 
 #include "main.h"
 #include "client.h"
-#include "registry.h"
 
 #include "gpgex.h"
 
@@ -392,9 +391,7 @@ static int
 readDefaultEntry ()
 {
   TRACE_BEG0 (DEBUG_CONTEXT_MENU, __func__, nullptr, "read default entry");
-  char *entry = read_w32_registry_string (NULL,
-                                          GPG4WIN_REGKEY_2,
-                                          "GpgExDefault");
+  char *entry = gpgrt_w32_reg_get_string ("\\Software\\Gpg4win:GpgExDefault");
   if (!entry)
     {
       return -1;

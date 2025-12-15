@@ -30,7 +30,6 @@
 #include <gpg-error.h>
 #include <assuan.h>
 
-#include "registry.h"
 #include "gpgex-class.h"
 #include "gpgex-factory.h"
 #include "main.h"
@@ -45,90 +44,72 @@ HINSTANCE gpgex_server::instance;
 /* The number of references to this component.  */
 LONG gpgex_server::refcount;
 
-/* The root of our installation.  */
-const char *gpgex_server::root_dir;
-
 /* The name of the UI-server or NULL if not known.  */
 const char *gpgex_server::ui_server;
 
 
 
+/** Get the Gpg4win Install directory.
+ *
+ * This function returns the root of the install directory of Gpg4win
+ * or GnuPG-[VS-]Desktop.  Noet that the fucntion returns only
+ * standard slashes.
+ *
+ * @returns NULL if no dir could be found - this indicates a bad
+ * installation.  Otherwise a malloced string with the utf-8 name.
+ */
+const char *
+get_gpg4win_dir (void)
+{
+  static int initialized;
+  static char *mydir;
+
+  if (!initialized)
+    {
+      wchar_t *wmodulename;
+      char *modulename = NULL;
+      char *p;
+
+      wmodulename = (wchar_t*)calloc (MAX_PATH+5, sizeof *wmodulename);
+      if (!GetModuleFileNameW (gpgex_server::instance, wmodulename, MAX_PATH))
+        _gpgex_debug (DEBUG_INIT, "GetModuleFileName failed");
+      else
+        {
+          modulename = gpgrt_wchar_to_utf8 (wmodulename);
+          _gpgex_debug (DEBUG_INIT, "GetModuleFileName: '%s'\n", modulename);
+          p = strrchr (modulename, '\\');
+          if (p)
+            {
+              *p = 0;
+              /* MODULENAME is now the actual directory from where we
+               * were executed.  In the most cases this is either the
+               * bin or the bin_64 sub directory.  */
+              p = strrchr (modulename, '\\');
+              if (p)
+                {
+                  *p = 0;
+                  for (p=modulename; *p; p++)
+                    if (*p == '\\')
+                      *p = '/';
+                  mydir = modulename;  /* Not really threadsafe, but okay.  */
+                  modulename = NULL;
+                  initialized = 1;
+                  _gpgex_debug (DEBUG_INIT, "Using install dir: '%s'\n", mydir);
+                }
+            }
+        }
+      free (modulename);
+      free (wmodulename);
+    }
+
+  return mydir;
+}
+
+
 static char *
 get_locale_dir (void)
 {
-  static wchar_t moddir[MAX_PATH+5];
-  char *result, *p;
-  int nbytes;
-
-  if (!GetModuleFileNameW (gpgex_server::instance, moddir, MAX_PATH))
-    *moddir = 0;
-
-#define SLDIR "\\share\\locale"
-  if (*moddir)
-    {
-      nbytes = WideCharToMultiByte (CP_UTF8, 0, moddir, -1, NULL, 0, NULL, NULL);
-      if (nbytes < 0)
-        return NULL;
-
-      result = (char*)malloc (nbytes + strlen (SLDIR) + 1);
-      if (result)
-        {
-          nbytes = WideCharToMultiByte (CP_UTF8, 0, moddir, -1,
-                                        result, nbytes, NULL, NULL);
-          if (nbytes < 0)
-            {
-              free (result);
-              result = NULL;
-            }
-          else
-            {
-              p = strrchr (result, '\\');
-              if (p)
-                *p = 0;
-              /* If we are installed below "bin" strip that part and
-                 use the top directory instead.
-
-                 Background: Under Windows we don't install GnuPG
-                 below bin/ but in the top directory with only share/,
-                 lib/, and etc/ below it.  One of the reasons is to
-                 keep the the length of the filenames at bay so not to
-                 increase the limited length of the PATH envvar.
-                 Another and more important reason, however, is that
-                 the very first GPG versions on W32 were installed
-                 into a flat directory structure and for best
-                 compatibility with these versions we didn't changed
-                 that later.  For WindowsCE we can right away install
-                 it under bin, though.  The hack with detection of the
-                 bin directory part allows us to eventually migrate to
-                 such a directory layout under plain Windows without
-                 the need to change libgpg-error.  */
-              p = strrchr (result, '\\');
-              if (p && (!strcmp (p+1, "bin") || !strcmp (p+1, "bin_64")))
-                *p = 0;
-
-              gpgex_server::root_dir = strdup (result);
-
-              /* Append the static part.  */
-              strcat (result, SLDIR);
-            }
-        }
-    }
-  else /* Use the old default value.  */
-    {
-      result = (char*)malloc (10 + strlen (SLDIR) + 1);
-      if (result)
-        {
-          strcpy (result, "c:\\gnupg");
-          strcat (result, SLDIR);
-        }
-    }
-
-  if (!gpgex_server::root_dir)
-    gpgex_server::root_dir = "c:";
-
-  _gpgex_debug (1, "root dir is '%s'", gpgex_server::root_dir);
-#undef SLDIR
-  return result;
+  return gpgrt_fconcat (0, get_gpg4win_dir (), "share/locale", NULL);
 }
 
 
@@ -167,16 +148,7 @@ FILE *debug_file;
 static char *
 get_debug_file (void)
 {
-  char *name = read_w32_registry_string (NULL,
-                                         GPG4WIN_REGKEY_3,
-                                         "GpgEX Debug File");
-  if (!name)
-    {
-      name = read_w32_registry_string (NULL,
-                                       GPG4WIN_REGKEY_2,
-                                       "GpgEX Debug File");
-    }
-  return name;
+  return gpgrt_w32_reg_get_string ("\\Software\\Gpg4win:GpgEX Debug File");
 }
 
 
@@ -250,35 +222,6 @@ _gpgex_debug (unsigned int flags, const char *format, ...)
   fflush (debug_file);
 
   errno = saved_errno;
-}
-
-
-/* Return a malloced wide char string from an UTF-8 encoded input
-   string STRING.  Caller must free this value. On failure returns
-   NULL; caller may use GetLastError to get the actual error number.
-   The result of calling this function with STRING set to NULL is not
-   defined. */
-wchar_t *
-utf8_to_wchar (const char *string)
-{
-  int n;
-  wchar_t *result;
-
-  n = MultiByteToWideChar (CP_UTF8, 0, string, -1, NULL, 0);
-  if (n < 0)
-    return NULL;
-
-  result = (wchar_t*)malloc ((n+1) * sizeof *result);
-  if (!result)
-    return NULL;
-
-  n = MultiByteToWideChar (CP_UTF8, 0, string, -1, result, n);
-  if (n < 0)
-    {
-      free (result);
-      return NULL;
-    }
-  return result;
 }
 
 
