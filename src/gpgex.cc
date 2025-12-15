@@ -630,44 +630,6 @@ gpgex_t::GetCommandString (UINT_PTR idCommand, UINT uFlags, LPUINT lpReserved,
 }
 
 
-/* Return the lang name.  This is either "xx" or "xx_YY".  On error
-   "en" is returned.  */
-static const char *
-get_lang_name (void)
-{
-  static char *name;
-  const char *s;
-  char *p;
-  int count = 0;
-
-  if (!name)
-    {
-      s = gettext_localename ();
-      if (!s)
-        s = "en";
-      else if (!strcmp (s, "C") || !strcmp (s, "POSIX"))
-        s = "en";
-
-      name = strdup (s);
-      if (!name)
-        return "en";
-
-      for (p = name; *p; p++)
-        {
-
-          if (*p == '.' || *p == '@' || *p == '/' /*(safeguard)*/)
-            *p = 0;
-          else if (*p == '_')
-            {
-              if (count++)
-                *p = 0;  /* Also cut at a underscore in the territory.  */
-            }
-        }
-    }
-
-  return name;
-}
-
 
 /* Show the version informatione etc.  */
 static void
