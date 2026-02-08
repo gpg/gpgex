@@ -1,28 +1,29 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR g10 Code GmbH
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Russian translation of GpgEX
+# Copyright (C) 2025 g10 Code GmbH
+# This file is distributed under the same license as the GpgEX package.
 #
+# Sergei Smirnov <moscow@hro.org>, 2008.
+# Marcus Brinkmann <marcus@g10code.de>, 2009.
+# Werner Koch <wk@gnupg.org>, 2010, 2013.
+# Ineiev <ineiev@gnu.org>, 2016, 2021, 2023, 2026.
 msgid ""
 msgstr ""
-"Project-Id-Version: GpgEX\n"
+"Project-Id-Version: GpgEX 1.0.11\n"
 "Report-Msgid-Bugs-To: http://bugs.gnupg.org\n"
-"PO-Revision-Date: 2016-05-10 08:40+0200\n"
-"Last-Translator: Sergei Smirnov <moscow@hro.org>\n"
-"Language-Team: Sergei Smirnov <moscow@hro.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-02-08 17:34+0000\n"
+"Last-Translator: Ineiev <ineiev@gnu.org>\n"
+"Language-Team: Russian <gnupg-i18n@gnupg.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Russian\n"
-"X-Poedit-Country: RUSSIAN FEDERATION\n"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Can not connect to the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
-"Нет доступа к программе UI-server%s%s%s:\\r\n"
+"Не могу подключиться к пользовательскому интерфейсу GnuPG%s%s%s:\r\n"
 "%s"
 
 #, c-format
@@ -30,9 +31,11 @@ msgid ""
 "Error returned by the GnuPG user interface%s%s%s:\r\n"
 "%s"
 msgstr ""
+"Пользовательский интерфейс GnuPG сообщил об ошибке%s%s%s:\r\n"
+"%s"
 
 msgid "About GpgEX"
-msgstr ""
+msgstr "О GpgEX"
 
 msgid "Decrypt and verify"
 msgstr "Расшифровать и проверить"
@@ -44,7 +47,7 @@ msgid "Verify"
 msgstr "Проверить"
 
 msgid "Sign and encrypt"
-msgstr "Подписать и Зашифровать"
+msgstr "Подписать и зашифровать"
 
 msgid "Encrypt"
 msgstr "Зашифровать"
@@ -65,7 +68,7 @@ msgid "More GpgEX options"
 msgstr "Другие параметры GpgEX"
 
 msgid "Show the version of GpgEX."
-msgstr ""
+msgstr "Показать версию GpgEX."
 
 msgid "Decrypt and verify the marked files."
 msgstr "Расшифровать и проверить отмеченные файлы."
@@ -77,7 +80,7 @@ msgid "Verify the marked files."
 msgstr "Проверить отмеченные файлы."
 
 msgid "Sign and encrypt the marked files."
-msgstr "подписать и Зашифровать отмеченные файлы."
+msgstr "Подписать и зашифровать отмеченные файлы."
 
 msgid "Encrypt the marked files."
 msgstr "Зашифровать отмеченные файлы."
@@ -100,13 +103,46 @@ msgstr "Другие параметры GpgEX."
 #. TRANSLATORS: See the source for the full english text.
 msgid "-#GpgEXFullHelpText#-"
 msgstr ""
+"GpgEX is an Explorer plugin for data encryption and signing\n"
+"It uses the GnuPG software (http://www.gnupg.org).\n"
+"\n"
+"GpgEX is free software; you can redistribute it and/or\n"
+"modify it under the terms of the GNU Lesser General Public\n"
+"License as published by the Free Software Foundation; either\n"
+"version 2.1 of the License, or (at your option) any later version.\n"
+"\n"
+"GpgEX is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU Lesser General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU Lesser General Public License\n"
+"along with this program; if not, see <http://www.gnu.org/licenses/>.\n"
+"\n"
+"GpgEX - модуль обозревателя для шифрования и подписи данных.\n"
+"Он пользуется программой GnuPG (http://www.gnupg.org).\n"
+"\n"
+"GpgEx - свободная программа; Вы можете перераспространять и\n"
+"изменять ее на условиях Меньшей стандартной общественной лицензии GNU\n"
+"(LGPL) в тои виде, в каком она опубликована Фондом свободного программного\n"
+"обеспечения - либо версии 2.1 лицензии, либо (на Ваш выбор) любой\n"
+"более поздней версии.\n"
+"\n"
+"GpgEX распространяется в надежде на то, что будет полезен,\n"
+"но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА\n"
+"или ПРИГОДНОСТИ ДЛЯ КОНКРЕТНЫХ ЦЕЛЕЙ. Подробности см. в Меньшей\n"
+"стандартной общественной лицензии GNU.\n"
+"\n"
+"Вы должны были получить копию Меньшей стандартной общественной лицензии GNU\n"
+"вместе с этой программой; если это не так, см. <http://www.gnu.org/licenses/"
+">."
 
 #, c-format
 msgid "This is GpgEX version %s (%s)"
-msgstr ""
+msgstr "Это GpgEX версии %s (%s)"
 
 #~ msgid "Help on GpgEX"
-#~ msgstr "Помощь по GpgEX"
+#~ msgstr "Справка по GpgEX"
 
 #~ msgid "Invoke the GpgEX documentation."
 #~ msgstr "Открыть документацию GpgEX."
