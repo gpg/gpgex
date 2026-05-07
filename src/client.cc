@@ -66,9 +66,9 @@ get_gpgconf_name (void)
       const char **tmp;
       const char *possible_names[] =
         {
-          "../GnuPG/bin/gpgconf.exe",    /* GnuPG-[VS-]Desktop */
-          "../../GnuPG/bin/gpgconf.exe", /* Gpg4win.  */
-          "../bin/gpgconf.exe",          /* Legacy */
+          "GnuPG/bin/gpgconf.exe",    /* GnuPG-[VS-]Desktop */
+          "../GnuPG/bin/gpgconf.exe", /* Gpg4win.  */
+          "bin/gpgconf.exe",          /* Legacy */
          NULL
         };
 
