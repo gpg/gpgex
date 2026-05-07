@@ -18,15 +18,16 @@ HKCR\Directory\ShellEx\ContextMenuHandlers\GpgEX
 The following registry entries are read by GpgEX and affect its
 operation:
 
-HKLM\Software\GNU\GnuPG:GpgEX Debug File
-HKLM\Software\Wow6432Node\GNU\GnuPG:GpgEX Debug File
+HKLM\Software\Gpg4win:GpgEX Debug File
+HKLM\Software\Wow6432Node\Gpg4win:GpgEX Debug File
   See below.
+
+These registry entries are not anymore used:
 
 HKCU\Software\GNU\GnuPG:UI Server
 HKLM\Software\GNU\GnuPG:UI Server
 HKCU\Software\GNU\GnuPG:Install Directory
 HKLM\Software\GNU\GnuPG:Install Directory
-  These entries are not anymore used.
 
 
 
@@ -34,7 +35,7 @@ Debugging
 =========
 
 A debug file path can be specified with the registry value "GpgEX
-Debug File" in the HKLM\Software\GNU\GnuPG key.  To this file logging
+Debug File" in the HKLM\Software\Gpg4win key.  To this file logging
 information is appended.
 
 To increase the frequency at which extensions are unloaded, create the
