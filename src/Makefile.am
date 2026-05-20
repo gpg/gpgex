@@ -64,7 +64,7 @@ clean-local:
 #gpgex_LDADD = $(srcdir)/gpgex.def		\
 #	-L . -lshell32  -lcomdlg32 -ladvapi32
 
-gpgex_LDFLAGS = -static-libgcc -static-libstdc++
+gpgex_LDFLAGS = -static-libgcc -static-libstdc++ -static -lpthread
 # We need -loleaut32 for start_help() in gpgex.cc.
 gpgex_LDADD = $(srcdir)/gpgex.def -L . \
 	-lshell32 -lgdi32 -lole32 -luuid -lgdiplus \
